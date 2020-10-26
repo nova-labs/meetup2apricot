@@ -51,30 +51,24 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	flake8 meetup2xibo tests
+	flake8 meetup2apricot tests
 
 test: ## run tests quickly with the default Python
-	py.test
-
-test-summarizer: ## run log summarizer tests quickly with the default Python
-	py.test tests/log_summarizer/
-
-test-updater: ## run updater tests quickly with the default Python
-	py.test tests/updater/
+	py.test tests
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source meetup2xibo -m pytest
+	coverage run --source meetup2apricot -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/meetup2xibo.rst
+	rm -f docs/meetup2apricot.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ meetup2xibo
+	sphinx-apidoc -o docs/ meetup2apricot
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
