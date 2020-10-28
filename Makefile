@@ -12,6 +12,8 @@ BASH_CMD_ACTIVATE_VENV = source `which virtualenvwrapper.sh`; workon $(PROJECT_N
 MAKE_VENV = bash -c "source `which virtualenvwrapper.sh`; mkvirtualenv --python=$(PYTHON_INTERPRETER) -a . $(PROJECT_NAME)"
 endif
 
+venv-cmd = bash -c "$(BASH_CMD_ACTIVATE_VENV); $(1)"
+
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -66,7 +68,7 @@ lint: ## check style with flake8
 	flake8 meetup2apricot tests
 
 test: ## run tests quickly with the default Python
-	py.test tests
+	$(call venv-cmd,py.test tests)
 
 test-all: ## run tests on every Python version with tox
 	tox
@@ -102,8 +104,9 @@ dist: clean ## builds source and wheel package
 install: clean ## install the package to the active Python's site-packages
 	$(PYTHON_INTERPRETER) setup.py install
 
-venv:
+venv: ## create a Python virtual environment
 	bash -c "$(BASH_CMD_ACTIVATE_VENV)" || $(MAKE_VENV)
 
-dev: venv
-	bash -c "$(BASH_CMD_ACTIVATE_VENV); pip install -U pip pip-tools"
+dev: venv ## install required Python packages for local development
+	$(call venv-cmd,pip install -U pip pip-tools)
+	$(call venv-cmd,pip-sync requirements/test-requirements.txt requirements/dev-requirements.txt requirements/requirements.txt)
