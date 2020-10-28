@@ -1,7 +1,17 @@
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: clean clean-test clean-pyc clean-build docs help venv
 .DEFAULT_GOAL := help
 
+PROJECT_NAME = meetup2apricot
 PYTHON_INTERPRETER = python3.9
+
+ifeq (,$(shell which virtualenvwrapper.sh))
+BASH_CMD_ACTIVATE_VENV = venv/bin/activate
+MAKE_VENV = $(PYTHON_INTERPRETER) -m venv venv
+else
+BASH_CMD_ACTIVATE_VENV = source `which virtualenvwrapper.sh`; workon $(PROJECT_NAME)
+MAKE_VENV = bash -c "source `which virtualenvwrapper.sh`; mkvirtualenv --python=$(PYTHON_INTERPRETER) -a . $(PROJECT_NAME)"
+endif
+
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -91,3 +101,9 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	$(PYTHON_INTERPRETER) setup.py install
+
+venv:
+	bash -c "$(BASH_CMD_ACTIVATE_VENV)" || $(MAKE_VENV)
+
+dev: venv
+	bash -c "$(BASH_CMD_ACTIVATE_VENV); pip install -U pip pip-tools"
