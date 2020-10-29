@@ -3,6 +3,7 @@
 from meetup2apricot.oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import MissingTokenError
+import logging
 import os
 import pytest
 
@@ -50,20 +51,17 @@ def test_authorize_session_no_token_error(mocker):
     with pytest.raises(Oauth2SessionStarterError, match=expected_message):
         starter.authorize_session(mock_session)
 
-@pytest.mark.skipif(not os.getenv("XIBO_TOKEN_URL"),
-            reason = "environment variable XIBO_TOKEN_URL needed to test live session")
-@pytest.mark.skipif(not os.getenv("XIBO_CLIENT_ID"),
-            reason = "environment variable XIBO_CLIENT_ID needed to test live session")
-@pytest.mark.skipif(not os.getenv("XIBO_CLIENT_SECRET"),
-            reason = "environment variable XIBO_CLIENT_SECRET needed to test live session")
-def test_start_session():
+@pytest.mark.skipif(not os.getenv("APRICOT_TOKEN_URL"),
+            reason = "environment variable APRICOT_TOKEN_URL needed to test live session")
+@pytest.mark.skipif(not os.getenv("APRICOT_API_KEY"),
+            reason = "environment variable APRICOT_API_KEY needed to test live session")
+def test_start_session(caplog):
     """Test that a session starts with a real token provider."""
-    assure_self_signed_cert()
-    xibo_token_url = os.getenv("XIBO_TOKEN_URL")
-    xibo_client_id = os.getenv("XIBO_CLIENT_ID")
-    xibo_client_secret = os.getenv("XIBO_CLIENT_SECRET")
-    starter = Oauth2SessionStarter(xibo_client_id, xibo_client_secret, xibo_token_url, "test_start_session")
-    session = starter.start_session()
-    assert isinstance(session, OAuth2Session)
+    with caplog.at_level(logging.DEBUG):
+        apricot_token_url = os.getenv("APRICOT_TOKEN_URL")
+        apricot_api_key = os.getenv("APRICOT_API_KEY")
+        starter = Oauth2SessionStarter("APIKEY", apricot_api_key, apricot_token_url, "test_start_session")
+        session = starter.start_session()
+        assert isinstance(session, OAuth2Session)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
