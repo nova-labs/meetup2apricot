@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+0.0.1 (2020-10-28)
 ------------------
 
 * Setup basic project files.
