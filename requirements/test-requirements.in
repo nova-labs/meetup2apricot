@@ -1,0 +1,13 @@
+-c requirements.txt
+
+watchdog
+flake8
+tox
+coverage
+twine
+
+pytest
+pytest-runner
+pytest-mock
+hypothesis
+freezegun

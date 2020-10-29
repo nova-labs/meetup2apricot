@@ -1,0 +1,5 @@
+-c requirements.txt
+-c test-requirements.txt
+
+bump2version
+wheel
