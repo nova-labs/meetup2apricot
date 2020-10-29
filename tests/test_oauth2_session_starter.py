@@ -1,19 +1,11 @@
 """Test starting an OAuth2 web session."""
 
 from meetup2apricot.oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
-from meetup2apricot.site_cert_assurer import assure_site_cert
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import MissingTokenError
 import os
 import pytest
 
-
-def assure_self_signed_cert():
-    """Assure that Python Requests recognizes a self signed certificate."""
-    site_ca_path = os.environ.get("SITE_CA")
-    xibo_url = os.environ.get("XIBO_URL")
-    if site_ca_path and xibo_url:
-        assure_site_cert(site_ca_path, xibo_url)
 
 def test_create_session():
     """Test that an OAuth2 session is created."""
