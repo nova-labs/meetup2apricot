@@ -10,7 +10,7 @@ import pytest
 
 def test_create_session():
     """Test that an OAuth2 session is created."""
-    starter = Oauth2SessionStarter("a_client_id", "a_client_secret", "a_token_url", "a_user_agent")
+    starter = Oauth2SessionStarter("a_client_id", "a_client_secret", "a_token_url", "a_user_agent", "auto")
     session = starter.create_session()
     assert isinstance(session, OAuth2Session)
 
@@ -60,7 +60,8 @@ def test_start_session(caplog):
     with caplog.at_level(logging.DEBUG):
         apricot_token_url = os.getenv("APRICOT_TOKEN_URL")
         apricot_api_key = os.getenv("APRICOT_API_KEY")
-        starter = Oauth2SessionStarter("APIKEY", apricot_api_key, apricot_token_url, "test_start_session")
+        starter = Oauth2SessionStarter("APIKEY", apricot_api_key, apricot_token_url,
+            "test_start_session", "auto")
         session = starter.start_session()
         assert isinstance(session, OAuth2Session)
 

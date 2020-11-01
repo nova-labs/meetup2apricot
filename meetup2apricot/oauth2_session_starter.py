@@ -13,12 +13,14 @@ class Oauth2SessionStarter(object):
 
     """Creates and authorizes an OAuth2 web session."""
 
-    def __init__(self, client_id, client_secret, token_url, user_agent):
-        """Initialize with a client ID and secret, the URL for
-        obtaining a token, and an optional user agent."""
+    def __init__(self, client_id, client_secret, token_url,
+            user_agent=None, scope=None):
+        """Initialize with a client ID and secret, the URL for obtaining a
+        token, an optional user agent, and an optional scope of access."""
         self.client_id = client_id
         self.client_secret = client_secret
         self.token_url = token_url
+        self.scope = scope
         self.user_agent = user_agent
 
     def start_session(self):
@@ -30,7 +32,8 @@ class Oauth2SessionStarter(object):
 
     def create_session(self):
         """Create an OAuth2 session."""
-        client = BackendApplicationClient(client_id=self.client_id)
+        client = BackendApplicationClient(client_id=self.client_id,
+                scope=self.scope)
         return OAuth2Session(client=client)
 
     def authorize_session(self, session):
