@@ -32,11 +32,11 @@ class MeetupApiError(HttpResponseError):
     logger = logging.getLogger("MeetupApiError")
 
 
-class XiboApiError(HttpResponseError):
+class ApricotApiError(HttpResponseError):
 
-    """Raised when a Xibo HTTP response status is not ok."""
+    """Raised when a Wild Apricot HTTP response status is not ok."""
 
-    logger = logging.getLogger("XiboApiError")
+    logger = logging.getLogger("ApricotApiError")
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
