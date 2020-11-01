@@ -1,5 +1,6 @@
 """Test fixtures."""
 
+from meetup2apricot.oauth2_session_starter import Oauth2SessionStarter
 from pathlib import Path
 import os
 import pytest
@@ -31,5 +32,27 @@ def module_file_path(request, module_dir_path):
         pytest.skip("No module directory for this test")
     test_name = request.function.__name__
     return module_dir_path / test_name
+
+@pytest.fixture(scope="module")
+def optional_apricot_session():
+    """Return an authorized Wild Apricot API web session configured with
+    environment variables. If any variables are undefined, return None."""
+    apricot_token_url = os.getenv("APRICOT_TOKEN_URL")
+    apricot_api_key = os.getenv("APRICOT_API_KEY")
+    if None in [apricot_token_url, apricot_api_key]:
+        return None
+    starter = Oauth2SessionStarter("APIKEY", apricot_api_key,
+            apricot_token_url, "test_apricot_api", "auto")
+    return starter.start_session()
+
+@pytest.fixture()
+def apricot_session(optional_apricot_session):
+    """Return an authorized Wild Apricot API web session configured with
+    environment variables. If any variables are undefined, skip
+    the test."""
+    if not optional_apricot_session:
+        pytest.skip("Wild Apricot environment variables APRICOT_TOKEN_URL "
+                "and APRICOT_API_KEY must be defined.")
+    return optional_apricot_session
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
