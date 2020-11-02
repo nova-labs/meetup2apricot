@@ -49,6 +49,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 tests/meetup_responses/
+tests/apricot_responses/
 
 # Translations
 *.mo
