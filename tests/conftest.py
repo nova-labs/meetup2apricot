@@ -2,7 +2,9 @@
 
 from meetup2apricot.oauth2_session_starter import Oauth2SessionStarter
 from pathlib import Path
+from .sample_meetup_json import FREE_MEETUP_EVENT_JSON, PAID_MEETUP_EVENT_JSON
 import os
+import json
 import pytest
 
 @pytest.fixture(scope="module")
@@ -54,5 +56,14 @@ def apricot_session(optional_apricot_session):
         pytest.skip("Wild Apricot environment variables APRICOT_TOKEN_URL "
                 "and APRICOT_API_KEY must be defined.")
     return optional_apricot_session
+
+@pytest.fixture(scope="session")
+def free_meetup_event_json():
+    return json.loads(FREE_MEETUP_EVENT_JSON)
+
+@pytest.fixture(scope="session")
+def paid_meetup_event_json():
+    return json.loads(PAID_MEETUP_EVENT_JSON)
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
