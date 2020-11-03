@@ -58,6 +58,20 @@ def test_get_event_response(module_file_path, apricot_api):
     apricot_json = apricot_api.get_event(event_id)
     save_json(apricot_json, module_file_path)
 
+## These tests mock the Wild Apricot session and check that the appropriate
+## parameters reach the right URL.
+
+def test_add_event(mocker):
+    """Save response from a "dataset data insert" request to Wild Apricot."""
+    sample_event = { "name": "Sample Event", "start_date": "2020-11-02 19:00" }
+    expected_url = "https://api.wildapricot.org/v2.2/accounts/12345/events"
+    apricot_api = ApricotApi("12345", None, SAMPLE_XIBO_PAGE_LENGTH)
+    apricot_api.post = mocker.Mock(return_value = 4567)
+    response = apricot_api.add_event(sample_event)
+    assert response == 4567
+    apricot_api.post.assert_called_once_with(expected_url, json=sample_event)
+
+
 ## These tests from Xibo testing must be adapted or deleted.
 
 @pytest.mark.skip(reason="Not ready to test")

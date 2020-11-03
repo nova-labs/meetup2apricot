@@ -38,9 +38,9 @@ class ApricotApi:
         ApricotApiError.check_response_status(response)
         return response
 
-    def post(self, url, **payload):
+    def post(self, url, json=None, **payload):
         """Request posting at a URL and return the response."""
-        response = self.session.post(url, data=payload)
+        response = self.session.post(url, json=json, data=payload)
         ApricotApiError.check_response_status(response)
         return response
 
@@ -75,6 +75,11 @@ class ApricotApi:
         """Get the JSON description of an event."""
         url = f"{self.api_base_url}/accounts/{self.account_id}/events/{event_id}"
         return self.get_json(url)
+
+    def add_event(self, event):
+        """Insert an event into Wild Apricot."""
+        url = f"{self.api_base_url}/accounts/{self.account_id}/events"
+        return self.post(url, json=event)
 
 ## Xibo functions to adapt or delete
 
