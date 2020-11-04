@@ -66,7 +66,7 @@ FREE_MEETUP_EVENT_JSON = """
     }
 """
 
-PAID_MEETUP_EVENT_JSON = """
+PAID_MEETUP_EVENT_JSON = r"""
     {
         "created": 1603512050000,
         "date_in_series_pattern": false,
@@ -96,7 +96,7 @@ PAID_MEETUP_EVENT_JSON = """
             "who": "Makers"
         },
         "id": "274139316",
-        "is_online_event": true,
+        "is_online_event": false,
         "link": "https://www.meetup.com/NOVA-Makers/events/274139316/",
         "local_date": "2020-11-13",
         "local_time": "19:00",
@@ -107,11 +107,17 @@ PAID_MEETUP_EVENT_JSON = """
         "updated": 1603676407000,
         "utc_offset": -18000000,
         "venue": {
-            "country": "",
-            "id": 26906060,
-            "localized_country_name": "",
-            "name": "Online event",
-            "repinned": false
+            "address_1": "1916 Isaac Newton Square W",
+            "city": "Reston",
+            "country": "us",
+            "id": 27015523,
+            "lat": 38.95444107055664,
+            "localized_country_name": "USA",
+            "lon": -77.33830261230469,
+            "name": "Nova Labs Inc.",
+            "repinned": false,
+            "state": "VA",
+            "zip": "20190"
         },
         "visibility": "public",
         "waitlist_count": 0,

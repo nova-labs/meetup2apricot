@@ -5,23 +5,6 @@ from datetime import datetime
 import json
 import pytest
 
-JSON_WITH_VENUE_ADDRESS = json.loads("""
-    {
-        "venue": {
-            "address_1": "1916 Isaac Newton Square W",
-            "city": "Reston",
-            "country": "us",
-            "id": 27015523,
-            "lat": 38.95444107055664,
-            "localized_country_name": "USA",
-            "lon": -77.33830261230469,
-            "name": "Nova Labs Inc.",
-            "repinned": false,
-            "state": "VA",
-            "zip": "20190"
-        }
-    }""")
-
 def test_duration(free_meetup_event_json):
     """Test getting the duration from Meetup event JSON."""
     meetup_event = MeetupEvent(free_meetup_event_json)
@@ -58,9 +41,9 @@ def test_venue_online(free_meetup_event_json):
     expected_venue = MeetupVenue("Online event", "", "", "", "")
     assert meetup_event.venue == expected_venue
 
-def test_venue_address():
+def test_venue_address(paid_meetup_event_json):
     """Test getting the venue address from Meetup event JSON."""
-    meetup_event = MeetupEvent(JSON_WITH_VENUE_ADDRESS )
+    meetup_event = MeetupEvent(paid_meetup_event_json)
     expected_venue = MeetupVenue("Nova Labs Inc.", "1916 Isaac Newton Square W", "Reston", "VA", "20190")
     assert meetup_event.venue == expected_venue
 
