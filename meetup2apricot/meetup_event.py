@@ -6,6 +6,8 @@ from collections import namedtuple
 # Meetup event JSON field names
 DESCRIPTION_KEY = "description"
 DURATION_KEY = "duration"
+FEATURED_PHOTO_KEY = "featured_photo"
+FEATURED_PHOTO_HIGHRES_LINK_KEY = "highres_link"
 FIND_US_KEY = "how_to_find_us"
 LINK_KEY = "link"
 MEETUP_ID_KEY = "id"
@@ -100,5 +102,10 @@ class MeetupEvent:
         """Return the maximum number of RSVPs allowed or None if unlimited."""
         return self.event_json.get(RSVP_LIMIT_KEY, None)
 
+    @property
+    def photo_url(self):
+        """Return the highest resolution featured photo URL."""
+        featured_photo = self.event_json.get(FEATURED_PHOTO_KEY, {}) 
+        return featured_photo.get(FEATURED_PHOTO_HIGHRES_LINK_KEY, None)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

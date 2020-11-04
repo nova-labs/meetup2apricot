@@ -47,6 +47,16 @@ def test_venue_address(paid_meetup_event_json):
     expected_venue = MeetupVenue("Nova Labs Inc.", "1916 Isaac Newton Square W", "Reston", "VA", "20190")
     assert meetup_event.venue == expected_venue
 
+def test_photo_url(free_meetup_event_json):
+    """Test getting the highest resolution featured photo URL."""
+    meetup_event = MeetupEvent(free_meetup_event_json)
+    assert meetup_event.photo_url == "https://secure.meetupstatic.com/photos/event/6/b/4/9/highres_491187465.jpeg"
+
+def test_photo_url_missing(paid_meetup_event_json):
+    """Test getting the missing highest resolution featured photo URL."""
+    meetup_event = MeetupEvent(paid_meetup_event_json)
+    assert meetup_event.photo_url is None
+
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
