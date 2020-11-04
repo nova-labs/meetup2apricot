@@ -28,7 +28,7 @@ def test_meetup_id(free_meetup_event_json):
 def test_name(free_meetup_event_json):
     """Test getting the name from Meetup event JSON."""
     meetup_event = MeetupEvent(free_meetup_event_json)
-    assert meetup_event.name == "AC: Mending Monday"
+    assert meetup_event.name == "TEST-ETL: AC: Mending Monday"
 
 def test_start_time(free_meetup_event_json):
     """Test getting the start time from Meetup event JSON."""

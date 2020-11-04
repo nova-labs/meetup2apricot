@@ -36,7 +36,7 @@ FREE_MEETUP_EVENT_JSON = """
         "local_date": "2020-11-09",
         "local_time": "19:00",
         "member_pay_fee": false,
-        "name": "AC: Mending Monday",
+        "name": "TEST-ETL: AC: Mending Monday",
         "series": {
             "description": "Every 2 weeks on Monday",
             "id": 44165671,
@@ -101,7 +101,7 @@ PAID_MEETUP_EVENT_JSON = r"""
         "local_date": "2020-11-13",
         "local_time": "19:00",
         "member_pay_fee": false,
-        "name": "AV_P: Online Instructor Training-Video equipment setup, streaming, OBS/Zoom tips",
+        "name": "Test-ETL: AV_P: Online Instructor Training-Video equipment setup, streaming, OBS/Zoom tips",
         "rsvp_limit": 6,
         "status": "upcoming",
         "time": 1605312000000,
