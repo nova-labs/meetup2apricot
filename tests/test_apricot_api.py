@@ -2,6 +2,7 @@
 
 from meetup2apricot.apricot_api import ApricotApi
 from meetup2apricot.http_response_error import ApricotApiError
+from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON 
 from requests_toolbelt.utils import dump
 import json
 import os
@@ -56,6 +57,11 @@ def test_get_event_response(module_file_path, apricot_api):
     if not event_id:
         pytest.skip("Define environment variable APRICOT_EVENT_ID")
     apricot_json = apricot_api.get_event(event_id)
+    save_json(apricot_json, module_file_path)
+
+def test_add_event_free(module_file_path, apricot_api):
+    """Save response from adding a free event to Wild Apricot."""
+    apricot_json = apricot_api.add_event(EXPECTED_FREE_EVENT_JSON)
     save_json(apricot_json, module_file_path)
 
 ## These tests mock the Wild Apricot session and check that the appropriate
