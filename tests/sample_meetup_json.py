@@ -102,6 +102,7 @@ PAID_MEETUP_EVENT_JSON = r"""
         "local_time": "19:00",
         "member_pay_fee": false,
         "name": "AV_P: Online Instructor Training-Video equipment setup, streaming, OBS/Zoom tips",
+        "rsvp_limit": 6,
         "status": "upcoming",
         "time": 1605312000000,
         "updated": 1603676407000,

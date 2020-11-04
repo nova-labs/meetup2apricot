@@ -8,6 +8,7 @@ DURATION_KEY = "duration"
 FIND_US_KEY = "how_to_find_us"
 MEETUP_ID_KEY = "id"
 NAME_KEY = "name"
+RSVP_LIMIT_KEY = "rsvp_limit"
 START_TIME_KEY = "time"
 VENUE_KEY = "venue"
 VENUE_NAME_KEY = "name"
@@ -81,6 +82,11 @@ class MeetupEvent:
     def find_us(self):
         """Return the find us."""
         return self.event_json.get(FIND_US_KEY, "")
+
+    @property
+    def rsvp_limit(self):
+        """Return the maximum number of RSVPs allowed or None if unlimited."""
+        return self.event_json.get(RSVP_LIMIT_KEY, None)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
