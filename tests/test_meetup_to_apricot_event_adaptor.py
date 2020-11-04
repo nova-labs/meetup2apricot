@@ -69,5 +69,10 @@ def test_registrations_limit_set(paid_event_adaptor):
     event, which has a set limit."""
     assert paid_event_adaptor.registrations_limit == 6
 
+def test_access_level(free_event_adaptor):
+    """Test returning an enum that indicates the event accessability.
+    Enum: [ Public, AdminOnly, Restricted ] """
+    assert free_event_adaptor.access_level == "Public"
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

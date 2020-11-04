@@ -68,5 +68,9 @@ class MeetupToApricotEventAdaptor:
         """Return the maximum number of registrations for this event."""
         return self._meetup_event.rsvp_limit
 
+    @property
+    def access_level(self):
+        """Return the event accessability."""
+        return "Public"
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
