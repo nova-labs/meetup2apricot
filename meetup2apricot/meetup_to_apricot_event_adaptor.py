@@ -73,4 +73,31 @@ class MeetupToApricotEventAdaptor:
         """Return the event accessability."""
         return "Public"
 
+    @staticmethod
+    def format_date_for_json(date):
+        """Adjust the date/time to the local time zone and ormat it for JSON as
+        YYYY-MM-DD HH:MM+HH:MM."""
+        return date.astimezone().isoformat(sep=' ', timespec='minutes')
+
+    def for_json(self):
+        """Structure this event into dictionaries and lists suitable for
+        conversion to JSON."""
+        return {
+                "Name": self.name,
+                "EventType": self.event_type,
+                "StartDate": self.format_date_for_json(self.start_date),
+                "StartTimeSpecified": self.start_time_specified,
+                "EndDate": self.format_date_for_json(self.end_date),
+                "EndTimeSpecified": self.end_time_specified,
+                "StartTimeSpecified": self.start_time_specified,
+                "Location": self.location,
+                "RegistrationEnabled": self.registration_enabled,
+                "Details": {
+                    "AccessControl": {
+                        "AccessLevel": self.access_level
+                        }
+                    }
+                }
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

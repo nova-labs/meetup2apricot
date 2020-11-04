@@ -2,6 +2,7 @@
 
 from meetup2apricot.meetup_event import MeetupEvent
 from meetup2apricot.meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
+from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON 
 from datetime import datetime
 import pytest
 
@@ -17,7 +18,7 @@ def paid_event_adaptor(paid_meetup_event_json):
 
 def test_name(free_event_adaptor):
     """Test returning the event title."""
-    assert free_event_adaptor.name == "AC: Mending Monday"
+    assert free_event_adaptor.name == "TEST-ETL: AC: Mending Monday"
 
 def test_event_type(free_event_adaptor):
     """Test returning a flag that indicates if event is simple (RSVP) or
@@ -73,6 +74,11 @@ def test_access_level(free_event_adaptor):
     """Test returning an enum that indicates the event accessability.
     Enum: [ Public, AdminOnly, Restricted ] """
     assert free_event_adaptor.access_level == "Public"
+
+def test_for_json_free(free_event_adaptor):
+    """Test converting the free event into dictionaries and lists suitable for
+    conversion to JSON."""
+    assert free_event_adaptor.for_json() == EXPECTED_FREE_EVENT_JSON
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
