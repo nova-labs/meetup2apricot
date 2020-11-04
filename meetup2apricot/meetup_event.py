@@ -1,6 +1,7 @@
 """Provide event fields from a Meetup event JSON response."""
 
 from datetime import datetime, timezone
+from collections import namedtuple
 
 # Meetup event JSON field names
 DURATION_KEY = "duration"
@@ -10,10 +11,18 @@ NAME_KEY = "name"
 START_TIME_KEY = "time"
 VENUE_KEY = "venue"
 VENUE_NAME_KEY = "name"
+VENUE_ADDRESS_KEY = "address_1"
+VENUE_CITY_KEY = "city"
+VENUE_STATE_KEY = "state"
+VENUE_ZIPCODE_KEY = "zip"
 
 # Default event length
 THREE_HOURS_MSEC = 3 * 60 * 60 * 1000
 DEFAULT_DURATION = THREE_HOURS_MSEC
+
+
+MeetupVenue = namedtuple("MeetupVenue", "name address city state zipcode")
+
 
 class MeetupEvent:
 
@@ -60,12 +69,13 @@ class MeetupEvent:
     @property
     def venue(self):
         """Return the venue."""
-        return self.event_json.get(VENUE_KEY, {VENUE_NAME_KEY: ""})
-
-    @property
-    def venue_name(self):
-        """Return the venue name."""
-        return self.venue[VENUE_NAME_KEY]
+        venue = self.event_json.get(VENUE_KEY, {})
+        return MeetupVenue(
+            name=venue.get(VENUE_NAME_KEY, ""),
+            address=venue.get(VENUE_ADDRESS_KEY, ""),
+            city=venue.get(VENUE_CITY_KEY, ""),
+            state=venue.get(VENUE_STATE_KEY, ""),
+            zipcode=venue.get(VENUE_ZIPCODE_KEY, ""))
 
     @property
     def find_us(self):
