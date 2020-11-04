@@ -1,5 +1,10 @@
 """Sample JSON-ready data for testing."""
 
+EXPECTED_DESCRIPTION_HTML = "<p>Mending Mondays is an opportunity to gather " \
+"to restore ripped seams, etc.</p><p>Nova Labs previously announced this " \
+"event on <a " \
+'href="https://www.meetup.com/NOVA-Makers/events/pfsbvrybcpbmb/">Meetup.com</a>.</p>'
+
 EXPECTED_FREE_EVENT_JSON = {
     "Name": "TEST-ETL: AC: Mending Monday",
     "EventType": "Regular",
@@ -10,6 +15,7 @@ EXPECTED_FREE_EVENT_JSON = {
     "Location": "Online event",
     "RegistrationEnabled": True,
     "Details": {
+        "DescriptionHtml": EXPECTED_DESCRIPTION_HTML,
         "AccessControl": {
             "AccessLevel": "Public"
             }

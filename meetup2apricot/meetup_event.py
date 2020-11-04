@@ -4,8 +4,10 @@ from datetime import datetime, timezone
 from collections import namedtuple
 
 # Meetup event JSON field names
+DESCRIPTION_KEY = "description"
 DURATION_KEY = "duration"
 FIND_US_KEY = "how_to_find_us"
+LINK_KEY = "link"
 MEETUP_ID_KEY = "id"
 NAME_KEY = "name"
 RSVP_LIMIT_KEY = "rsvp_limit"
@@ -42,6 +44,16 @@ class MeetupEvent:
     def name(self):
         """Return the name."""
         return self.event_json[NAME_KEY]
+
+    @property
+    def description(self):
+        """Return the HTML description."""
+        return self.event_json[DESCRIPTION_KEY]
+
+    @property
+    def link(self):
+        """Return the link to the Meetup.com event."""
+        return self.event_json[LINK_KEY]
 
     @property
     def start_time_epoch_ms(self):

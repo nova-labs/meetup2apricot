@@ -2,7 +2,7 @@
 
 from meetup2apricot.meetup_event import MeetupEvent
 from meetup2apricot.meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
-from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON 
+from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON, EXPECTED_DESCRIPTION_HTML
 from datetime import datetime
 import pytest
 
@@ -19,6 +19,10 @@ def paid_event_adaptor(paid_meetup_event_json):
 def test_name(free_event_adaptor):
     """Test returning the event title."""
     assert free_event_adaptor.name == "TEST-ETL: AC: Mending Monday"
+
+def test_description_html(free_event_adaptor):
+    """Test returning the full HTML event description."""
+    assert free_event_adaptor.description_html == EXPECTED_DESCRIPTION_HTML
 
 def test_event_type(free_event_adaptor):
     """Test returning a flag that indicates if event is simple (RSVP) or

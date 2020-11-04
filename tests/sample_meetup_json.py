@@ -4,7 +4,7 @@ FREE_MEETUP_EVENT_JSON = """
     {
         "created": 1594000624000,
         "date_in_series_pattern": true,
-        "description": "<p>Mending Mondays is an opportunity to gather to restore ripped seams, etc.</p> ",
+        "description": "<p>Mending Mondays is an opportunity to gather to restore ripped seams, etc.</p>",
         "duration": 7200000,
         "featured_photo": {
             "base_url": "https://secure.meetupstatic.com",

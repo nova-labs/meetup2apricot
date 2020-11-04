@@ -14,6 +14,13 @@ class MeetupToApricotEventAdaptor:
         return self._meetup_event.name
 
     @property
+    def description_html(self):
+        """Return the full event description in HTML format."""
+        meetup_note = "<p>Nova Labs previously announced this event on " \
+                f'<a href="{self._meetup_event.link}">Meetup.com</a>.</p>'
+        return self._meetup_event.description + meetup_note
+
+    @property
     def event_type(self):
         """Return a flag that indicates if event is simple (RSVP) or
         regular. Enum: [ Reqular, RSVP ] """
@@ -93,6 +100,7 @@ class MeetupToApricotEventAdaptor:
                 "Location": self.location,
                 "RegistrationEnabled": self.registration_enabled,
                 "Details": {
+                    "DescriptionHtml": self.description_html,
                     "AccessControl": {
                         "AccessLevel": self.access_level
                         }
