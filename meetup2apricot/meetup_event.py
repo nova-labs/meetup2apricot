@@ -64,10 +64,10 @@ class MeetupEvent:
 
     @property
     def start_time(self):
-        """Return the start time."""
+        """Return the start time in the local time zone."""
         return datetime.fromtimestamp(
                 self.start_time_epoch_ms / 1000,
-                tz=timezone.utc)
+                tz=timezone.utc).astimezone()
 
     @property
     def duration(self):
@@ -76,10 +76,10 @@ class MeetupEvent:
 
     @property
     def end_time(self):
-        """Return the end time."""
+        """Return the end time in the local time zone."""
         return datetime.fromtimestamp(
                 (self.start_time_epoch_ms + self.duration) / 1000,
-                tz=timezone.utc)
+                tz=timezone.utc).astimezone()
 
     @property
     def venue(self):

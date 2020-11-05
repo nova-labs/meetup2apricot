@@ -82,9 +82,8 @@ class MeetupToApricotEventAdaptor:
 
     @staticmethod
     def format_date_for_json(date):
-        """Adjust the date/time to the local time zone and ormat it for JSON as
-        YYYY-MM-DD HH:MM+HH:MM."""
-        return date.astimezone().isoformat(sep=' ', timespec='minutes')
+        """Format a date/time for JSON as YYYY-MM-DD HH:MM+HH:MM."""
+        return date.isoformat(sep=' ', timespec='minutes')
 
     def for_json(self):
         """Structure this event into dictionaries and lists suitable for
