@@ -2,19 +2,21 @@
 
 from meetup2apricot.meetup_event import MeetupEvent
 from meetup2apricot.meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
-from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON, EXPECTED_DESCRIPTION_HTML
+from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON, \
+        EXPECTED_FREE_DESCRIPTION_HTML, EXPECTED_FREE_PHOTO_NAME
 from datetime import datetime
 import pytest
+
 
 @pytest.fixture()
 def free_event_adaptor(free_meetup_event_json):
     meetup_event = MeetupEvent(free_meetup_event_json)
-    return MeetupToApricotEventAdaptor(meetup_event)
+    return MeetupToApricotEventAdaptor(meetup_event, EXPECTED_FREE_PHOTO_NAME)
 
 @pytest.fixture()
 def paid_event_adaptor(paid_meetup_event_json):
     meetup_event = MeetupEvent(paid_meetup_event_json)
-    return MeetupToApricotEventAdaptor(meetup_event)
+    return MeetupToApricotEventAdaptor(meetup_event, None)
 
 def test_name(free_event_adaptor):
     """Test returning the event title."""
@@ -22,7 +24,7 @@ def test_name(free_event_adaptor):
 
 def test_description_html(free_event_adaptor):
     """Test returning the full HTML event description."""
-    assert free_event_adaptor.description_html == EXPECTED_DESCRIPTION_HTML
+    assert free_event_adaptor.description_html == EXPECTED_FREE_DESCRIPTION_HTML
 
 def test_event_type(free_event_adaptor):
     """Test returning a flag that indicates if event is simple (RSVP) or

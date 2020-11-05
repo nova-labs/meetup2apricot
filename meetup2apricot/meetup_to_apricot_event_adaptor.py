@@ -4,9 +4,10 @@ class MeetupToApricotEventAdaptor:
 
     """Adapts meetup events to provide Wild Apricot event fields."""
 
-    def __init__(self, meetup_event):
-        """Initialize with a Meetup event."""
+    def __init__(self, meetup_event, apricot_photo_name):
+        """Initialize with a Meetup event and a photo name for Wild Apricot."""
         self._meetup_event = meetup_event
+        self.apricot_photo_name = apricot_photo_name
 
     @property
     def name(self):
@@ -16,9 +17,15 @@ class MeetupToApricotEventAdaptor:
     @property
     def description_html(self):
         """Return the full event description in HTML format."""
+        if self.apricot_photo_name:
+            image_html = \
+                '<p><img src="/resources/Pictures/EventAnnouncements/' \
+                f'{self.apricot_photo_name}" alt="" title="" border="0"></p>'
+        else:
+            image_html = ""
         meetup_note = "<p>Nova Labs previously announced this event on " \
                 f'<a href="{self._meetup_event.link}">Meetup.com</a>.</p>'
-        return self._meetup_event.description + meetup_note
+        return image_html + self._meetup_event.description + meetup_note
 
     @property
     def event_type(self):

@@ -1,6 +1,11 @@
 """Sample JSON-ready data for testing."""
 
-EXPECTED_DESCRIPTION_HTML = "<p>Mending Mondays is an opportunity to gather " \
+EXPECTED_FREE_PHOTO_NAME = "TEST_ETL_AC_Mending_Monday_2020-11-09"
+
+EXPECTED_FREE_DESCRIPTION_HTML = \
+f"<p><img src=\"/resources/Pictures/EventAnnouncements/{EXPECTED_FREE_PHOTO_NAME}\" " \
+"alt=\"\" title=\"\" border=\"0\"></p>" \
+"<p>Mending Mondays is an opportunity to gather " \
 "to restore ripped seams, etc.</p><p>Nova Labs previously announced this " \
 "event on <a " \
 'href="https://www.meetup.com/NOVA-Makers/events/pfsbvrybcpbmb/">Meetup.com</a>.</p>'
@@ -15,7 +20,7 @@ EXPECTED_FREE_EVENT_JSON = {
     "Location": "Online event",
     "RegistrationEnabled": True,
     "Details": {
-        "DescriptionHtml": EXPECTED_DESCRIPTION_HTML,
+        "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
         "AccessControl": {
             "AccessLevel": "Public"
             }
