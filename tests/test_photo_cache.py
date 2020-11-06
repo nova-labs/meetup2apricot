@@ -3,7 +3,7 @@
 from meetup2apricot.photo_cache import PhotoCache
 from meetup2apricot.meetup_event import MeetupEvent
 from datetime import datetime
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PosixPath
 import pytest
 
 SAMPLE_DATE = datetime.fromisoformat("2020-11-09 18:30 -05:00")
@@ -52,19 +52,24 @@ def test_local_photo_path(photo_cache):
     """Test building a path to a local photo."""
     assert photo_cache.local_photo_path("photo.jpg") == Path("/var/tmp/photos/photo.jpg")
 
-def test_cache_photo_none(photo_cache, paid_meetup_event):
+def test_cache_photo_none(photo_cache, paid_meetup_event, mock_photo_retriever):
     """Test caching the photo for a later Meetup event without a photo."""
     assert photo_cache.cache_photo(paid_meetup_event) == None
+    mock_photo_retriever.get.assert_not_called()
 
-def test_cache_photo_later(photo_cache, later_free_meetup_event):
+def test_cache_photo_later(photo_cache, later_free_meetup_event, mock_photo_retriever):
     """Test caching the photo for a later Meetup event."""
-    expected_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-16.jpeg")
-    assert photo_cache.cache_photo(later_free_meetup_event) == expected_path
+    expected_apricot_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-16.jpeg")
+    expected_local_path = PosixPath('/var/tmp/photos/TEST_ETL_AC_Mending_Monday_2020-11-16.jpeg')
+    assert photo_cache.cache_photo(later_free_meetup_event) == expected_apricot_path
+    mock_photo_retriever.get.assert_called_once_with(later_free_meetup_event.photo_url, expected_local_path)
 
-def test_cache_photo_share(photo_cache, free_meetup_event, later_free_meetup_event):
+def test_cache_photo_share(photo_cache, free_meetup_event, later_free_meetup_event, mock_photo_retriever):
     """Test caching the photos for Meetup events that share photos."""
-    expected_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg")
-    assert photo_cache.cache_photo(free_meetup_event) == expected_path
-    assert photo_cache.cache_photo(later_free_meetup_event) == expected_path
+    expected_apricot_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg")
+    expected_local_path = PosixPath('/var/tmp/photos/TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg')
+    assert photo_cache.cache_photo(free_meetup_event) == expected_apricot_path
+    assert photo_cache.cache_photo(later_free_meetup_event) == expected_apricot_path
+    mock_photo_retriever.get.assert_called_once_with(later_free_meetup_event.photo_url, expected_local_path)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
