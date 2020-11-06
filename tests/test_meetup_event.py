@@ -35,6 +35,11 @@ def test_start_time(free_meetup_event_json):
     meetup_event = MeetupEvent(free_meetup_event_json)
     assert meetup_event.start_time == datetime.fromisoformat("2020-11-09 19:00 -05:00")
 
+def test_later_start_time(later_free_meetup_event_json):
+    """Test getting the start time from Meetup event JSON."""
+    meetup_event = MeetupEvent(later_free_meetup_event_json)
+    assert meetup_event.start_time == datetime.fromisoformat("2020-11-16 19:00 -05:00")
+
 def test_venue_online(free_meetup_event_json):
     """Test getting the online venue from Meetup event JSON."""
     meetup_event = MeetupEvent(free_meetup_event_json)

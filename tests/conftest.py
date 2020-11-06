@@ -1,11 +1,14 @@
 """Test fixtures."""
 
 from meetup2apricot.oauth2_session_starter import Oauth2SessionStarter
+from meetup2apricot.meetup_event import MeetupEvent
 from pathlib import Path
 from .sample_meetup_json import FREE_MEETUP_EVENT_JSON, PAID_MEETUP_EVENT_JSON
 import os
 import json
 import pytest
+
+ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000
 
 @pytest.fixture(scope="module")
 def module_dir_path(request):
@@ -62,8 +65,24 @@ def free_meetup_event_json():
     return json.loads(FREE_MEETUP_EVENT_JSON)
 
 @pytest.fixture(scope="session")
+def later_free_meetup_event_json(free_meetup_event_json):
+    one_week_later = free_meetup_event_json["time"] + ONE_WEEK_MS
+    return free_meetup_event_json | { "time": one_week_later}
+
+@pytest.fixture(scope="session")
 def paid_meetup_event_json():
     return json.loads(PAID_MEETUP_EVENT_JSON)
 
+@pytest.fixture()
+def free_meetup_event(free_meetup_event_json):
+    return MeetupEvent(free_meetup_event_json)
+
+@pytest.fixture()
+def later_free_meetup_event(later_free_meetup_event_json):
+    return MeetupEvent(later_free_meetup_event_json)
+
+@pytest.fixture()
+def paid_meetup_event(paid_meetup_event_json):
+    return MeetupEvent(paid_meetup_event_json)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
