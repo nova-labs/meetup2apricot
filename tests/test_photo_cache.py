@@ -11,9 +11,18 @@ SAMPLE_APRICOT_DIRECTORY = PurePosixPath("/resources/photos")
 SAMPLE_LOCAL_DIRECTORY = Path("/var/tmp/photos")
 
 @pytest.fixture()
-def photo_cache():
+def mock_photo_retriever(mocker):
+    """Mock a photo retriever, which implements a "get" method."""
+    mock_photo_retriever = mocker.Mock()
+    mock_photo_retriever.get = mocker.Mock()
+    return mock_photo_retriever
+
+@pytest.fixture()
+def photo_cache(mock_photo_retriever):
     """Return a photo cache."""
-    return PhotoCache(SAMPLE_LOCAL_DIRECTORY, SAMPLE_APRICOT_DIRECTORY)
+    initial_cache = {None: None}
+    return PhotoCache(SAMPLE_LOCAL_DIRECTORY, SAMPLE_APRICOT_DIRECTORY,
+        initial_cache, mock_photo_retriever)
 
 def test_apricot_photo_name_short():
     """Test converting a short Meetup name to a Wild Apricot photo name."""
@@ -31,10 +40,9 @@ def test_apricot_photo_name_very_long():
     expected_name = "EL_M_Soldering_Station_101_2020-11-09"
     assert PhotoCache.apricot_photo_name(long_name, SAMPLE_DATE) == expected_name
 
-def test_apricot_photo_file_name(free_meetup_event_json, photo_cache):
+def test_apricot_photo_file_name(free_meetup_event, photo_cache):
     """Test formatting a Wild Apricot photo file name for a Meetup event."""
-    meetup_event = MeetupEvent(free_meetup_event_json)
-    assert photo_cache.apricot_photo_file_name(meetup_event) == "TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg"
+    assert photo_cache.apricot_photo_file_name(free_meetup_event) == "TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg"
 
 def test_apricot_photo_path(photo_cache):
     """Test building a path to a Wild Apricot photo."""
@@ -43,5 +51,20 @@ def test_apricot_photo_path(photo_cache):
 def test_local_photo_path(photo_cache):
     """Test building a path to a local photo."""
     assert photo_cache.local_photo_path("photo.jpg") == Path("/var/tmp/photos/photo.jpg")
+
+def test_cache_photo_none(photo_cache, paid_meetup_event):
+    """Test caching the photo for a later Meetup event without a photo."""
+    assert photo_cache.cache_photo(paid_meetup_event) == None
+
+def test_cache_photo_later(photo_cache, later_free_meetup_event):
+    """Test caching the photo for a later Meetup event."""
+    expected_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-16.jpeg")
+    assert photo_cache.cache_photo(later_free_meetup_event) == expected_path
+
+def test_cache_photo_share(photo_cache, free_meetup_event, later_free_meetup_event):
+    """Test caching the photos for Meetup events that share photos."""
+    expected_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg")
+    assert photo_cache.cache_photo(free_meetup_event) == expected_path
+    assert photo_cache.cache_photo(later_free_meetup_event) == expected_path
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

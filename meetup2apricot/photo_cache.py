@@ -9,10 +9,30 @@ class PhotoCache:
 
     """Caches event featured photos for upload to Wild Apricot."""
 
-    def __init__(self, local_directory, apricot_directory):
-        """Initialize with local and Wild Apricot directory paths."""
+    def __init__(self, local_directory, apricot_directory, urls_to_paths,
+                photo_retriever):
+        """Initialize with local and Wild Apricot directory paths, an initial
+        mapping of Meetup photo URLs to Wild Apricot photo paths and a photo
+        retriever."""
         self.local_directory = local_directory
         self.apricot_directory = apricot_directory
+        self.urls_to_paths = urls_to_paths
+        self.photo_retriever = photo_retriever
+
+    def cache_photo(self, meetup_event):
+        """Cache a Meetup event's photo for copying to Wild Apricot and return
+        it's Wild Apricot path."""
+        if meetup_event.photo_url not in self.urls_to_paths:
+            self.get_meetup_photo_for_apricot(meetup_event)
+        return self.urls_to_paths[meetup_event.photo_url]
+
+    def get_meetup_photo_for_apricot(self, meetup_event):
+        """Get a Meetup photo for Wild Apricot."""
+        apricot_photo_name = self.apricot_photo_file_name(meetup_event)
+        self.urls_to_paths[meetup_event.photo_url] = \
+            self.apricot_photo_path(apricot_photo_name)
+        local_photo_path = self.local_photo_path(apricot_photo_name)
+        self.photo_retriever.get(meetup_event.photo_url, local_photo_path)
 
     def apricot_photo_path(self, photo_file_name):
         """Return a photo's Wild Apricot URL path."""
