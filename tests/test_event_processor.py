@@ -2,7 +2,7 @@
 
 from meetup2apricot.event_processor import EventProcessor, make_event_processor
 from datetime import datetime
-from .sample_apricot_json import EXPECTED_FREE_PHOTO_NAME, EXPECTED_FREE_EVENT_JSON 
+from .sample_apricot_json import EXPECTED_FREE_PHOTO_PATH, EXPECTED_FREE_EVENT_JSON 
 import pickle
 import pytest
 
@@ -57,13 +57,13 @@ def test_can_ignore_event_seen(event_processor, paid_meetup_event):
     assert event_processor.can_ignore_event(paid_meetup_event)
 
 def test_get_photo(event_processor, free_meetup_event, mock_photo_cache):
-    """Test getting a photo and it's Wild Apricot name."""
+    """Test getting a photo and it's Wild Apricot path."""
     assert event_processor.get_photo(free_meetup_event) == "foo.jpg"
     mock_photo_cache.cache_photo.assert_called_once_with(free_meetup_event)
 
 def test_add_apricot_event(event_processor, free_meetup_event, mock_apricot_api):
     """Test adding a Wild Apricot event."""
-    assert event_processor.add_apricot_event(free_meetup_event, EXPECTED_FREE_PHOTO_NAME) == EXPECTED_APRICOT_EVENT_ID
+    assert event_processor.add_apricot_event(free_meetup_event, EXPECTED_FREE_PHOTO_PATH) == EXPECTED_APRICOT_EVENT_ID
     mock_apricot_api.add_event.assert_called_once_with(EXPECTED_FREE_EVENT_JSON)
 
 def test_record_event(event_processor, free_meetup_event):

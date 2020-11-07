@@ -25,8 +25,8 @@ class EventProcessor:
         """Process a meetup event."""
         if self.can_ignore_event(meetup_event):
             return
-        photo_name = self.get_photo(meetup_event)
-        apricot_event_id = self.add_apricot_event(meetup_event, photo_name)
+        photo_path = self.get_photo(meetup_event)
+        apricot_event_id = self.add_apricot_event(meetup_event, photo_path)
         self.record_event(meetup_event, apricot_event_id)
 
     def can_ignore_event(self, meetup_event):
@@ -36,13 +36,13 @@ class EventProcessor:
 
     def get_photo(self, meetup_event):
         """Get an available photo for a meetup event, if it hasn't been
-        downloaded before.  Return the photo name if it was ever downloaded or
+        downloaded before.  Return the photo path if it was ever downloaded or
         None."""
         return self.photo_cache.cache_photo(meetup_event)
 
-    def add_apricot_event(self, meetup_event, photo_name):
+    def add_apricot_event(self, meetup_event, photo_path):
         """Add the event to Wild Apricot."""
-        apricot_event = MeetupToApricotEventAdaptor(meetup_event, photo_name)
+        apricot_event = MeetupToApricotEventAdaptor(meetup_event, photo_path)
         apricot_event_json = apricot_event.for_json()
         return self.apricot_api.add_event(apricot_event_json)
 
