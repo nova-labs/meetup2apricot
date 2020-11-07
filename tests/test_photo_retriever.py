@@ -5,24 +5,21 @@ from pathlib import Path
 import requests
 import pytest
 
-def test_assure_directory_exists(tmpdir):
+def test_assure_directory_exists(tmp_path):
     """Test assuring a directory that exists."""
-    tmpdir_path = Path(tmpdir)
-    file_path = tmpdir_path / "foo.bar"
+    file_path = tmp_path / "foo.bar"
     PhotoRetriever.assure_directory(file_path)
-    assert tmpdir_path.is_dir()
+    assert tmp_path.is_dir()
 
-def test_assure_directory_new(tmpdir):
+def test_assure_directory_new(tmp_path):
     """Test assuring a new directory."""
-    tmpdir_path = Path(tmpdir)
-    file_path = tmpdir_path / "blat/foo.bar"
+    file_path = tmp_path / "blat/foo.bar"
     PhotoRetriever.assure_directory(file_path)
-    assert (tmpdir_path / "blat").is_dir()
+    assert (tmp_path / "blat").is_dir()
 
-def test_get(tmpdir, mocker):
+def test_get(tmp_path, mocker):
     """Test getting and storing a file."""
-    tmpdir_path = Path(tmpdir)
-    file_path = tmpdir_path / "bar.txt"
+    file_path = tmp_path / "bar.txt"
     sample_url = "http://example.com/foo.txt"
     sample_bytes = bytes("Quick brown fox", 'utf-8') 
     mock_response = mocker.Mock()
