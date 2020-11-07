@@ -3,6 +3,7 @@ downloading Meetup photos for manual uploading to Wild Apricot, and by tracking
 events and photos already seen."""
 
 from .meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
+import pickle
 
 class EventProcessor:
 
@@ -48,6 +49,11 @@ class EventProcessor:
             "wild_apricot_event": apricot_event_id,
             "start_time": meetup_event.start_time
             }
+
+    def persist(self, path):
+        """Persist cache to a file."""
+        with path.open("wb") as f:
+            pickle.dump(self.known_events, f)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

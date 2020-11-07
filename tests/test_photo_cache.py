@@ -4,11 +4,13 @@ from meetup2apricot.photo_cache import PhotoCache
 from meetup2apricot.meetup_event import MeetupEvent
 from datetime import datetime
 from pathlib import Path, PurePosixPath, PosixPath
+import pickle
 import pytest
 
 SAMPLE_DATE = datetime.fromisoformat("2020-11-09 18:30 -05:00")
 SAMPLE_APRICOT_DIRECTORY = PurePosixPath("/resources/photos")
 SAMPLE_LOCAL_DIRECTORY = Path("/var/tmp/photos")
+INITIAL_CACHE = {None: None}
 
 @pytest.fixture()
 def mock_photo_retriever(mocker):
@@ -20,9 +22,8 @@ def mock_photo_retriever(mocker):
 @pytest.fixture()
 def photo_cache(mock_photo_retriever):
     """Return a photo cache."""
-    initial_cache = {None: None}
     return PhotoCache(SAMPLE_LOCAL_DIRECTORY, SAMPLE_APRICOT_DIRECTORY,
-        initial_cache, mock_photo_retriever)
+        INITIAL_CACHE.copy(), mock_photo_retriever)
 
 def test_apricot_photo_name_short():
     """Test converting a short Meetup name to a Wild Apricot photo name."""
@@ -71,5 +72,14 @@ def test_cache_photo_share(photo_cache, free_meetup_event, later_free_meetup_eve
     assert photo_cache.cache_photo(free_meetup_event) == expected_apricot_path
     assert photo_cache.cache_photo(later_free_meetup_event) == expected_apricot_path
     mock_photo_retriever.get.assert_called_once_with(later_free_meetup_event.photo_url, expected_local_path)
+
+def test_persist(photo_cache, tmp_path):
+    """Test persisting the photo cache."""
+    data_path = tmp_path / "photo_cache.pickle"
+    photo_cache.persist(data_path)
+    with data_path.open('rb') as data_file:
+        cached_data = pickle.load(data_file)
+    assert cached_data == INITIAL_CACHE
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

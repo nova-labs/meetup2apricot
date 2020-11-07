@@ -1,6 +1,7 @@
 """Cache featured photos from Meetup events."""
 
 import re
+import pickle
 from urllib.parse import urlparse
 from pathlib import PurePosixPath
 
@@ -49,6 +50,11 @@ class PhotoCache:
                 meetup_event.start_time)
         extension = PurePosixPath(urlparse(meetup_event.photo_url).path).suffix
         return file_name + extension
+
+    def persist(self, path):
+        """Persist cache to a file."""
+        with path.open("wb") as f:
+            pickle.dump(self.urls_to_paths, f)
 
     @staticmethod
     def apricot_photo_name(name, date):

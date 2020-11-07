@@ -3,6 +3,7 @@
 from meetup2apricot.event_processor import EventProcessor
 from datetime import datetime
 from .sample_apricot_json import EXPECTED_FREE_PHOTO_NAME, EXPECTED_FREE_EVENT_JSON 
+import pickle
 import pytest
 
 
@@ -83,6 +84,14 @@ def test_process(event_processor, later_free_meetup_event):
             "wild_apricot_event": EXPECTED_APRICOT_EVENT_ID,
             "start_time": later_free_meetup_event.start_time
             }
+
+def test_persist(event_processor, tmp_path):
+    """Test persisting the event processor."""
+    data_path = tmp_path / "event_processor.pickle"
+    event_processor.persist(data_path)
+    with data_path.open('rb') as data_file:
+        cached_data = pickle.load(data_file)
+    assert cached_data == KNOWN_EVENTS 
 
 
 
