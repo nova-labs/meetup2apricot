@@ -7,12 +7,11 @@ import requests
 class MeetupEventsRetriever:
 
     def __init__(
-            self, group_url_name, events_wanted, cancelled_last_time):
-        """Initialize with a Meetup group URL name, the number of events wanted
-        from Meetup, and the last time allowed for cancelled events."""
+            self, group_url_name, events_wanted):
+        """Initialize with a Meetup group URL name and the number of events
+        wanted from Meetup."""
         self.group_url_name = group_url_name
         self.events_wanted = events_wanted
-        self.cancelled_last_time = cancelled_last_time
 
     def retrieve_events_json(self, **kwargs):
         """Retrieve the JSON event list, adding keyword arguments to the usual
@@ -23,14 +22,6 @@ class MeetupEventsRetriever:
         response = requests.get(url, params=params)
         MeetupApiError.check_response_status(response)
         return response.json()
-
-    def retrieve_cancelled_events_json(self, **kwargs):
-        """Retrieve the JSON cancelled event list, adding keyword arguments to
-        the usual request parameters."""
-        return self.retrieve_events_json(
-            status="cancelled",
-            no_later_than=self.cancelled_last_time,
-            **kwargs)
 
     def build_url(self):
         """Build a Meetup API URL to download events."""
