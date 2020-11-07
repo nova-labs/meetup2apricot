@@ -10,6 +10,7 @@ import pytest
 SAMPLE_DATE = datetime.fromisoformat("2020-11-09 18:30 -05:00")
 SAMPLE_APRICOT_DIRECTORY = PurePosixPath("/resources/photos")
 SAMPLE_LOCAL_DIRECTORY = Path("/var/tmp/photos")
+CACHE_FILE_NAME = "photo_cache.pickle"
 INITIAL_CACHE = {
     None: None,
     "http://example.com/photo/1234.jpg": "/resources/mending.jpg"}
@@ -22,10 +23,14 @@ def mock_photo_retriever(mocker):
     return mock_photo_retriever
 
 @pytest.fixture()
-def photo_cache(mock_photo_retriever):
+def photo_cache(mock_photo_retriever, tmp_path):
     """Return a photo cache."""
-    return PhotoCache(SAMPLE_LOCAL_DIRECTORY, SAMPLE_APRICOT_DIRECTORY,
-        INITIAL_CACHE.copy(), mock_photo_retriever)
+    return PhotoCache(
+        local_directory=SAMPLE_LOCAL_DIRECTORY,
+        apricot_directory=SAMPLE_APRICOT_DIRECTORY,
+        urls_to_paths=INITIAL_CACHE.copy(),
+        photo_retriever=mock_photo_retriever,
+        cache_path = tmp_path / CACHE_FILE_NAME)
 
 def test_apricot_photo_name_short():
     """Test converting a short Meetup name to a Wild Apricot photo name."""
@@ -77,16 +82,16 @@ def test_cache_photo_share(photo_cache, free_meetup_event, later_free_meetup_eve
 
 def test_persist(photo_cache, tmp_path):
     """Test persisting the photo cache."""
-    data_path = tmp_path / "photo_cache.pickle"
-    photo_cache.persist(data_path)
+    photo_cache.persist()
+    data_path = tmp_path / CACHE_FILE_NAME 
     with data_path.open('rb') as data_file:
         cached_data = pickle.load(data_file)
     assert cached_data == INITIAL_CACHE
 
 def test_make_photo_cache(tmp_path, photo_cache, mock_photo_retriever):
     """Test making a photo cache from cached data."""
-    data_path = tmp_path / "photo_cache.pickle"
-    photo_cache.persist(data_path)
+    photo_cache.persist()
+    data_path = tmp_path / CACHE_FILE_NAME 
     another_photo_cache = make_photo_cache(
         data_path,
         tmp_path,
@@ -100,9 +105,9 @@ def test_make_photo_cache(tmp_path, photo_cache, mock_photo_retriever):
 def test_make_photo_cache_new_dir(tmp_path, photo_cache, mock_photo_retriever):
     """Test creating a new photo directory while making a photo cache from
     cached data."""
-    data_path = tmp_path / "photo_cache.pickle"
+    photo_cache.persist()
+    data_path = tmp_path / CACHE_FILE_NAME 
     local_photo_directory = tmp_path / "photos"
-    photo_cache.persist(data_path)
     another_photo_cache = make_photo_cache(
         data_path,
         local_photo_directory,
@@ -112,7 +117,7 @@ def test_make_photo_cache_new_dir(tmp_path, photo_cache, mock_photo_retriever):
 
 def test_make_photo_cache_no_prior(tmp_path, mock_photo_retriever):
     """Test making a photo cache with no prior cached data."""
-    data_path = tmp_path / "photo_cache.pickle"
+    data_path = tmp_path / CACHE_FILE_NAME 
     another_photo_cache = make_photo_cache(
         data_path,
         tmp_path,

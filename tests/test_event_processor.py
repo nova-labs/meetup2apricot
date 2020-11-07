@@ -18,6 +18,8 @@ KNOWN_EVENTS = {
 
 EXPECTED_APRICOT_EVENT_ID = "43210987"
 
+CACHE_FILE_NAME = "event_processor.pickle"
+
 @pytest.fixture()
 def mock_photo_cache(mocker):
     """Mock a photo cache, which implements a "cache_photo" method."""
@@ -33,12 +35,13 @@ def mock_apricot_api(mocker):
     return mock_apricot_api
 
 @pytest.fixture()
-def event_processor(mock_photo_cache, mock_apricot_api):
+def event_processor(mock_photo_cache, mock_apricot_api, tmp_path):
     return EventProcessor(
         cutoff_time = CUTOFF_TIME,
         known_events = KNOWN_EVENTS.copy(),
         photo_cache = mock_photo_cache,
-        apricot_api = mock_apricot_api
+        apricot_api = mock_apricot_api,
+        cache_path = tmp_path / CACHE_FILE_NAME
         )
 
 def test_can_ignore_event_past(event_processor, free_meetup_event):
@@ -87,8 +90,8 @@ def test_process(event_processor, later_free_meetup_event):
 
 def test_persist(event_processor, tmp_path):
     """Test persisting the event processor."""
-    data_path = tmp_path / "event_processor.pickle"
-    event_processor.persist(data_path)
+    event_processor.persist()
+    data_path = tmp_path / CACHE_FILE_NAME
     with data_path.open('rb') as data_file:
         cached_data = pickle.load(data_file)
     assert cached_data == KNOWN_EVENTS 
@@ -96,10 +99,8 @@ def test_persist(event_processor, tmp_path):
 def test_make_event_processor(event_processor, tmp_path, mock_photo_cache,
         mock_apricot_api):
     """Test making an event processor from cached data."""
-    data_path = tmp_path / "event_processor.pickle"
-    event_processor.persist(data_path)
-    with data_path.open('rb') as data_file:
-        cached_data = pickle.load(data_file)
+    event_processor.persist()
+    data_path = tmp_path / CACHE_FILE_NAME
     another_event_processor = make_event_processor(data_path, CUTOFF_TIME,
             mock_photo_cache, mock_apricot_api)
     assert another_event_processor.cutoff_time == CUTOFF_TIME
