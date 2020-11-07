@@ -12,7 +12,8 @@ class EventProcessor:
     def __init__(self, cutoff_time, known_events, photo_cache, apricot_api):
         """Initialize with a cutoff time, a datetime before which events will
         be ignored; a dictionary of previously processed known events (indexed
-        by Meetup event ID); and a Wild Apricot API interface."""
+        by Meetup event ID); a photo cache; and a Wild Apricot API
+        interface."""
         self.cutoff_time = cutoff_time
         self.known_events = known_events
         self.photo_cache = photo_cache
@@ -55,5 +56,14 @@ class EventProcessor:
         with path.open("wb") as f:
             pickle.dump(self.known_events, f)
 
+
+def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api):
+    """Initialize with a file caching a dictionary of previously processed
+    known events (indexed by Meetup event ID); a cutoff time, the datetime
+    before which events will be ignored; a photo cache; and a Wild Apricot API
+    interface."""
+    with cache_path.open("rb") as f:
+        known_events = pickle.load(f)
+    return EventProcessor(cutoff_time, known_events, photo_cache, apricot_api)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -1,6 +1,6 @@
 """Test the event processor."""
 
-from meetup2apricot.event_processor import EventProcessor
+from meetup2apricot.event_processor import EventProcessor, make_event_processor
 from datetime import datetime
 from .sample_apricot_json import EXPECTED_FREE_PHOTO_NAME, EXPECTED_FREE_EVENT_JSON 
 import pickle
@@ -94,5 +94,17 @@ def test_persist(event_processor, tmp_path):
     assert cached_data == KNOWN_EVENTS 
 
 
+def test_make_event_processor(event_processor, tmp_path, mock_photo_cache, mock_apricot_api):
+    """Test making an event processor from cached data."""
+    data_path = tmp_path / "event_processor.pickle"
+    event_processor.persist(data_path)
+    with data_path.open('rb') as data_file:
+        cached_data = pickle.load(data_file)
+    another_event_processor = make_event_processor(data_path, CUTOFF_TIME,
+            mock_photo_cache, mock_apricot_api)
+    assert another_event_processor.cutoff_time == CUTOFF_TIME
+    assert another_event_processor.known_events == KNOWN_EVENTS
+    assert another_event_processor.photo_cache == mock_photo_cache
+    assert another_event_processor.apricot_api == mock_apricot_api
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
