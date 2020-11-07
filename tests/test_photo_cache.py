@@ -1,6 +1,6 @@
 """Test the photo cache."""
 
-from meetup2apricot.photo_cache import PhotoCache
+from meetup2apricot.photo_cache import PhotoCache, make_photo_cache
 from meetup2apricot.meetup_event import MeetupEvent
 from datetime import datetime
 from pathlib import Path, PurePosixPath, PosixPath
@@ -81,5 +81,31 @@ def test_persist(photo_cache, tmp_path):
         cached_data = pickle.load(data_file)
     assert cached_data == INITIAL_CACHE
 
+def test_make_photo_cache(tmp_path, photo_cache, mock_photo_retriever):
+    """Test making a photo cache from cached data."""
+    data_path = tmp_path / "photo_cache.pickle"
+    photo_cache.persist(data_path)
+    another_photo_cache = make_photo_cache(
+        data_path,
+        tmp_path,
+        SAMPLE_APRICOT_DIRECTORY,
+        mock_photo_retriever)
+    assert another_photo_cache.urls_to_paths == INITIAL_CACHE
+    assert another_photo_cache.local_directory == tmp_path
+    assert another_photo_cache.apricot_directory == SAMPLE_APRICOT_DIRECTORY
+    assert another_photo_cache.photo_retriever == mock_photo_retriever
+
+def test_make_photo_cache_new_dir(tmp_path, photo_cache, mock_photo_retriever):
+    """Test creating a new photo directory while making a photo cache from
+    cached data."""
+    data_path = tmp_path / "photo_cache.pickle"
+    local_photo_directory = tmp_path / "photos"
+    photo_cache.persist(data_path)
+    another_photo_cache = make_photo_cache(
+        data_path,
+        local_photo_directory,
+        SAMPLE_APRICOT_DIRECTORY,
+        mock_photo_retriever)
+    assert local_photo_directory.is_dir()
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

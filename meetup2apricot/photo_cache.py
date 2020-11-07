@@ -65,4 +65,17 @@ class PhotoCache:
         return f"{shorter_name}{date:%Y-%m-%d}"
 
 
+def make_photo_cache(cache_path, local_directory, apricot_directory,
+        photo_retriever):
+    """Initialize with path to a file caching mapping of Meetup photo URLs to
+    Wild Apricot photo paths, local and Wild Apricot directory paths, and a
+    photo retriever."""
+    if not local_directory.is_dir():
+        local_directory.mkdir()
+    with cache_path.open("rb") as f:
+        urls_to_paths = pickle.load(f)
+    return PhotoCache(local_directory, apricot_directory,  urls_to_paths,
+            photo_retriever)
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
