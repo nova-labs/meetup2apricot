@@ -62,8 +62,11 @@ def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api):
     known events (indexed by Meetup event ID); a cutoff time, the datetime
     before which events will be ignored; a photo cache; and a Wild Apricot API
     interface."""
-    with cache_path.open("rb") as f:
-        known_events = pickle.load(f)
+    if cache_path.exists():
+        with cache_path.open("rb") as f:
+            known_events = pickle.load(f)
+    else:
+        known_events = {}
     return EventProcessor(cutoff_time, known_events, photo_cache, apricot_api)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

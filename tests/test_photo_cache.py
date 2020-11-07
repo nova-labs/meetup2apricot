@@ -10,7 +10,9 @@ import pytest
 SAMPLE_DATE = datetime.fromisoformat("2020-11-09 18:30 -05:00")
 SAMPLE_APRICOT_DIRECTORY = PurePosixPath("/resources/photos")
 SAMPLE_LOCAL_DIRECTORY = Path("/var/tmp/photos")
-INITIAL_CACHE = {None: None}
+INITIAL_CACHE = {
+    None: None,
+    "http://example.com/photo/1234.jpg": "/resources/mending.jpg"}
 
 @pytest.fixture()
 def mock_photo_retriever(mocker):
@@ -107,5 +109,18 @@ def test_make_photo_cache_new_dir(tmp_path, photo_cache, mock_photo_retriever):
         SAMPLE_APRICOT_DIRECTORY,
         mock_photo_retriever)
     assert local_photo_directory.is_dir()
+
+def test_make_photo_cache_no_prior(tmp_path, mock_photo_retriever):
+    """Test making a photo cache with no prior cached data."""
+    data_path = tmp_path / "photo_cache.pickle"
+    another_photo_cache = make_photo_cache(
+        data_path,
+        tmp_path,
+        SAMPLE_APRICOT_DIRECTORY,
+        mock_photo_retriever)
+    assert another_photo_cache.urls_to_paths == {None: None}
+    assert another_photo_cache.local_directory == tmp_path
+    assert another_photo_cache.apricot_directory == SAMPLE_APRICOT_DIRECTORY
+    assert another_photo_cache.photo_retriever == mock_photo_retriever
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

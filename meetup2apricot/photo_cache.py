@@ -72,8 +72,11 @@ def make_photo_cache(cache_path, local_directory, apricot_directory,
     photo retriever."""
     if not local_directory.is_dir():
         local_directory.mkdir()
-    with cache_path.open("rb") as f:
-        urls_to_paths = pickle.load(f)
+    if cache_path.exists():
+        with cache_path.open("rb") as f:
+            urls_to_paths = pickle.load(f)
+    else:
+        urls_to_paths = {None: None}
     return PhotoCache(local_directory, apricot_directory,  urls_to_paths,
             photo_retriever)
 

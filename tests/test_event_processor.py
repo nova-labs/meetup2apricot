@@ -93,8 +93,8 @@ def test_persist(event_processor, tmp_path):
         cached_data = pickle.load(data_file)
     assert cached_data == KNOWN_EVENTS 
 
-
-def test_make_event_processor(event_processor, tmp_path, mock_photo_cache, mock_apricot_api):
+def test_make_event_processor(event_processor, tmp_path, mock_photo_cache,
+        mock_apricot_api):
     """Test making an event processor from cached data."""
     data_path = tmp_path / "event_processor.pickle"
     event_processor.persist(data_path)
@@ -104,6 +104,17 @@ def test_make_event_processor(event_processor, tmp_path, mock_photo_cache, mock_
             mock_photo_cache, mock_apricot_api)
     assert another_event_processor.cutoff_time == CUTOFF_TIME
     assert another_event_processor.known_events == KNOWN_EVENTS
+    assert another_event_processor.photo_cache == mock_photo_cache
+    assert another_event_processor.apricot_api == mock_apricot_api
+
+def test_make_event_processor_no_prior(tmp_path, mock_photo_cache,
+        mock_apricot_api):
+    """Test making an event processor with no prior cached data."""
+    data_path = tmp_path / "event_processor.pickle"
+    another_event_processor = make_event_processor(data_path, CUTOFF_TIME,
+            mock_photo_cache, mock_apricot_api)
+    assert another_event_processor.cutoff_time == CUTOFF_TIME
+    assert another_event_processor.known_events == {}
     assert another_event_processor.photo_cache == mock_photo_cache
     assert another_event_processor.apricot_api == mock_apricot_api
 
