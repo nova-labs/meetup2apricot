@@ -12,8 +12,11 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Restrict event payments to online only.
+* Apply a configurable list of tags to all Wild Apricot events.
 
 0.1.0 (2020-11-08)
 ------------------

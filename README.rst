@@ -26,7 +26,7 @@ Resources
 .. todo:: Update links when finalized.
 
 * Documentation: TBD
-* Source code: TBD
+* Source code: https://github.com/nova-labs/meetup2apricot
 * Free software: MIT license
 
 

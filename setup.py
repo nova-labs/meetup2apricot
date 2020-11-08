@@ -9,8 +9,8 @@ with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 requirements = [
-        'requests', 'requests-toolbelt', 'oauthlib', 'jinja2',
-        'requests_oauthlib', 'pytz']
+        'requests', 'requests-toolbelt', 'oauthlib',
+        'requests_oauthlib']
 
 setup_requirements = ['pytest-runner', ]
 

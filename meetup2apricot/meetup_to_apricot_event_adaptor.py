@@ -4,10 +4,12 @@ class MeetupToApricotEventAdaptor:
 
     """Adapts meetup events to provide Wild Apricot event fields."""
 
-    def __init__(self, meetup_event, apricot_photo_path):
-        """Initialize with a Meetup event and a photo path for Wild Apricot."""
+    def __init__(self, meetup_event, apricot_photo_path, apricot_event_tags):
+        """Initialize with a Meetup event, a photo path for Wild Apricot, and a
+        list of event tags."""
         self._meetup_event = meetup_event
         self.apricot_photo_path = apricot_photo_path
+        self.apricot_event_tags = apricot_event_tags
 
     @property
     def name(self):
@@ -105,11 +107,13 @@ class MeetupToApricotEventAdaptor:
                 "StartTimeSpecified": self.start_time_specified,
                 "Location": self.location,
                 "RegistrationEnabled": self.registration_enabled,
+                "Tags": self.apricot_event_tags,
                 "Details": {
                     "DescriptionHtml": self.description_html,
                     "AccessControl": {
                         "AccessLevel": self.access_level
-                        }
+                        },
+                    "PaymentMethod": "OnlineOnly"
                     }
                 }
 
