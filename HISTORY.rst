@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+0.2.0 (2020-11-08)
 ------------------
 
 * Tag events based on accounting code.
