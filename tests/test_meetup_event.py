@@ -75,7 +75,17 @@ def test_yes_rsvp_count(paid_meetup_event):
     assert paid_meetup_event.yes_rsvp_count == 2
 
 def test_accounting_code(free_meetup_event):
-    """Test getting the accounting code from an event that has one."""
+    """Test getting the accounting code."""
+    assert free_meetup_event.accounting_code == "AC"
+
+def test_accounting_code_underscore(paid_meetup_event):
+    """Test getting the accounting code."""
+    assert paid_meetup_event.accounting_code == "AV_P"
+
+def test_accounting_code_missing():
+    """Test getting a missing accounting code."""
+    meetup_event = MeetupEvent({"name": "NO code in event name"})
+    assert meetup_event.accounting_code is None
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -2,6 +2,7 @@
 
 from datetime import datetime, timezone
 from collections import namedtuple
+import re
 
 # Meetup event JSON field names
 DESCRIPTION_KEY = "description"
@@ -28,6 +29,7 @@ YES_RSVP_COUNT = "yes_rsvp_count"
 THREE_HOURS_MSEC = 3 * 60 * 60 * 1000
 DEFAULT_DURATION = THREE_HOURS_MSEC
 
+ACCOUNTING_CODE_PATTERN = re.compile(r"([A-Z3][A-Z_]*):")
 
 MeetupVenue = namedtuple("MeetupVenue", "name address city state zipcode")
 
@@ -125,6 +127,11 @@ class MeetupEvent:
     @property
     def accounting_code(self):
         """Return the accounting code that prefixes the event name."""
+        match = ACCOUNTING_CODE_PATTERN.match(self.name)
+        if match:
+            return match.group(1)
+        else:
+            return None
         return None
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
