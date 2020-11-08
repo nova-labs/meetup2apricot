@@ -15,16 +15,18 @@ class EventProcessor:
     logger = logging.getLogger("EventProcessor")
 
     def __init__(self, cutoff_time, known_events, photo_cache, apricot_api,
-            cache_path):
+            cache_path, apricot_event_tags):
         """Initialize with a cutoff time, a datetime before which events will
         be ignored; a dictionary of previously processed known events (indexed
         by Meetup event ID); a photo cache; a Wild Apricot API
-        interface; and a path to the cache file."""
+        interface; a path to the cache file; and a list of tags for all Wild
+        Apricot events."""
         self.cutoff_time = cutoff_time
         self.known_events = known_events
         self.photo_cache = photo_cache
         self.apricot_api = apricot_api
         self.cache_path = cache_path
+        self.apricot_event_tags = apricot_event_tags
 
     def process(self, meetup_event):
         """Process a meetup event."""
@@ -48,7 +50,8 @@ class EventProcessor:
 
     def add_apricot_event(self, meetup_event, photo_path):
         """Add the event to Wild Apricot."""
-        apricot_event = MeetupToApricotEventAdaptor(meetup_event, photo_path)
+        apricot_event = MeetupToApricotEventAdaptor(meetup_event, photo_path,
+            self.apricot_event_tags)
         apricot_event_json = apricot_event.for_json()
         apricot_event_id = self.apricot_api.add_event(apricot_event_json)
         self.logger.info("add_apricot_event: meetup_id=%s apricot_id=%d "
@@ -89,17 +92,18 @@ class EventProcessor:
             pickle.dump(self.known_events, f)
 
 
-def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api):
+def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api,
+        apricot_event_tags):
     """Initialize with a file caching a dictionary of previously processed
     known events (indexed by Meetup event ID); a cutoff time, the datetime
-    before which events will be ignored; a photo cache; and a Wild Apricot API
-    interface."""
+    before which events will be ignored; a photo cache; a Wild Apricot API
+    interface; and a list of tags for all Wild Apricot events."""
     if cache_path.exists():
         with cache_path.open("rb") as f:
             known_events = pickle.load(f)
     else:
         known_events = {}
     return EventProcessor(cutoff_time, known_events, photo_cache, apricot_api,
-        cache_path)
+        cache_path, apricot_event_tags)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -4,6 +4,8 @@ EXPECTED_FREE_PHOTO_NAME = "TEST_ETL_AC_Mending_Monday_2020-11-09"
 
 EXPECTED_FREE_PHOTO_PATH = f"/resources/Pictures/EventAnnouncements/{EXPECTED_FREE_PHOTO_NAME}"
 
+EXPECTED_TAGS = ["meetup", "test"]
+
 EXPECTED_FREE_DESCRIPTION_HTML = \
 f"<p><img src=\"{EXPECTED_FREE_PHOTO_PATH}\" " \
 "alt=\"\" title=\"\" border=\"0\"></p>" \
@@ -21,11 +23,13 @@ EXPECTED_FREE_EVENT_JSON = {
     "EndTimeSpecified": True,
     "Location": "Online event",
     "RegistrationEnabled": True,
+    "Tags": EXPECTED_TAGS,
     "Details": {
         "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
         "AccessControl": {
             "AccessLevel": "Public"
-            }
+            },
+        "PaymentMethod": "OnlineOnly"
         }
     }
 

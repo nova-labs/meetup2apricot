@@ -115,7 +115,7 @@ class MeetupEvent:
     def fee_amount(self):
         """Return the fee for the event, if any."""
         fee = self.event_json.get(FEE_KEY, {}) 
-        return fee.get(FEE_AMOUNT_KEY, None)
+        return fee.get(FEE_AMOUNT_KEY, 0.0)
 
     @property
     def yes_rsvp_count(self):

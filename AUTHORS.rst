@@ -19,16 +19,12 @@ Python Packages
 
 **Meetup2apricot** builds upon these excellent library packages:
 
-* `jinja2`_, a template engine
 * `oauthlib`_, OAuth request-signing logic
-* `pytz`_, the Olson timezone database
 * `requests`_, HTTP requests for humans
 * `requests_oauthlib`_, OAuth library support for Requests, OAuth for humans
 * `requests-toolbelt`_, utilities for requests
 
-.. _`jinja2`: http://jinja.pocoo.org/
 .. _`oauthlib`: https://github.com/oauthlib/oauthlib#oauthlib---python-framework-for-oauth1--oauth2
-.. _`pytz`: https://pythonhosted.org/pytz/
 .. _`requests`: http://docs.python-requests.org/en/master/
 .. _`requests_oauthlib`: https://requests-oauthlib.readthedocs.io/en/latest/
 .. _`requests-toolbelt`: https://toolbelt.readthedocs.io/en/latest/

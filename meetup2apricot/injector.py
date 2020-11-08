@@ -82,7 +82,8 @@ def inject_event_processor(application_scope):
         cache_path=application_scope.event_cache_file,
         cutoff_time=application_scope.earliest_event_start_time,
         photo_cache=inject_photo_cache(application_scope),
-        apricot_api=inject_apricot_api(application_scope))
+        apricot_api=inject_apricot_api(application_scope),
+        apricot_event_tags=application_scope.apricot_event_tags)
 
 
 def inject_photo_cache(application_scope):
