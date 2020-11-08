@@ -60,6 +60,15 @@ def test_make_event_tagger(code, expected_tags):
     event_tagger = make_event_tagger(RAW_CODES_TO_TAGS, EXPECTED_TAGS)
     assert event_tagger.tag_code(code) == expected_tags
 
+@pytest.mark.parametrize("code, expected_tags", [
+    ("WW", ["woodworking", "foo"]),
+    ("AC", ["arts-and-crafts", "the-studio", "foo"]),
+    ("ZZ", ["foo"])])
+def test_make_event_tagger_short_list(code, expected_tags):
+    """Test making an event tagger with a single tag for all events."""
+    event_tagger = make_event_tagger(RAW_CODES_TO_TAGS, "foo")
+    assert event_tagger.tag_code(code) == expected_tags
+
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

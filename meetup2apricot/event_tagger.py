@@ -25,7 +25,9 @@ class EventTagger:
 def make_event_tagger(codes_to_tags, all_event_tags):
     """Make an event tagger with a mapping of accounting codes to lists of
     tags and a list of tags to apply to all events."""
-    return EventTagger(clean_codes_to_tags(codes_to_tags), all_event_tags)
+    cleaned_all_event_tags = clean_tag_list(all_event_tags)
+    cleaned_codes_to_tags = clean_codes_to_tags(codes_to_tags)
+    return EventTagger(cleaned_codes_to_tags, cleaned_all_event_tags)
 
 def clean_codes_to_tags(raw_codes_to_tags):
     """Given a raw mapping of codes to tags (typically from a configuration
