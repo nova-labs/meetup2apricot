@@ -62,6 +62,17 @@ def test_photo_url_missing(paid_meetup_event_json):
     meetup_event = MeetupEvent(paid_meetup_event_json)
     assert meetup_event.photo_url is None
 
+def test_fee_amount_free(free_meetup_event):
+    """Test getting the fee amount from a free event."""
+    assert free_meetup_event.fee_amount is None
+
+def test_fee_amount_paid(paid_meetup_event):
+    """Test getting the fee amount from a paid event."""
+    assert paid_meetup_event.fee_amount == 20.0
+
+def test_yes_rsvp_count(paid_meetup_event):
+    """Test getting the yes RSVP count."""
+    assert paid_meetup_event.yes_rsvp_count == 2
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -8,6 +8,8 @@ DESCRIPTION_KEY = "description"
 DURATION_KEY = "duration"
 FEATURED_PHOTO_KEY = "featured_photo"
 FEATURED_PHOTO_HIGHRES_LINK_KEY = "highres_link"
+FEE_KEY = "fee"
+FEE_AMOUNT_KEY = "amount"
 FIND_US_KEY = "how_to_find_us"
 LINK_KEY = "link"
 MEETUP_ID_KEY = "id"
@@ -20,6 +22,7 @@ VENUE_ADDRESS_KEY = "address_1"
 VENUE_CITY_KEY = "city"
 VENUE_STATE_KEY = "state"
 VENUE_ZIPCODE_KEY = "zip"
+YES_RSVP_COUNT = "yes_rsvp_count"
 
 # Default event length
 THREE_HOURS_MSEC = 3 * 60 * 60 * 1000
@@ -107,5 +110,16 @@ class MeetupEvent:
         """Return the highest resolution featured photo URL."""
         featured_photo = self.event_json.get(FEATURED_PHOTO_KEY, {}) 
         return featured_photo.get(FEATURED_PHOTO_HIGHRES_LINK_KEY, None)
+
+    @property
+    def fee_amount(self):
+        """Return the fee for the event, if any."""
+        fee = self.event_json.get(FEE_KEY, {}) 
+        return fee.get(FEE_AMOUNT_KEY, None)
+
+    @property
+    def yes_rsvp_count(self):
+        """Return the number of "yes" RSVPs."""
+        return self.event_json.get(YES_RSVP_COUNT, 0)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
