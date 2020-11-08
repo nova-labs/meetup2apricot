@@ -6,6 +6,8 @@ EXPECTED_FREE_PHOTO_PATH = f"/resources/Pictures/EventAnnouncements/{EXPECTED_FR
 
 EXPECTED_TAGS = ["meetup", "test"]
 
+EXPECTED_FREE_TAGS = ["arts-and-crafts", "the-studio", "meetup", "test"]
+
 EXPECTED_FREE_DESCRIPTION_HTML = \
 f"<p><img src=\"{EXPECTED_FREE_PHOTO_PATH}\" " \
 "alt=\"\" title=\"\" border=\"0\"></p>" \
