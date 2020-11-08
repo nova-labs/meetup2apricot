@@ -15,7 +15,7 @@ f"<p><img src=\"{EXPECTED_FREE_PHOTO_PATH}\" " \
 'href="https://www.meetup.com/NOVA-Makers/events/pfsbvrybcpbmb/">Meetup.com</a>.</p>'
 
 EXPECTED_FREE_EVENT_JSON = {
-    "Name": "TEST-ETL: AC: Mending Monday",
+    "Name": "AC: Mending Monday (Test Event)",
     "EventType": "Regular",
     "StartDate": "2020-11-09 19:00-05:00",
     "StartTimeSpecified": True,

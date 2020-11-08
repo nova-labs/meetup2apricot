@@ -21,7 +21,7 @@ def paid_event_adaptor(paid_meetup_event_json):
 
 def test_name(free_event_adaptor):
     """Test returning the event title."""
-    assert free_event_adaptor.name == "TEST-ETL: AC: Mending Monday"
+    assert free_event_adaptor.name == "AC: Mending Monday (Test Event)"
 
 def test_description_html(free_event_adaptor):
     """Test returning the full HTML event description."""
