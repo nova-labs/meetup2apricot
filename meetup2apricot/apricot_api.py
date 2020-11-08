@@ -58,7 +58,13 @@ class ApricotApi:
     def add_event(self, event):
         """Insert an event into Wild Apricot."""
         url = f"{self.api_base_url}/accounts/{self.account_id}/events"
-        return self.post(url, json=event)
+        return int(self.post(url, json=event).content)
+
+    def add_registration_type(self, registration_type):
+        """Insert an event registration type into Wild Apricot."""
+        url = f"{self.api_base_url}/accounts/{self.account_id}/" \
+            "EventRegistrationTypes"
+        return int(self.post(url, json=registration_type).content)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

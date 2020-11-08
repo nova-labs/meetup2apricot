@@ -68,8 +68,10 @@ def test_add_event(mocker):
     """Save response from a "dataset data insert" request to Wild Apricot."""
     sample_event = { "name": "Sample Event", "start_date": "2020-11-02 19:00" }
     expected_url = "https://api.wildapricot.org/v2.2/accounts/12345/events"
+    mock_response = mocker.Mock()
+    mock_response.content = "4567"
     apricot_api = ApricotApi("12345", None)
-    apricot_api.post = mocker.Mock(return_value = 4567)
+    apricot_api.post = mocker.Mock(return_value = mock_response)
     response = apricot_api.add_event(sample_event)
     assert response == 4567
     apricot_api.post.assert_called_once_with(expected_url, json=sample_event)
