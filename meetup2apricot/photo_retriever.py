@@ -1,11 +1,14 @@
 """Retrieves photos from Meetup into local storage."""
 
 import requests
+import logging
 
 
 class PhotoRetriever:
 
     """Retrieves photos from Meetup into local storage."""
+
+    logger = logging.getLogger("PhotoRetriever")
 
     def __init__(self, session):
         """Initialize with a requests session."""
@@ -17,6 +20,7 @@ class PhotoRetriever:
         self.assure_directory(local_photo_path)
         with local_photo_path.open('wb') as photo_file:
             photo_file.write(response.content)
+        self.logger.info("get: local_photo_path=%s", local_photo_path)
 
     @staticmethod
     def assure_directory(file_path):
