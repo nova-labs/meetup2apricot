@@ -12,8 +12,8 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
 
 * Copy events from Meetup to Wild Apricot.
 * Add capacity limited event reservation types to Wild Apricot.
