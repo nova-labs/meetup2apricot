@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+0.1.0 (2020-11-08)
 ------------------
 
 * Copy events from Meetup to Wild Apricot.
