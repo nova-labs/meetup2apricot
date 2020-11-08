@@ -4,7 +4,7 @@ from meetup2apricot.meetup_event import MeetupEvent
 from meetup2apricot.meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
 from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON, \
         EXPECTED_FREE_DESCRIPTION_HTML, EXPECTED_FREE_PHOTO_PATH, \
-        EXPECTED_TAGS
+        EXPECTED_TAGS, EXPECTED_FREE_TAGS
 from datetime import datetime
 import pytest
 
@@ -12,7 +12,7 @@ import pytest
 @pytest.fixture()
 def free_event_adaptor(free_meetup_event_json):
     meetup_event = MeetupEvent(free_meetup_event_json)
-    return MeetupToApricotEventAdaptor(meetup_event, EXPECTED_FREE_PHOTO_PATH, EXPECTED_TAGS)
+    return MeetupToApricotEventAdaptor(meetup_event, EXPECTED_FREE_PHOTO_PATH, EXPECTED_FREE_TAGS)
 
 @pytest.fixture()
 def paid_event_adaptor(paid_meetup_event_json):

@@ -25,7 +25,7 @@ EXPECTED_FREE_EVENT_JSON = {
     "EndTimeSpecified": True,
     "Location": "Online event",
     "RegistrationEnabled": True,
-    "Tags": EXPECTED_TAGS,
+    "Tags": EXPECTED_FREE_TAGS,
     "Details": {
         "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
         "AccessControl": {
