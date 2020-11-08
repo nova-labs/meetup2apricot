@@ -1,5 +1,6 @@
 from .apricot_api import ApricotApi
 from .event_processor import make_event_processor
+from .event_tagger import make_event_tagger
 from .exceptions import JsonConversionError, MissingEnvVarError
 from .http_response_error import HttpResponseError
 from .logging_application import LoggingApplication
@@ -83,7 +84,7 @@ def inject_event_processor(application_scope):
         cutoff_time=application_scope.earliest_event_start_time,
         photo_cache=inject_photo_cache(application_scope),
         apricot_api=inject_apricot_api(application_scope),
-        apricot_event_tags=application_scope.apricot_event_tags)
+        event_tagger=inject_event_tagger(application_scope))
 
 
 def inject_photo_cache(application_scope):
@@ -146,6 +147,13 @@ def inject_user_agent(application_scope):
     return user_agent(
         application_scope.app_name,
         application_scope.version)
+
+
+def inject_event_tagger(application_scope):
+    """Return an event tagger configured by an application scope."""
+    return make_event_tagger(
+        application_scope.codes_to_tags,
+        application_scope.all_event_tags)
 
 
 #vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
