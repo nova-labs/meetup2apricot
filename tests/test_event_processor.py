@@ -2,7 +2,8 @@
 
 from meetup2apricot.event_processor import EventProcessor, make_event_processor
 from datetime import datetime
-from .sample_apricot_json import EXPECTED_FREE_PHOTO_PATH, EXPECTED_FREE_EVENT_JSON 
+from .sample_apricot_json import EXPECTED_FREE_PHOTO_PATH, \
+    EXPECTED_FREE_EVENT_JSON, EXPECTED_TAGS
 import pickle
 import pytest
 
@@ -109,7 +110,8 @@ def event_processor(mock_photo_cache, mock_apricot_api, tmp_path):
         known_events = KNOWN_EVENTS.copy(),
         photo_cache = mock_photo_cache,
         apricot_api = mock_apricot_api,
-        cache_path = tmp_path / CACHE_FILE_NAME
+        cache_path = tmp_path / CACHE_FILE_NAME,
+        apricot_event_tags = EXPECTED_TAGS
         )
 
 def test_can_ignore_event_past(event_processor, free_meetup_event):
@@ -194,7 +196,7 @@ def test_make_event_processor(event_processor, tmp_path, mock_photo_cache,
     event_processor.persist()
     data_path = tmp_path / CACHE_FILE_NAME
     another_event_processor = make_event_processor(data_path, CUTOFF_TIME,
-            mock_photo_cache, mock_apricot_api)
+            mock_photo_cache, mock_apricot_api, EXPECTED_TAGS)
     assert another_event_processor.cutoff_time == CUTOFF_TIME
     assert another_event_processor.known_events == KNOWN_EVENTS
     assert another_event_processor.photo_cache == mock_photo_cache
@@ -205,7 +207,7 @@ def test_make_event_processor_no_prior(tmp_path, mock_photo_cache,
     """Test making an event processor with no prior cached data."""
     data_path = tmp_path / "event_processor.pickle"
     another_event_processor = make_event_processor(data_path, CUTOFF_TIME,
-            mock_photo_cache, mock_apricot_api)
+            mock_photo_cache, mock_apricot_api, EXPECTED_TAGS)
     assert another_event_processor.cutoff_time == CUTOFF_TIME
     assert another_event_processor.known_events == {}
     assert another_event_processor.photo_cache == mock_photo_cache
