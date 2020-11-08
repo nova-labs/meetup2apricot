@@ -2,7 +2,6 @@
 
 from meetup2apricot.event_tagger import EventTagger, clean_codes_to_tags, make_event_tagger
 from .sample_apricot_json import EXPECTED_TAGS, EXPECTED_FREE_TAGS
-from .sample_codes_to_tags import SAMPLE_CODES_TO_TAGS
 import pytest
 
 RAW_CODES_TO_TAGS = {
@@ -10,10 +9,6 @@ RAW_CODES_TO_TAGS = {
     "AC": ["arts-and-crafts", "the-studio"],
     "ZZ": None
     }
-
-@pytest.fixture()
-def event_tagger():
-   return EventTagger(SAMPLE_CODES_TO_TAGS, EXPECTED_TAGS)
 
 def test_tag_code_none(event_tagger):
     """Test tagging a missing accounting code."""

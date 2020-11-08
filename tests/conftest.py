@@ -2,8 +2,11 @@
 
 from meetup2apricot.oauth2_session_starter import Oauth2SessionStarter
 from meetup2apricot.meetup_event import MeetupEvent
+from meetup2apricot.event_tagger import EventTagger
 from pathlib import Path
 from .sample_meetup_json import FREE_MEETUP_EVENT_JSON, PAID_MEETUP_EVENT_JSON
+from .sample_codes_to_tags import SAMPLE_CODES_TO_TAGS
+from .sample_apricot_json import EXPECTED_TAGS
 import os
 import json
 import pytest
@@ -84,5 +87,9 @@ def later_free_meetup_event(later_free_meetup_event_json):
 @pytest.fixture()
 def paid_meetup_event(paid_meetup_event_json):
     return MeetupEvent(paid_meetup_event_json)
+
+@pytest.fixture()
+def event_tagger():
+   return EventTagger(SAMPLE_CODES_TO_TAGS, EXPECTED_TAGS)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
