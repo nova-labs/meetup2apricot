@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+0.1.1 (2020-11-08)
 ------------------
 
 * Restrict event payments to online only.
