@@ -1,9 +1,15 @@
 """Test the event tagger."""
 
-from meetup2apricot.event_tagger import EventTagger
+from meetup2apricot.event_tagger import EventTagger, clean_codes_to_tags, make_event_tagger
 from .sample_apricot_json import EXPECTED_TAGS, EXPECTED_FREE_TAGS
 from .sample_codes_to_tags import SAMPLE_CODES_TO_TAGS
 import pytest
+
+RAW_CODES_TO_TAGS = {
+    "WW": "woodworking",
+    "AC": ["arts-and-crafts", "the-studio"],
+    "ZZ": None
+    }
 
 @pytest.fixture()
 def event_tagger():
@@ -28,5 +34,25 @@ def test_tag_code_unknown(event_tagger):
 def test_tag_event(event_tagger, free_meetup_event):
     """Test tagging an event."""
     assert event_tagger.tag_event(free_meetup_event) == EXPECTED_FREE_TAGS
+
+@pytest.mark.parametrize("code, expected_tags", [
+    ("WW", ["woodworking"]),
+    ("AC", ["arts-and-crafts", "the-studio"]),
+    ("ZZ", [])])
+def test_codes_to_tags(code, expected_tags):
+    """Test cleaning a codes to tags mapping."""
+    codes_to_tags = clean_codes_to_tags(RAW_CODES_TO_TAGS)
+    assert codes_to_tags[code] == expected_tags
+
+@pytest.mark.parametrize("code, expected_tags", [
+    ("WW", ["woodworking"] + EXPECTED_TAGS),
+    ("AC", ["arts-and-crafts", "the-studio"] + EXPECTED_TAGS),
+    ("ZZ", EXPECTED_TAGS)])
+def test_make_event_tagger(code, expected_tags):
+    """Test making an event tagger."""
+    event_tagger = make_event_tagger(RAW_CODES_TO_TAGS, EXPECTED_TAGS)
+    assert event_tagger.tag_code(code) == expected_tags
+
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
