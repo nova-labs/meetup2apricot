@@ -6,7 +6,7 @@ History
 Future History
 ~~~~~~~~~~~~~~
 
-* Transfer events from Meetup to Wild Apricot
+* Improve documentation
 
 ~~~~~~~~~~~~~~
 Recent History
@@ -14,6 +14,10 @@ Recent History
 
 .. Next Release
 .. ------------------
+
+* Copy events from Meetup to Wild Apricot.
+* Add capacity limited event reservation types to Wild Apricot.
+* Download photos from Meetup to local directory.
 
 0.0.1 (2020-10-28)
 ------------------
