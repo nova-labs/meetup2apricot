@@ -59,7 +59,8 @@ def test_get_event_response(module_file_path, apricot_api):
 def test_add_event_free(module_file_path, apricot_api):
     """Save response from adding a free event to Wild Apricot."""
     response = apricot_api.add_event(EXPECTED_FREE_EVENT_JSON)
-    save_response(response, module_file_path)
+    with module_file_path.open("wt") as response_file:
+        response_file.write(f"{response:d}\n")
 
 ## These tests mock the Wild Apricot session and check that the appropriate
 ## parameters reach the right URL.
