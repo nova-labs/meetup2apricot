@@ -122,4 +122,9 @@ class MeetupEvent:
         """Return the number of "yes" RSVPs."""
         return self.event_json.get(YES_RSVP_COUNT, 0)
 
+    @property
+    def accounting_code(self):
+        """Return the accounting code that prefixes the event name."""
+        return None
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
