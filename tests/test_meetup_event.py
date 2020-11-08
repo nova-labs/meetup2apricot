@@ -64,7 +64,7 @@ def test_photo_url_missing(paid_meetup_event_json):
 
 def test_fee_amount_free(free_meetup_event):
     """Test getting the fee amount from a free event."""
-    assert free_meetup_event.fee_amount is None
+    assert free_meetup_event.fee_amount == 0.0
 
 def test_fee_amount_paid(paid_meetup_event):
     """Test getting the fee amount from a paid event."""
