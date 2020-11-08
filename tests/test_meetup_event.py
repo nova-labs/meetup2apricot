@@ -79,8 +79,9 @@ def test_accounting_code(free_meetup_event):
     assert free_meetup_event.accounting_code == "AC"
 
 def test_accounting_code_underscore(paid_meetup_event):
-    """Test getting the accounting code."""
-    assert paid_meetup_event.accounting_code == "AV_P"
+    """Test getting only the first part of an accounting code with an
+    underscore."""
+    assert paid_meetup_event.accounting_code == "AV"
 
 def test_accounting_code_missing():
     """Test getting a missing accounting code."""

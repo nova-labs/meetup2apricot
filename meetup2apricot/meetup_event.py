@@ -29,7 +29,7 @@ YES_RSVP_COUNT = "yes_rsvp_count"
 THREE_HOURS_MSEC = 3 * 60 * 60 * 1000
 DEFAULT_DURATION = THREE_HOURS_MSEC
 
-ACCOUNTING_CODE_PATTERN = re.compile(r"([A-Z3][A-Z_]*):")
+ACCOUNTING_CODE_PATTERN = re.compile(r"([A-Z3][A-Z]*)(?:_[A-Z_]*)?:")
 
 MeetupVenue = namedtuple("MeetupVenue", "name address city state zipcode")
 
