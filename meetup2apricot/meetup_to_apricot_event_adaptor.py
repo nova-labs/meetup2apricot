@@ -109,7 +109,8 @@ class MeetupToApricotEventAdaptor:
                     "DescriptionHtml": self.description_html,
                     "AccessControl": {
                         "AccessLevel": self.access_level
-                        }
+                        },
+                    "PaymentMethod": "OnlineOnly"
                     }
                 }
 

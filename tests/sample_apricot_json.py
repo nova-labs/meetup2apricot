@@ -25,7 +25,8 @@ EXPECTED_FREE_EVENT_JSON = {
         "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
         "AccessControl": {
             "AccessLevel": "Public"
-            }
+            },
+        "PaymentMethod": "OnlineOnly"
         }
     }
 
