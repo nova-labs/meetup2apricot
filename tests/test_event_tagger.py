@@ -1,6 +1,7 @@
 """Test the event tagger."""
 
-from meetup2apricot.event_tagger import EventTagger, clean_codes_to_tags, make_event_tagger
+from meetup2apricot.event_tagger import EventTagger, clean_tag_list, \
+    clean_codes_to_tags, make_event_tagger
 from .sample_apricot_json import EXPECTED_TAGS, EXPECTED_FREE_TAGS
 import pytest
 
@@ -29,6 +30,17 @@ def test_tag_code_unknown(event_tagger):
 def test_tag_event(event_tagger, free_meetup_event):
     """Test tagging an event."""
     assert event_tagger.tag_event(free_meetup_event) == EXPECTED_FREE_TAGS
+
+@pytest.mark.parametrize("raw_tags, expected_tags", [
+    ("woodworking", ["woodworking"]),
+    (["arts-and-crafts", "the-studio"], ["arts-and-crafts", "the-studio"]),
+    ([], []),
+    ("", []),
+    (None, [])])
+def test_clean_tag_list(raw_tags, expected_tags):
+    """Test cleaning a list of tags."""
+    codes_to_tags = clean_codes_to_tags(RAW_CODES_TO_TAGS)
+    assert clean_tag_list(raw_tags) == expected_tags
 
 @pytest.mark.parametrize("code, expected_tags", [
     ("WW", ["woodworking"]),

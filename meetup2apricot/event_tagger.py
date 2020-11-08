@@ -23,18 +23,25 @@ class EventTagger:
         return code_tags + self.all_event_tags
 
 def make_event_tagger(codes_to_tags, all_event_tags):
-        """Make an event tagger with a mapping of accounting codes to lists of
-        tags and a list of tags to apply to all events."""
-        return EventTagger(clean_codes_to_tags(codes_to_tags), all_event_tags)
+    """Make an event tagger with a mapping of accounting codes to lists of
+    tags and a list of tags to apply to all events."""
+    return EventTagger(clean_codes_to_tags(codes_to_tags), all_event_tags)
 
 def clean_codes_to_tags(raw_codes_to_tags):
-        """Given a raw mapping of codes to tags (typically from a configuration
-        file), wrap individual string tags in lists."""
-        return {
-            code :
-            [] if tags is None else ([tags] if type(tags) == str else tags)
-            for code, tags in raw_codes_to_tags.items()
-            }
+    """Given a raw mapping of codes to tags (typically from a configuration
+    file), wrap individual string tags in lists."""
+    return {
+        code : clean_tag_list(tags)
+        for code, tags in raw_codes_to_tags.items()
+        }
 
+def clean_tag_list(raw_tags_list):
+    """Give a list of tags, an individual tag string, or None, return a
+    possibly empty list of tags."""
+    if not raw_tags_list:
+        return []
+    if type(raw_tags_list) == str:
+        return [raw_tags_list]
+    return raw_tags_list
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
