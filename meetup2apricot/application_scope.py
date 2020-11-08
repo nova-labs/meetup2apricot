@@ -35,12 +35,16 @@ class ApplicationScope:
         return self._env_vars["APRICOT_API_KEY"]
 
     @property
-    def apricot_event_tags(self):
-        return self._env_vars.json("APRICOT_EVENT_TAGS")
+    def all_event_tags(self):
+        return self._env_vars.json("ALL_EVENT_TAGS")
 
     @property
     def apricot_photo_directory(self):
         return PurePosixPath(self._env_vars["APRICOT_PHOTO_DIRECTORY"])
+
+    @property
+    def codes_to_tags(self):
+        return self._env_vars.json("CODES_TO_TAGS")
 
     @property
     def debug(self):
