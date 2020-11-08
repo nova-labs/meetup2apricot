@@ -50,7 +50,7 @@ def test_apricot_photo_name_very_long():
 
 def test_apricot_photo_file_name(free_meetup_event, photo_cache):
     """Test formatting a Wild Apricot photo file name for a Meetup event."""
-    assert photo_cache.apricot_photo_file_name(free_meetup_event) == "TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg"
+    assert photo_cache.apricot_photo_file_name(free_meetup_event) == "AC_Mending_Monday_Test_Event_2020-11-09.jpeg"
 
 def test_apricot_photo_path(photo_cache):
     """Test building a path to a Wild Apricot photo."""
@@ -67,15 +67,15 @@ def test_cache_photo_none(photo_cache, paid_meetup_event, mock_photo_retriever):
 
 def test_cache_photo_later(photo_cache, later_free_meetup_event, mock_photo_retriever):
     """Test caching the photo for a later Meetup event."""
-    expected_apricot_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-16.jpeg")
-    expected_local_path = PosixPath('/var/tmp/photos/TEST_ETL_AC_Mending_Monday_2020-11-16.jpeg')
+    expected_apricot_path = PurePosixPath("/resources/photos/AC_Mending_Monday_Test_Event_2020-11-16.jpeg")
+    expected_local_path = PosixPath('/var/tmp/photos/AC_Mending_Monday_Test_Event_2020-11-16.jpeg')
     assert photo_cache.cache_photo(later_free_meetup_event) == expected_apricot_path
     mock_photo_retriever.get.assert_called_once_with(later_free_meetup_event.photo_url, expected_local_path)
 
 def test_cache_photo_share(photo_cache, free_meetup_event, later_free_meetup_event, mock_photo_retriever):
     """Test caching the photos for Meetup events that share photos."""
-    expected_apricot_path = PurePosixPath("/resources/photos/TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg")
-    expected_local_path = PosixPath('/var/tmp/photos/TEST_ETL_AC_Mending_Monday_2020-11-09.jpeg')
+    expected_apricot_path = PurePosixPath("/resources/photos/AC_Mending_Monday_Test_Event_2020-11-09.jpeg")
+    expected_local_path = PosixPath('/var/tmp/photos/AC_Mending_Monday_Test_Event_2020-11-09.jpeg')
     assert photo_cache.cache_photo(free_meetup_event) == expected_apricot_path
     assert photo_cache.cache_photo(later_free_meetup_event) == expected_apricot_path
     mock_photo_retriever.get.assert_called_once_with(later_free_meetup_event.photo_url, expected_local_path)

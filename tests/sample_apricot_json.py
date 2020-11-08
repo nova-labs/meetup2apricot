@@ -6,6 +6,8 @@ EXPECTED_FREE_PHOTO_PATH = f"/resources/Pictures/EventAnnouncements/{EXPECTED_FR
 
 EXPECTED_TAGS = ["meetup", "test"]
 
+EXPECTED_FREE_TAGS = ["arts-and-crafts", "the-studio", "meetup", "test"]
+
 EXPECTED_FREE_DESCRIPTION_HTML = \
 f"<p><img src=\"{EXPECTED_FREE_PHOTO_PATH}\" " \
 "alt=\"\" title=\"\" border=\"0\"></p>" \
@@ -15,7 +17,7 @@ f"<p><img src=\"{EXPECTED_FREE_PHOTO_PATH}\" " \
 'href="https://www.meetup.com/NOVA-Makers/events/pfsbvrybcpbmb/">Meetup.com</a>.</p>'
 
 EXPECTED_FREE_EVENT_JSON = {
-    "Name": "TEST-ETL: AC: Mending Monday",
+    "Name": "AC: Mending Monday (Test Event)",
     "EventType": "Regular",
     "StartDate": "2020-11-09 19:00-05:00",
     "StartTimeSpecified": True,
@@ -23,7 +25,7 @@ EXPECTED_FREE_EVENT_JSON = {
     "EndTimeSpecified": True,
     "Location": "Online event",
     "RegistrationEnabled": True,
-    "Tags": EXPECTED_TAGS,
+    "Tags": EXPECTED_FREE_TAGS,
     "Details": {
         "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
         "AccessControl": {

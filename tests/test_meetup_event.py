@@ -28,7 +28,7 @@ def test_meetup_id(free_meetup_event_json):
 def test_name(free_meetup_event_json):
     """Test getting the name from Meetup event JSON."""
     meetup_event = MeetupEvent(free_meetup_event_json)
-    assert meetup_event.name == "TEST-ETL: AC: Mending Monday"
+    assert meetup_event.name == "AC: Mending Monday (Test Event)"
 
 def test_start_time(free_meetup_event_json):
     """Test getting the start time from Meetup event JSON."""
@@ -73,6 +73,20 @@ def test_fee_amount_paid(paid_meetup_event):
 def test_yes_rsvp_count(paid_meetup_event):
     """Test getting the yes RSVP count."""
     assert paid_meetup_event.yes_rsvp_count == 2
+
+def test_accounting_code(free_meetup_event):
+    """Test getting the accounting code."""
+    assert free_meetup_event.accounting_code == "AC"
+
+def test_accounting_code_underscore(paid_meetup_event):
+    """Test getting only the first part of an accounting code with an
+    underscore."""
+    assert paid_meetup_event.accounting_code == "AV"
+
+def test_accounting_code_missing():
+    """Test getting a missing accounting code."""
+    meetup_event = MeetupEvent({"name": "NO code in event name"})
+    assert meetup_event.accounting_code is None
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -15,25 +15,26 @@ class EventProcessor:
     logger = logging.getLogger("EventProcessor")
 
     def __init__(self, cutoff_time, known_events, photo_cache, apricot_api,
-            cache_path, apricot_event_tags):
+            cache_path, event_tagger):
         """Initialize with a cutoff time, a datetime before which events will
         be ignored; a dictionary of previously processed known events (indexed
         by Meetup event ID); a photo cache; a Wild Apricot API
-        interface; a path to the cache file; and a list of tags for all Wild
-        Apricot events."""
+        interface; a path to the cache file; and an event tagger."""
         self.cutoff_time = cutoff_time
         self.known_events = known_events
         self.photo_cache = photo_cache
         self.apricot_api = apricot_api
         self.cache_path = cache_path
-        self.apricot_event_tags = apricot_event_tags
+        self.event_tagger = event_tagger
 
     def process(self, meetup_event):
         """Process a meetup event."""
         if self.can_ignore_event(meetup_event):
             return
         photo_path = self.get_photo(meetup_event)
-        apricot_event_id = self.add_apricot_event(meetup_event, photo_path)
+        event_tags = self.get_event_tags(meetup_event)
+        apricot_event_id = self.add_apricot_event(meetup_event, photo_path,
+            event_tags)
         self.add_event_registration_types(meetup_event, apricot_event_id)
         self.record_event(meetup_event, apricot_event_id)
 
@@ -48,10 +49,14 @@ class EventProcessor:
         None."""
         return self.photo_cache.cache_photo(meetup_event)
 
-    def add_apricot_event(self, meetup_event, photo_path):
+    def get_event_tags(self, meetup_event):
+        """Get Wild Apricot event tags for a meetup event."""
+        return self.event_tagger.tag_event(meetup_event)
+
+    def add_apricot_event(self, meetup_event, photo_path, event_tags):
         """Add the event to Wild Apricot."""
         apricot_event = MeetupToApricotEventAdaptor(meetup_event, photo_path,
-            self.apricot_event_tags)
+            event_tags)
         apricot_event_json = apricot_event.for_json()
         apricot_event_id = self.apricot_api.add_event(apricot_event_json)
         self.logger.info("add_apricot_event: meetup_id=%s apricot_id=%d "
@@ -93,17 +98,17 @@ class EventProcessor:
 
 
 def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api,
-        apricot_event_tags):
+        event_tagger):
     """Initialize with a file caching a dictionary of previously processed
     known events (indexed by Meetup event ID); a cutoff time, the datetime
     before which events will be ignored; a photo cache; a Wild Apricot API
-    interface; and a list of tags for all Wild Apricot events."""
+    interface; and an event tagger."""
     if cache_path.exists():
         with cache_path.open("rb") as f:
             known_events = pickle.load(f)
     else:
         known_events = {}
     return EventProcessor(cutoff_time, known_events, photo_cache, apricot_api,
-        cache_path, apricot_event_tags)
+        cache_path, event_tagger)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
