@@ -21,7 +21,7 @@ setup(
     author="Joel Shprentz",
     author_email='jshprentz@his.com',
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
