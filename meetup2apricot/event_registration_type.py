@@ -26,7 +26,7 @@ class EventRegistrationType:
             "GuestPrice": self.price,
             "Availability": "Everyone",
             "MaximumRegistrantsCount": self.maximum_registrants_count,
-            "GuestRegistrationPolicy": "CollectContactDetails",
+            "GuestRegistrationPolicy": "NumberOfGuests",
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
