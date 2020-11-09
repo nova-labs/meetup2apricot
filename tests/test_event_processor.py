@@ -32,11 +32,11 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     'GuestPrice': 0.0,
     'Availability': 'Everyone',
     'MaximumRegistrantsCount': 3,
-    'GuestRegistrationPolicy': 'CollectContactDetails',
+    'GuestRegistrationPolicy': 'NumberOfGuests',
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 EXPECTED_RSVP_TYPE_FOR_FREE = {
@@ -48,11 +48,11 @@ EXPECTED_RSVP_TYPE_FOR_FREE = {
     'GuestPrice': 0.0,
     'Availability': 'Everyone',
     'MaximumRegistrantsCount': None,
-    'GuestRegistrationPolicy': 'CollectContactDetails',
+    'GuestRegistrationPolicy': 'NumberOfGuests',
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
@@ -64,11 +64,11 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     'GuestPrice': 0.0,
     'Availability': 'Everyone',
     'MaximumRegistrantsCount': 2,
-    'GuestRegistrationPolicy': 'CollectContactDetails',
+    'GuestRegistrationPolicy': 'NumberOfGuests',
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 EXPECTED_RSVP_TYPE_FOR_PAID = {
@@ -80,11 +80,11 @@ EXPECTED_RSVP_TYPE_FOR_PAID = {
     'GuestPrice': 20.0,
     'Availability': 'Everyone',
     'MaximumRegistrantsCount': 4,
-    'GuestRegistrationPolicy': 'CollectContactDetails',
+    'GuestRegistrationPolicy': 'NumberOfGuests',
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 

@@ -13,9 +13,9 @@ EXPECTED_APRICOT_JSON = {
     'Description': '',
     'EventId': 12345,
     'GuestPrice': 78.9,
-    'GuestRegistrationPolicy': 'CollectContactDetails',
+    'GuestRegistrationPolicy': 'NumberOfGuests',
     'IsEnabled': True,
-    'IsWaitlistEnabled': False,
+    'IsWaitlistEnabled': True,
     'MaximumRegistrantsCount': 6,
     'Name': 'RSVP',
     'UnavailabilityPolicy': 'ShowDisabled'
@@ -29,9 +29,9 @@ EXPECTED_MEETUP_JSON = {
     'Description': 'RSVPs on Meetup',
     'EventId': 12345,
     'GuestPrice': 0.0,
-    'GuestRegistrationPolicy': 'CollectContactDetails',
+    'GuestRegistrationPolicy': 'NumberOfGuests',
     'IsEnabled': False,
-    'IsWaitlistEnabled': False,
+    'IsWaitlistEnabled': True,
     'MaximumRegistrantsCount': 6,
     'Name': 'Meetup RSVP',
     'UnavailabilityPolicy': 'ShowDisabled'

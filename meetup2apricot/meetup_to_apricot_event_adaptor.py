@@ -113,7 +113,16 @@ class MeetupToApricotEventAdaptor:
                     "AccessControl": {
                         "AccessLevel": self.access_level
                         },
-                    "PaymentMethod": "OnlineOnly"
+                    "PaymentMethod": "OnlineOnly",
+                    "IsWaitlistEnabled": True,
+                    "WaitlistSettings": {
+                        "WaitlistType": "Manual",
+                        "InformationToCollect": "ContactInformation"
+                        },
+                    "AttendeesDisplaySettings": {
+                            "VisibleTo": "Members",
+                            "ShowPendingAttendees": False
+                        }
                     }
                 }
 
