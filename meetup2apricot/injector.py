@@ -12,6 +12,7 @@ from .oauth2_session_starter import Oauth2SessionStarter, \
         Oauth2SessionStarterError
 from .photo_cache import make_photo_cache
 from .photo_retriever import PhotoRetriever, make_session
+from .throttle import Throttle
 from requests_toolbelt import user_agent
 
 
@@ -120,7 +121,8 @@ def inject_apricot_api(application_scope):
     scope."""
     return ApricotApi(
         account_id=application_scope.apricot_account_number,
-        session=inject_apricot_oauth_session(application_scope))
+        session=inject_apricot_oauth_session(application_scope),
+        throttle=inject_apricot_throttle(application_scope))
 
 
 def inject_apricot_oauth_session(application_scope):
@@ -149,6 +151,11 @@ def inject_user_agent(application_scope):
         application_scope.version)
 
 
+def inject_apricot_throttle(application_scope):
+    """Return a throttle for Wild Apricot web requests configured by an
+    application scope."""
+    return Throttle(rate=100, time_span=60)
+
 def inject_event_tagger(application_scope):
     """Return an event tagger configured by an application scope."""
     return make_event_tagger(
@@ -156,4 +163,4 @@ def inject_event_tagger(application_scope):
         application_scope.all_event_tags)
 
 
-#vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

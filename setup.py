@@ -21,7 +21,7 @@ setup(
     author="Joel Shprentz",
     author_email='jshprentz@his.com',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
@@ -50,6 +50,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/jshprentz/meetup2apricot',
-    version='0.2.0',
+    version='1.0.0',
     zip_safe=False,
 )
