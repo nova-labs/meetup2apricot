@@ -118,6 +118,10 @@ class MeetupToApricotEventAdaptor:
                     "WaitlistSettings": {
                         "WaitlistType": "Manual",
                         "InformationToCollect": "ContactInformation"
+                        },
+                    "AttendeesDisplaySettings": {
+                            "VisibleTo": "Members",
+                            "ShowPendingAttendees": False
                         }
                     }
                 }

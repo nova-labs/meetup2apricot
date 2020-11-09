@@ -36,6 +36,10 @@ EXPECTED_FREE_EVENT_JSON = {
         "WaitlistSettings": {
             "WaitlistType": "Manual",
             "InformationToCollect": "ContactInformation"
+            },
+        "AttendeesDisplaySettings": {
+                "VisibleTo": "Members",
+                "ShowPendingAttendees": False
             }
         }
     }
