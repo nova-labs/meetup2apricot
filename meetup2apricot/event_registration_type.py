@@ -30,7 +30,7 @@ class EventRegistrationType:
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
-            "IsWaitlistEnabled": False
+            "IsWaitlistEnabled": True
             }
 
 

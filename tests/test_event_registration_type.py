@@ -15,7 +15,7 @@ EXPECTED_APRICOT_JSON = {
     'GuestPrice': 78.9,
     'GuestRegistrationPolicy': 'CollectContactDetails',
     'IsEnabled': True,
-    'IsWaitlistEnabled': False,
+    'IsWaitlistEnabled': True,
     'MaximumRegistrantsCount': 6,
     'Name': 'RSVP',
     'UnavailabilityPolicy': 'ShowDisabled'
@@ -31,7 +31,7 @@ EXPECTED_MEETUP_JSON = {
     'GuestPrice': 0.0,
     'GuestRegistrationPolicy': 'CollectContactDetails',
     'IsEnabled': False,
-    'IsWaitlistEnabled': False,
+    'IsWaitlistEnabled': True,
     'MaximumRegistrantsCount': 6,
     'Name': 'Meetup RSVP',
     'UnavailabilityPolicy': 'ShowDisabled'

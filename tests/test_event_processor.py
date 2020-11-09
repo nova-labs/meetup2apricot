@@ -36,7 +36,7 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 EXPECTED_RSVP_TYPE_FOR_FREE = {
@@ -52,7 +52,7 @@ EXPECTED_RSVP_TYPE_FOR_FREE = {
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
@@ -68,7 +68,7 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 EXPECTED_RSVP_TYPE_FOR_PAID = {
@@ -84,7 +84,7 @@ EXPECTED_RSVP_TYPE_FOR_PAID = {
     'UnavailabilityPolicy': 'ShowDisabled',
     'CancellationBehaviour': 'AllowUpToPeriodBeforeEvent',
     'CancellationDaysBeforeEvent': 2,
-    'IsWaitlistEnabled': False
+    'IsWaitlistEnabled': True
     }
 
 
