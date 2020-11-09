@@ -13,14 +13,16 @@ class ApricotApi:
     api_version = "v2.2"
     api_base_url = f"{api_url}/{api_version}"
 
-    def __init__(self, account_id, session):
-        """Initialize with a Wild Appricot account ID and an OAuth2 session to
-        the Apricot server."""
+    def __init__(self, account_id, session, throttle):
+        """Initialize with a Wild Appricot account ID, an OAuth2 session to the
+        Apricot server, and a throttle to slow large numbers of requests."""
         self.account_id = account_id
         self.session = session
+        self.throttle = throttle
 
     def get_response(self, url, **payload):
         """Request a URL and return the response."""
+        self.throttle.throttle()
         response = self.session.get(url, params=payload)
         ApricotApiError.check_response_status(response)
         return response
@@ -32,18 +34,21 @@ class ApricotApi:
 
     def delete(self, url, **payload):
         """Request deletion at a URL and return the response."""
+        self.throttle.throttle()
         response = self.session.delete(url, params=payload)
         ApricotApiError.check_response_status(response)
         return response
 
     def post(self, url, json=None, **payload):
         """Request posting at a URL and return the response."""
+        self.throttle.throttle()
         response = self.session.post(url, json=json, data=payload)
         ApricotApiError.check_response_status(response)
         return response
 
     def put(self, url, **payload):
         """Request puting at a URL and return the response."""
+        self.throttle.throttle()
         response = self.session.put(url, data=payload)
         ApricotApiError.check_response_status(response)
         return response

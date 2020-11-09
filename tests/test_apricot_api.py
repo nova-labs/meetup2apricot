@@ -2,20 +2,25 @@
 
 from meetup2apricot.apricot_api import ApricotApi
 from meetup2apricot.http_response_error import ApricotApiError
+from meetup2apricot.throttle import Throttle
 from .sample_apricot_json import EXPECTED_FREE_EVENT_JSON 
 from requests_toolbelt.utils import dump
 import json
 import os
 import pytest
 
+@pytest.fixture(scope="module")
+def apricot_throttle():
+    """Return a Wild Apricot throttle: 100 requests per 60 seconds."""
+    return Throttle(100, 60)
 
 @pytest.fixture()
-def apricot_api(apricot_session):
+def apricot_api(apricot_session, apricot_throttle):
     """Return a Wild Apricot API."""
     account_id = os.getenv("APRICOT_ACCOUNT_ID")
     if not account_id:
         pytest.skip("Define environment variable APRICOT_ACCOUNT_ID")
-    return ApricotApi(account_id, apricot_session)
+    return ApricotApi(account_id, apricot_session, apricot_throttle)
 
 def save_json(the_json, path):
     """Save JSON to a file."""
@@ -71,7 +76,7 @@ def test_add_event(mocker):
     expected_url = "https://api.wildapricot.org/v2.2/accounts/12345/events"
     mock_response = mocker.Mock()
     mock_response.content = "4567"
-    apricot_api = ApricotApi("12345", None)
+    apricot_api = ApricotApi("12345", None, None)
     apricot_api.post = mocker.Mock(return_value = mock_response)
     response = apricot_api.add_event(sample_event)
     assert response == 4567

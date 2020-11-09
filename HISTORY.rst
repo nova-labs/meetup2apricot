@@ -16,6 +16,8 @@ Next Release
 ------------------
 
 * Turn on waitlist with manual processing.
+* Collect guest counts, but no personal information.
+* Throttle Wild Apricot requests.
 
 0.2.0 (2020-11-08)
 ------------------
