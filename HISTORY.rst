@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Turn on waitlist with manual processing.
 
 0.2.0 (2020-11-08)
 ------------------

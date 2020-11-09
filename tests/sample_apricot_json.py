@@ -31,7 +31,12 @@ EXPECTED_FREE_EVENT_JSON = {
         "AccessControl": {
             "AccessLevel": "Public"
             },
-        "PaymentMethod": "OnlineOnly"
+        "PaymentMethod": "OnlineOnly",
+        "IsWaitlistEnabled": True,
+        "WaitlistSettings": {
+            "WaitlistType": "Manual",
+            "InformationToCollect": "ContactInformation"
+            }
         }
     }
 
