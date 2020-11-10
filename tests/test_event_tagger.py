@@ -1,7 +1,6 @@
 """Test the event tagger."""
 
 from meetup2apricot.event_tagger import (
-    EventTagger,
     clean_tag_list,
     clean_codes_to_tags,
     make_event_tagger,
@@ -55,7 +54,6 @@ def test_tag_event(event_tagger, free_meetup_event):
 )
 def test_clean_tag_list(raw_tags, expected_tags):
     """Test cleaning a list of tags."""
-    codes_to_tags = clean_codes_to_tags(RAW_CODES_TO_TAGS)
     assert clean_tag_list(raw_tags) == expected_tags
 
 

@@ -46,8 +46,8 @@ def test_bad_status(apricot_api):
         apricot_api.get_response(bad_about_url)
 
 
-## These tests retrieve and save data from Wild Apricot to aid development.
-## Provide required environment variables to run these tests.
+# These tests retrieve and save data from Wild Apricot to aid development.
+# Provide required environment variables to run these tests.
 
 
 def test_get_api_versions(module_file_path, apricot_api):
@@ -78,8 +78,8 @@ def test_add_event_free(module_file_path, apricot_api):
         response_file.write(f"{response:d}\n")
 
 
-## These tests mock the Wild Apricot session and check that the appropriate
-## parameters reach the right URL.
+# These tests mock the Wild Apricot session and check that the appropriate
+# parameters reach the right URL.
 
 
 def test_add_event(mocker):

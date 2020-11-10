@@ -1,9 +1,7 @@
 """Test the photo retriever."""
 
 from meetup2apricot.photo_retriever import PhotoRetriever, make_session
-from pathlib import Path
 import requests
-import pytest
 
 
 def test_assure_directory_exists(tmp_path):

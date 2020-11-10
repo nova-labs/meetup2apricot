@@ -1,7 +1,6 @@
 """Tests the scope cache."""
 
 from meetup2apricot.scope_cache import ScopeCache
-import pytest
 
 
 def test_get_one_provider_get(mocker):

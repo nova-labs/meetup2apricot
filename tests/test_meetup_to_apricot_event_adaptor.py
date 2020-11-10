@@ -55,7 +55,7 @@ def test_start_date(free_event_adaptor):
 def test_start_time_specified(free_event_adaptor):
     """Test returning a flag that indicates if event start time is
     specified. False means that StartDate contains only date component."""
-    assert free_event_adaptor.start_time_specified == True
+    assert free_event_adaptor.start_time_specified
 
 
 def test_end_date(free_event_adaptor):
@@ -70,7 +70,7 @@ def test_end_date(free_event_adaptor):
 def test_end_time_specified(free_event_adaptor):
     """Test returning a flag that indicates if event end time is specified.
     False means that EndDate contains only date component."""
-    assert free_event_adaptor.end_time_specified == True
+    assert free_event_adaptor.end_time_specified
 
 
 def test_location_online(free_event_adaptor):
@@ -89,13 +89,13 @@ def test_location_address(paid_event_adaptor):
 def test_registration_enabled(free_event_adaptor):
     """Test returning a flag that indicates that registration to this event
     is enabled."""
-    assert free_event_adaptor.registration_enabled == True
+    assert free_event_adaptor.registration_enabled
 
 
 def test_registrations_limit_none(free_event_adaptor):
     """Test returning the maximum number of registrations for this
     event, which has no limit."""
-    assert free_event_adaptor.registrations_limit == None
+    assert free_event_adaptor.registrations_limit is None
 
 
 def test_registrations_limit_set(paid_event_adaptor):

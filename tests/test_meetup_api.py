@@ -1,7 +1,6 @@
 """Tests for Meetup API"""
 
 from meetup2apricot.meetup_api import MeetupEventsRetriever
-from datetime import datetime
 import os
 import json
 import pytest

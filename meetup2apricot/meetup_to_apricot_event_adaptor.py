@@ -114,7 +114,6 @@ class MeetupToApricotEventAdaptor:
             "StartTimeSpecified": self.start_time_specified,
             "EndDate": self.format_date_for_json(self.end_date),
             "EndTimeSpecified": self.end_time_specified,
-            "StartTimeSpecified": self.start_time_specified,
             "Location": self.location,
             "RegistrationEnabled": self.registration_enabled,
             "Tags": self.apricot_event_tags,

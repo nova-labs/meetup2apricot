@@ -2,8 +2,6 @@
 
 from meetup2apricot.meetup_event import MeetupEvent, MeetupVenue
 from datetime import datetime
-import json
-import pytest
 
 
 def test_duration(free_meetup_event_json):

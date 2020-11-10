@@ -1,7 +1,6 @@
 """Test the photo cache."""
 
 from meetup2apricot.photo_cache import PhotoCache, make_photo_cache
-from meetup2apricot.meetup_event import MeetupEvent
 from datetime import datetime
 from pathlib import Path, PurePosixPath, PosixPath
 import pickle
@@ -54,7 +53,10 @@ def test_apricot_photo_name_long():
 
 def test_apricot_photo_name_very_long():
     """Test converting a very long Meetup name to a Wild Apricot photo name."""
-    long_name = "EL_M: Soldering Station 101 - Learn SMD soldering, desoldering, reflow Sign off"
+    long_name = (
+        "EL_M: Soldering Station 101 - Learn SMD soldering, "
+        "desoldering, reflow Sign off"
+    )
     expected_name = "EL_M_Soldering_Station_101_2020-11-09"
     assert PhotoCache.apricot_photo_name(long_name, SAMPLE_DATE) == expected_name
 
@@ -83,7 +85,7 @@ def test_local_photo_path(photo_cache):
 
 def test_cache_photo_none(photo_cache, paid_meetup_event, mock_photo_retriever):
     """Test caching the photo for a later Meetup event without a photo."""
-    assert photo_cache.cache_photo(paid_meetup_event) == None
+    assert photo_cache.cache_photo(paid_meetup_event) is None
     mock_photo_retriever.get.assert_not_called()
 
 
@@ -146,7 +148,7 @@ def test_make_photo_cache_new_dir(tmp_path, photo_cache, mock_photo_retriever):
     photo_cache.persist()
     data_path = tmp_path / CACHE_FILE_NAME
     local_photo_directory = tmp_path / "photos"
-    another_photo_cache = make_photo_cache(
+    make_photo_cache(
         data_path, local_photo_directory, SAMPLE_APRICOT_DIRECTORY, mock_photo_retriever
     )
     assert local_photo_directory.is_dir()

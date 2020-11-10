@@ -53,7 +53,7 @@ class ApricotApi:
         ApricotApiError.check_response_status(response)
         return response
 
-    ## Wild Apricot functions
+    # Wild Apricot functions
 
     def get_event(self, event_id):
         """Get the JSON description of an event."""

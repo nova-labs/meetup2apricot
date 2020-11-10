@@ -5,7 +5,6 @@ from meetup2apricot.event_registration_type import (
     make_apricot_registration_type,
 )
 
-import pytest
 
 EXPECTED_APRICOT_JSON = {
     "Availability": "Everyone",

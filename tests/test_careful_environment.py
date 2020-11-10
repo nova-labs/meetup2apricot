@@ -6,12 +6,12 @@ import pytest
 
 
 VALID_JSON = """[
-	"CAD Lab",
-	"Classroom A"]"""
+        "CAD Lab",
+        "Classroom A"]"""
 
 INVALID_JSON = """[
-	"CAD Lab"
-	"Classroom A"]"""
+        "CAD Lab"
+        "Classroom A"]"""
 
 SAMPLE_ENV = {
     "VALID_JSON": VALID_JSON,

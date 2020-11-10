@@ -16,7 +16,8 @@ EXPECTED_FREE_DESCRIPTION_HTML = (
     "<p>Mending Mondays is an opportunity to gather "
     "to restore ripped seams, etc.</p><p>Nova Labs previously announced this "
     "event on <a "
-    'href="https://www.meetup.com/NOVA-Makers/events/pfsbvrybcpbmb/">Meetup.com</a>.</p>'
+    'href="https://www.meetup.com/NOVA-Makers/events/pfsbvrybcpbmb/">'
+    "Meetup.com</a>.</p>"
 )
 
 EXPECTED_FREE_EVENT_JSON = {
