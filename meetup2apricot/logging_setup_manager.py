@@ -4,9 +4,7 @@ import logging
 import logging.handlers
 
 
-FORMATTER = logging.Formatter(
-        '{asctime} - {levelname} - {name} - {message}',
-        style='{')
+FORMATTER = logging.Formatter("{asctime} - {levelname} - {name} - {message}", style="{")
 
 
 class LoggingSetupManager:
@@ -15,8 +13,8 @@ class LoggingSetupManager:
     options."""
 
     def __init__(
-            self, log_level=logging.INFO, filename=None,
-            verbose=False, warnings=False):
+        self, log_level=logging.INFO, filename=None, verbose=False, warnings=False
+    ):
         """Initialize with a log level, an optional log file name, a verbose
         flag (sending logs to stderr), and a warnings flag (sending warnings to
         stderr)."""
@@ -40,9 +38,8 @@ class LoggingSetupManager:
         """Add a file handler that rotates daily at midnight."""
         if self.filename:
             handler = logging.handlers.TimedRotatingFileHandler(
-                    filename=self.filename,
-                    when='midnight',
-                    backupCount=5)
+                filename=self.filename, when="midnight", backupCount=5
+            )
             handler.setFormatter(FORMATTER)
             root_logger.addHandler(handler)
 

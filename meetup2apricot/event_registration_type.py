@@ -1,11 +1,13 @@
 """Wild Apricot event registration types for free and paid registrations."""
 
+
 class EventRegistrationType:
 
     """Holds data needed to add event registration types to Wild Apricot."""
 
-    def __init__(self, event_id, name, is_enabled, description, price,
-            maximum_registrants_count):
+    def __init__(
+        self, event_id, name, is_enabled, description, price, maximum_registrants_count
+    ):
         """Initialize with parameters from thw Wild Apricot API."""
         self.event_id = event_id
         self.name = name
@@ -30,8 +32,8 @@ class EventRegistrationType:
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
-            "IsWaitlistEnabled": True
-            }
+            "IsWaitlistEnabled": True,
+        }
 
 
 def make_meetup_registration_type(event_id, maximum_registrants_count):
@@ -42,7 +44,9 @@ def make_meetup_registration_type(event_id, maximum_registrants_count):
         is_enabled=False,
         description="RSVPs on Meetup",
         price=0.0,
-        maximum_registrants_count=maximum_registrants_count)
+        maximum_registrants_count=maximum_registrants_count,
+    )
+
 
 def make_apricot_registration_type(event_id, maximum_registrants_count, price):
     """Make an event registration type for Wild Apricot RSVPs."""
@@ -52,7 +56,8 @@ def make_apricot_registration_type(event_id, maximum_registrants_count, price):
         is_enabled=True,
         description="",
         price=price,
-        maximum_registrants_count=maximum_registrants_count)
+        maximum_registrants_count=maximum_registrants_count,
+    )
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

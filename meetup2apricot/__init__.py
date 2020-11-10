@@ -3,5 +3,5 @@
 """Meetup to Wild Apricot Event Transfer"""
 
 __author__ = """Joel Shprentz"""
-__email__ = 'jshprentz@his.com'
-__version__ = '1.0.0'
+__email__ = "jshprentz@his.com"
+__version__ = "1.0.1"

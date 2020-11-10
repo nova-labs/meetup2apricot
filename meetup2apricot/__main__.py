@@ -17,7 +17,7 @@ def main():
     inject_logging_application(scope).run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

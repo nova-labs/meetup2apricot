@@ -10,8 +10,14 @@ class PhotoCache:
 
     """Caches event featured photos for upload to Wild Apricot."""
 
-    def __init__(self, local_directory, apricot_directory, urls_to_paths,
-                photo_retriever, cache_path):
+    def __init__(
+        self,
+        local_directory,
+        apricot_directory,
+        urls_to_paths,
+        photo_retriever,
+        cache_path,
+    ):
         """Initialize with local and Wild Apricot directory paths, an initial
         mapping of Meetup photo URLs to Wild Apricot photo paths, a photo
         retriever, and a path to the cache file."""
@@ -31,8 +37,9 @@ class PhotoCache:
     def get_meetup_photo_for_apricot(self, meetup_event):
         """Get a Meetup photo for Wild Apricot."""
         apricot_photo_name = self.apricot_photo_file_name(meetup_event)
-        self.urls_to_paths[meetup_event.photo_url] = \
-            self.apricot_photo_path(apricot_photo_name)
+        self.urls_to_paths[meetup_event.photo_url] = self.apricot_photo_path(
+            apricot_photo_name
+        )
         local_photo_path = self.local_photo_path(apricot_photo_name)
         self.photo_retriever.get(meetup_event.photo_url, local_photo_path)
 
@@ -46,9 +53,7 @@ class PhotoCache:
 
     def apricot_photo_file_name(self, meetup_event):
         """Return the Wild Apricot photo file name for a Meetup event."""
-        file_name = self.apricot_photo_name(
-                meetup_event.name,
-                meetup_event.start_time)
+        file_name = self.apricot_photo_name(meetup_event.name, meetup_event.start_time)
         extension = PurePosixPath(urlparse(meetup_event.photo_url).path).suffix
         return file_name + extension
 
@@ -77,8 +82,9 @@ def make_photo_cache(cache_path, local_directory, apricot_directory, photo_retri
             urls_to_paths = pickle.load(f)
     else:
         urls_to_paths = {None: None}
-    return PhotoCache(local_directory, apricot_directory,  urls_to_paths,
-            photo_retriever, cache_path)
+    return PhotoCache(
+        local_directory, apricot_directory, urls_to_paths, photo_retriever, cache_path
+    )
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

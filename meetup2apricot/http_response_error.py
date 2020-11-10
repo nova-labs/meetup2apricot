@@ -18,10 +18,8 @@ class HttpResponseError(Exception):
             response.raise_for_status()
         except HTTPError as err:
             data = dump.dump_response(response)
-            cls.logger.info("Unexpected HTTP response\n{}".format(
-                    data.decode('utf-8')))
-            message = "HTTP status is {:d}, not ok".format(
-                    response.status_code)
+            cls.logger.info("Unexpected HTTP response\n{}".format(data.decode("utf-8")))
+            message = "HTTP status is {:d}, not ok".format(response.status_code)
             raise cls(message) from err
 
 

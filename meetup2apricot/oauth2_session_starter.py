@@ -13,8 +13,9 @@ class Oauth2SessionStarter(object):
 
     """Creates and authorizes an OAuth2 web session."""
 
-    def __init__(self, client_id, client_secret, token_url,
-            user_agent=None, scope=None):
+    def __init__(
+        self, client_id, client_secret, token_url, user_agent=None, scope=None
+    ):
         """Initialize with a client ID and secret, the URL for obtaining a
         token, an optional user agent, and an optional scope of access."""
         self.client_id = client_id
@@ -32,25 +33,28 @@ class Oauth2SessionStarter(object):
 
     def create_session(self):
         """Create an OAuth2 session."""
-        client = BackendApplicationClient(client_id=self.client_id,
-                scope=self.scope)
+        client = BackendApplicationClient(client_id=self.client_id, scope=self.scope)
         return OAuth2Session(client=client)
 
     def authorize_session(self, session):
         """Authorize an OAuth2 session."""
         try:
             session.fetch_token(
-                    token_url=self.token_url,
-                    client_id=self.client_id,
-                    client_secret=self.client_secret)
+                token_url=self.token_url,
+                client_id=self.client_id,
+                client_secret=self.client_secret,
+            )
         except OAuth2Error as err:
-            message = "Cannot start OAuth2 session. URL=%s problem=%s" \
-                    % (self.token_url, err)
+            message = "Cannot start OAuth2 session. URL=%s problem=%s" % (
+                self.token_url,
+                err,
+            )
             raise Oauth2SessionStarterError(message) from err
 
     def set_user_agent(self, session):
         """Set the user agent for a web session."""
         if self.user_agent:
-            session.headers.update({'User-Agent': self.user_agent})
+            session.headers.update({"User-Agent": self.user_agent})
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

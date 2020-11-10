@@ -71,8 +71,8 @@ class MeetupEvent:
     def start_time(self):
         """Return the start time in the local time zone."""
         return datetime.fromtimestamp(
-                self.start_time_epoch_ms / 1000,
-                tz=timezone.utc).astimezone()
+            self.start_time_epoch_ms / 1000, tz=timezone.utc
+        ).astimezone()
 
     @property
     def duration(self):
@@ -83,8 +83,8 @@ class MeetupEvent:
     def end_time(self):
         """Return the end time in the local time zone."""
         return datetime.fromtimestamp(
-                (self.start_time_epoch_ms + self.duration) / 1000,
-                tz=timezone.utc).astimezone()
+            (self.start_time_epoch_ms + self.duration) / 1000, tz=timezone.utc
+        ).astimezone()
 
     @property
     def venue(self):
@@ -95,7 +95,8 @@ class MeetupEvent:
             address=venue.get(VENUE_ADDRESS_KEY, ""),
             city=venue.get(VENUE_CITY_KEY, ""),
             state=venue.get(VENUE_STATE_KEY, ""),
-            zipcode=venue.get(VENUE_ZIPCODE_KEY, ""))
+            zipcode=venue.get(VENUE_ZIPCODE_KEY, ""),
+        )
 
     @property
     def find_us(self):
@@ -110,13 +111,13 @@ class MeetupEvent:
     @property
     def photo_url(self):
         """Return the highest resolution featured photo URL."""
-        featured_photo = self.event_json.get(FEATURED_PHOTO_KEY, {}) 
+        featured_photo = self.event_json.get(FEATURED_PHOTO_KEY, {})
         return featured_photo.get(FEATURED_PHOTO_HIGHRES_LINK_KEY, None)
 
     @property
     def fee_amount(self):
         """Return the fee for the event, if any."""
-        fee = self.event_json.get(FEE_KEY, {}) 
+        fee = self.event_json.get(FEE_KEY, {})
         return fee.get(FEE_AMOUNT_KEY, 0.0)
 
     @property
@@ -133,5 +134,6 @@ class MeetupEvent:
         else:
             return None
         return None
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

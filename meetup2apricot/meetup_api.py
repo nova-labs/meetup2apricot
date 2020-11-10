@@ -5,9 +5,7 @@ import requests
 
 
 class MeetupEventsRetriever:
-
-    def __init__(
-            self, group_url_name, events_wanted):
+    def __init__(self, group_url_name, events_wanted):
         """Initialize with a Meetup group URL name and the number of events
         wanted from Meetup."""
         self.group_url_name = group_url_name
@@ -32,8 +30,8 @@ class MeetupEventsRetriever:
         return {
             "page": self.events_wanted,
             "fields": "series,featured_photo",
-            "scroll": "recent_past"
-            }
+            "scroll": "recent_past",
+        }
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

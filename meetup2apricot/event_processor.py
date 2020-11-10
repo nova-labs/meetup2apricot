@@ -3,10 +3,13 @@ downloading Meetup photos for manual uploading to Wild Apricot, and by tracking
 events and photos already seen."""
 
 from .meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
-from .event_registration_type import make_apricot_registration_type, \
-    make_meetup_registration_type
+from .event_registration_type import (
+    make_apricot_registration_type,
+    make_meetup_registration_type,
+)
 import pickle
 import logging
+
 
 class EventProcessor:
 
@@ -14,8 +17,15 @@ class EventProcessor:
 
     logger = logging.getLogger("EventProcessor")
 
-    def __init__(self, cutoff_time, known_events, photo_cache, apricot_api,
-            cache_path, event_tagger):
+    def __init__(
+        self,
+        cutoff_time,
+        known_events,
+        photo_cache,
+        apricot_api,
+        cache_path,
+        event_tagger,
+    ):
         """Initialize with a cutoff time, a datetime before which events will
         be ignored; a dictionary of previously processed known events (indexed
         by Meetup event ID); a photo cache; a Wild Apricot API
@@ -33,15 +43,16 @@ class EventProcessor:
             return
         photo_path = self.get_photo(meetup_event)
         event_tags = self.get_event_tags(meetup_event)
-        apricot_event_id = self.add_apricot_event(meetup_event, photo_path,
-            event_tags)
+        apricot_event_id = self.add_apricot_event(meetup_event, photo_path, event_tags)
         self.add_event_registration_types(meetup_event, apricot_event_id)
         self.record_event(meetup_event, apricot_event_id)
 
     def can_ignore_event(self, meetup_event):
         """Return true if a Meetup event can be ignored; false otherwise."""
-        return meetup_event.start_time < self.cutoff_time \
+        return (
+            meetup_event.start_time < self.cutoff_time
             or meetup_event.meetup_id in self.known_events
+        )
 
     def get_photo(self, meetup_event):
         """Get an available photo for a meetup event, if it hasn't been
@@ -55,13 +66,17 @@ class EventProcessor:
 
     def add_apricot_event(self, meetup_event, photo_path, event_tags):
         """Add the event to Wild Apricot."""
-        apricot_event = MeetupToApricotEventAdaptor(meetup_event, photo_path,
-            event_tags)
+        apricot_event = MeetupToApricotEventAdaptor(
+            meetup_event, photo_path, event_tags
+        )
         apricot_event_json = apricot_event.for_json()
         apricot_event_id = self.apricot_api.add_event(apricot_event_json)
-        self.logger.info("add_apricot_event: meetup_id=%s apricot_id=%d "
-            "title=%r",
-            meetup_event.meetup_id, apricot_event_id, meetup_event.name)
+        self.logger.info(
+            "add_apricot_event: meetup_id=%s apricot_id=%d title=%r",
+            meetup_event.meetup_id,
+            apricot_event_id,
+            meetup_event.name,
+        )
         return apricot_event_id
 
     def add_event_registration_types(self, meetup_event, apricot_event_id):
@@ -72,24 +87,32 @@ class EventProcessor:
             apricot_count = None
         for reg_type in [
             make_meetup_registration_type(
-                apricot_event_id, meetup_event.yes_rsvp_count),
+                apricot_event_id, meetup_event.yes_rsvp_count
+            ),
             make_apricot_registration_type(
-                apricot_event_id, apricot_count, meetup_event.fee_amount)]:
+                apricot_event_id, apricot_count, meetup_event.fee_amount
+            ),
+        ]:
             self.apricot_api.add_registration_type(reg_type.for_json())
             if reg_type.maximum_registrants_count is None:
                 display_count = "unlimited"
             else:
                 display_count = f"{reg_type.maximum_registrants_count:d}"
-            self.logger.info("add_event_registration_types: apricot_id=%d "
+            self.logger.info(
+                "add_event_registration_types: apricot_id=%d "
                 "maximum_registrants_count=%s price=%.2f name=%r",
-                apricot_event_id, display_count, reg_type.price, reg_type.name)
+                apricot_event_id,
+                display_count,
+                reg_type.price,
+                reg_type.name,
+            )
 
     def record_event(self, meetup_event, apricot_event_id):
         """Record the known event to ignore in the future."""
         self.known_events[meetup_event.meetup_id] = {
             "wild_apricot_event": apricot_event_id,
-            "start_time": meetup_event.start_time
-            }
+            "start_time": meetup_event.start_time,
+        }
 
     def persist(self):
         """Persist cache to a file."""
@@ -97,8 +120,9 @@ class EventProcessor:
             pickle.dump(self.known_events, f)
 
 
-def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api,
-        event_tagger):
+def make_event_processor(
+    cache_path, cutoff_time, photo_cache, apricot_api, event_tagger
+):
     """Initialize with a file caching a dictionary of previously processed
     known events (indexed by Meetup event ID); a cutoff time, the datetime
     before which events will be ignored; a photo cache; a Wild Apricot API
@@ -108,7 +132,9 @@ def make_event_processor(cache_path, cutoff_time, photo_cache, apricot_api,
             known_events = pickle.load(f)
     else:
         known_events = {}
-    return EventProcessor(cutoff_time, known_events, photo_cache, apricot_api,
-        cache_path, event_tagger)
+    return EventProcessor(
+        cutoff_time, known_events, photo_cache, apricot_api, cache_path, event_tagger
+    )
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
