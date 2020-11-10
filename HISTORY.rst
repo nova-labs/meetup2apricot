@@ -15,7 +15,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.0.1 (2020-11-10)
 ------------------
 
 * Reformat source code with black for PEP 8 conformance.
