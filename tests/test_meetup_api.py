@@ -16,26 +16,30 @@ def meetup_event_retriever():
     group_name = os.getenv("MEETUP_GROUP_URL_NAME")
     return MeetupEventsRetriever(group_name, MEETUP_EVENTS_WANTED)
 
+
 def save_json(the_json, path):
     """Save JSON to a file."""
-    pretty_json = json.dumps(the_json, indent = 4, sort_keys = True)
+    pretty_json = json.dumps(the_json, indent=4, sort_keys=True)
     with path.with_suffix(".json").open("w") as f:
-        print(pretty_json, file = f)
+        print(pretty_json, file=f)
+
 
 def test_build_url():
     """Test building a URL."""
     retriever = MeetupEventsRetriever("foo_name", MEETUP_EVENTS_WANTED)
     assert retriever.build_url() == "https://api.meetup.com/foo_name/events"
 
+
 def test_request_params():
     """Test building a request parameter dictionary."""
     retriever = MeetupEventsRetriever("foo_name", MEETUP_EVENTS_WANTED)
     expected_params = {
-            "page": MEETUP_EVENTS_WANTED,
-            "fields": "series,featured_photo",
-            "scroll": "recent_past"
-            }
+        "page": MEETUP_EVENTS_WANTED,
+        "fields": "series,featured_photo",
+        "scroll": "recent_past",
+    }
     assert retriever.request_params() == expected_params
+
 
 def test_events_response(module_file_path, meetup_event_retriever):
     """Save response from an events request to Meetup."""
