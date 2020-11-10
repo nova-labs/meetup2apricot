@@ -7,9 +7,13 @@ Future History
 ~~~~~~~~~~~~~~
 
 * Improve documentation
+* Throttle Meetup API requests based on response headers.
+* Detect changed Meetup event IDs.
 * Detect photo file type by inspection; Meetup always claims jpeg.
-* Limit processed events by last start date.
+* Accept multiple accounting codes from event title.
+* Tag featured events.
 * Restrict registrations for events labeled members only.
+* Limit processed events by last start date.
 
 ~~~~~~~~~~~~~~
 Recent History
