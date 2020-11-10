@@ -1,5 +1,7 @@
 -c requirements.txt
 -c test-requirements.txt
 
+black
 bump2version
+pysnooper
 wheel
