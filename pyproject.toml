@@ -16,10 +16,7 @@ exclude = '''
     | buck-out
     | build
     | dist
-
-    | bin            # these directories are specific to
-    | oldtests       # the original meetup2apricot development
-    | updater        # directory structure
+    | bin
   )/
 )
 '''
