@@ -7,13 +7,19 @@ Future History
 ~~~~~~~~~~~~~~
 
 * Improve documentation
+* Detect photo file type by inspection; Meetup always claims jpeg.
+* Limit processed events by last start date.
+* Restrict registrations for events labeled members only.
 
 ~~~~~~~~~~~~~~
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Reformat source code with black for PEP 8 conformance.
+* Correct style, import, and other issues reported by flake8 for PEP 8 conformance.
 
 1.0.0 (2020-11-08)
 ------------------

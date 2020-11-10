@@ -1,18 +1,20 @@
-import logging
 import time
 from collections import deque
+
 
 class Throttle:
 
     """Throttles activity at some rate per some time span."""
 
     def __init__(self, rate, time_span):
-        """Initialize with a rate (integer number of events) and a time span (seconds)."""
+        """Initialize with a rate (integer number of events) and a time span
+        (seconds)."""
         self.time_span = time_span
         self.ready_times = deque([0] * rate, rate)
 
     def is_ready(self, current_time=None):
-        """Check whether the throttle is ready for another event at the current time."""
+        """Check whether the throttle is ready for another event at the current
+        time."""
         now = current_time or time.time()
         return now >= self.ready_times[0]
 

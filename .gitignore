@@ -90,3 +90,7 @@ venv/
 run.config
 test.config
 TODO
+
+# Cache files from trial runs
+data/event_cache.pickle
+data/photo_cache.pickle

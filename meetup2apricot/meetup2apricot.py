@@ -32,5 +32,4 @@ class Meetup2Apricot:
             self.event_processor.process(event)
 
 
-
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

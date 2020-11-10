@@ -9,5 +9,3 @@ twine
 pytest
 pytest-runner
 pytest-mock
-hypothesis
-freezegun

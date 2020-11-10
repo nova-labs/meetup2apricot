@@ -1,12 +1,12 @@
 """Tests the scope cache."""
 
 from meetup2apricot.scope_cache import ScopeCache
-import pytest
+
 
 def test_get_one_provider_get(mocker):
     """Test that the provider is invoked only once."""
-    provider1 = mocker.Mock(return_value = "abcd")
-    provider2 = mocker.Mock(return_value = "wxyz")
+    provider1 = mocker.Mock(return_value="abcd")
+    provider2 = mocker.Mock(return_value="wxyz")
     cache = ScopeCache()
     assert cache.get(provider1) == "abcd"
     assert cache.get(provider2) == "abcd"
