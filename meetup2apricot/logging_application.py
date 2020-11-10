@@ -7,7 +7,7 @@ class LoggingApplication:
 
     def __init__(self, logging_context, enter_logging_application_scope):
         """Initialize with a logging context and a logging application scope
-        entrance function """
+        entrance function."""
         self.logging_context = logging_context
         self.enter_logging_application_scope = enter_logging_application_scope
 
@@ -16,5 +16,6 @@ class LoggingApplication:
         with self.logging_context:
             processor = self.enter_logging_application_scope()
             processor.run()
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

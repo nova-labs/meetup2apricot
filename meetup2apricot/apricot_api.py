@@ -53,7 +53,7 @@ class ApricotApi:
         ApricotApiError.check_response_status(response)
         return response
 
-## Wild Apricot functions
+    ## Wild Apricot functions
 
     def get_event(self, event_id):
         """Get the JSON description of an event."""
@@ -67,8 +67,9 @@ class ApricotApi:
 
     def add_registration_type(self, registration_type):
         """Insert an event registration type into Wild Apricot."""
-        url = f"{self.api_base_url}/accounts/{self.account_id}/" \
-            "EventRegistrationTypes"
+        url = (
+            f"{self.api_base_url}/accounts/{self.account_id}/" "EventRegistrationTypes"
+        )
         return int(self.post(url, json=registration_type).content)
 
 

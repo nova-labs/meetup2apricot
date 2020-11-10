@@ -2,6 +2,7 @@ import logging
 import time
 from collections import deque
 
+
 class Throttle:
 
     """Throttles activity at some rate per some time span."""

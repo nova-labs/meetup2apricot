@@ -52,8 +52,7 @@ class ApplicationScope:
 
     @property
     def earliest_event_start_time(self):
-        return datetime.fromisoformat(
-            self._env_vars["EARLIEST_EVENT_START_TIME"])
+        return datetime.fromisoformat(self._env_vars["EARLIEST_EVENT_START_TIME"])
 
     @property
     def event_cache_file(self):
