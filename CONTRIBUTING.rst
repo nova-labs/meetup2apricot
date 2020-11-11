@@ -17,7 +17,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/jshprentz/meetup2apricot/issues.
+Report bugs at https://github.com/nova-labs/meetup2apricot/issues.
 
 If you are reporting a bug, please include:
 
@@ -40,14 +40,14 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Meetup to Xibo could always use more documentation, whether as part of the
-official Meetup to Xibo docs, in docstrings, or even on the web in blog posts,
+Meetup2apricot could always use more documentation, whether as part of the
+official meetup2apricot docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/jshprentz/meetup2apricot/issues.
+The best way to send feedback is to file an issue at https://github.com/nova-labs/meetup2apricot/issues.
 
 If you are proposing a feature:
 
