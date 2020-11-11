@@ -13,6 +13,7 @@ Future History
 * Accept multiple accounting codes from event title.
 * Tag featured events.
 * Restrict registrations for events labeled members only.
+* Update tags and member-only status of existing events.
 * Limit processed events by last start date.
 
 ~~~~~~~~~~~~~~
