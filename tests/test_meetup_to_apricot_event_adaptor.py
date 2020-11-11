@@ -8,6 +8,7 @@ from .sample_apricot_json import (
     EXPECTED_FREE_PHOTO_PATH,
     EXPECTED_TAGS,
     EXPECTED_FREE_TAGS,
+    EXPECTED_PAID_DESCRIPTION_HTML,
 )
 from datetime import datetime
 import pytest
@@ -32,9 +33,13 @@ def test_name(free_event_adaptor):
     assert free_event_adaptor.name == "AC: Mending Monday (Test Event)"
 
 
-def test_description_html(free_event_adaptor):
-    """Test returning the full HTML event description."""
+def test_description_html_photo(free_event_adaptor):
+    """Test returning the full HTML event description with a photo."""
     assert free_event_adaptor.description_html == EXPECTED_FREE_DESCRIPTION_HTML
+
+def test_description_html_no_photo(paid_event_adaptor):
+    """Test returning the full HTML event description with a no photo."""
+    assert paid_event_adaptor.description_html == EXPECTED_PAID_DESCRIPTION_HTML
 
 
 def test_event_type(free_event_adaptor):
