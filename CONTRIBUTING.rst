@@ -1,6 +1,4 @@
-.. highlight:: shell
-
-.. todo:: Correct github links. Correct meetup2xibo details for meetup2wildapricot.
+..highlight:: BashSessionLexer
 
 ============
 Contributing
@@ -65,66 +63,172 @@ Ready to contribute? Here's how to set up `meetup2apricot` for local development
 2. Clone your fork locally::
 
     $ git clone git@github.com:your_name_here/meetup2apricot.git
+    $ cd meetup2apricot
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Setup for development by creating a Python 3.0 virtual environment and
+   loading it with the required Python packages::
 
-    $ mkvirtualenv meetup2apricot
-    $ cd meetup2apricot/
-    $ python setup.py develop
+    $ make dev
 
 4. Create a branch for local development::
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
-   Now you can make your changes locally.
+#. Now you can make your changes locally.
+   Don't worry about exactly matching the project code style;
+   the black formatter will fix everything::
 
-5. When you're done making changes, check that your changes pass flake8 and the
-   tests, including testing other Python versions with tox::
+    $ make black
 
-    $ flake8 meetup2apricot tests
-    $ python setup.py test or py.test
-    $ tox
+#. Test as you make changes::
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+    $ make test
 
-6. Commit your changes and push your branch to GitHub::
+#. Commit your changes to git as you go::
 
     $ git add .
-    $ git commit -m "Your detailed description of your changes."
+    $ git commit -m "Your description of the changes."
+
+#. Continue making changes, formatting, testing, and committing to git.
+   Track your progress with git's log command::
+
+    $ make gitlog
+
+#. When you're done making changes, test everything again in new virtual
+   environment to check package dependency issues.
+   This step also runs flake8 to check for code anomalies::
+   
+    $ make test-all
+
+#. Commit your changes and push your branch to GitHub::
+
     $ git push origin name-of-your-bugfix-or-feature
 
-7. Submit a pull request through the GitHub website.
+#. Submit a pull request through the GitHub website.
 
 Pull Request Guidelines
 -----------------------
 
 Before you submit a pull request, check that it meets these guidelines:
 
-1. The pull request should include tests.
-2. If the pull request adds functionality, the docs should be updated. Put
-   your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
-3. The pull request should work for Python 3.5, 3.6, and 3.7. Check
-   https://travis-ci.org/jshprentz/meetup2apricot/pull_requests
-   and make sure that the tests pass for all supported Python versions.
+1. The pull request should include tests (that pass!).
+
+2. Update docs to describe new, updated, and removed functionality,
+   configuration, operation, etc.
+
+Documentation
+-------------
+
+Most functions and methods should have docstrings summarizing their intent,
+arguments, and return values.
+Function, method, and variable names should be descriptive, not cryptic.
+Local temporary variables can elucidate your code.
+Prefer:
+
+.. code-block:: python3
+
+        photo_path = self.get_photo(meetup_event)
+        event_tags = self.get_event_tags(meetup_event)
+        self.add_apricot_event(meetup_event, photo_path, event_tags)
+
+instead of:
+
+.. code-block:: python3
+
+        self.add_apricot_event(
+            meetup_event,
+            self.get_photo(meetup_event),
+            self.get_event_tags(meetup_event)
+        )
+
+README.rst includes a list of major functionality.
+Keep that list up-to-date.
+   
+HISTORY.rst shows the major changes in each release and planned future changes.
+Keep that list up-to-date, moving items from the Future History section to the
+Next Release section when possible.
+
+When you add the first change to the Next Release section, uncomment the
+section heading.
+For example, change this:
+
+   .. code-block:: restructuredtext
+      
+      .. Next Release
+      .. ------------------
+
+to:
+
+   .. code-block:: restructuredtext
+
+      Next Release
+      ------------------
+
+      * My new feature.
+
+Run Sphinx to build the documentation for local review.
+The *docs* make target will build an HTML version of the documentation and open
+a browser::
+
+    $ make docs
+
+The browser will not open if you develop on a remote machine via ssh, PuTTY, etc.
+Instead, run a simple web server on the HTML documentation::
+
+    $ make docsweb
 
 Tips
 ----
 
-To run a subset of tests::
+The makefile includes targets for common operations.
+The default target is help::
 
-$ py.test tests.test_meetup2apricot
+    $ make
 
+    clean                remove all build, test, coverage and Python artifacts
+    clean-build          remove build artifacts
+    clean-pyc            remove Python file artifacts
+    clean-test           remove test and coverage artifacts
+    black                reformat code to conform to PEP-8
+    lint                 check style with flake8
+    test                 run tests quickly with the default Python
+    test-all             run tests on every Python version with tox
+    coverage             check code coverage quickly with the default Python
+    docs                 generate Sphinx HTML documentation, including API docs
+    docsbrowse           compile the docs and view them in a local browser
+    docsweb              compile the docs and serve them via the web
+    servedocs            compile the docs watching for changes
+    gitlog               show the Git graphical history
+    release              package and upload a release
+    dist                 builds source and wheel package
+    install              install the package to the active Python's site-packages
+    venv                 create a Python virtual environment
+    production           install required Python packages for production
+    dev                  install required Python packages for local development
 
-Deploying
----------
+Deploying Releases
+------------------
 
-A reminder for the maintainers on how to deploy.
-Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
+A reminder for the maintainers on how to deploy releases.
+Make sure all your pull requests and other changes are committed in the
+development branch.
+Working in the development branch, bump the version (major, minor, or patch).
+Push the development branch to GitHub.
+Merge the development branch to the main branch and tag with the release
+number.
+Push the main branch and the tagged branch to GitHub::
 
-$ bumpversion patch # possible: major / minor / patch
-$ git push
-$ git push --tags
+    $ git checkout development
+    $ bumpversion patch
+    $ git push origin development
+    $ git checkout main
+    $ git merge --no-ff development
+    $ git tag -a v1.2.3
+    $ git push origin main
+    $ git push origin v1.2.3
 
-Travis will then deploy to PyPI if tests pass.
+After the release, start a new feature development branch to avoid committing
+directly to the main and development branches::
+
+    $ git checkout development
+    $ git checkout -b my-new-feature
