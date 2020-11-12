@@ -37,6 +37,7 @@ def test_description_html_photo(free_event_adaptor):
     """Test returning the full HTML event description with a photo."""
     assert free_event_adaptor.description_html == EXPECTED_FREE_DESCRIPTION_HTML
 
+
 def test_description_html_no_photo(paid_event_adaptor):
     """Test returning the full HTML event description with a no photo."""
     assert paid_event_adaptor.description_html == EXPECTED_PAID_DESCRIPTION_HTML
