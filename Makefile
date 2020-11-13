@@ -94,7 +94,7 @@ docsbrowse: docs ## compile the docs and view them in a local browser
 	$(BROWSER) docs/_build/html/index.html
 
 docsweb: docs ## compile the docs and serve them via the web
-	$(call venv-cmd,$(PYTHON_INTERPRETER) -m http.server $(WEB_PORT) --directory docs/_build/html)
+	- $(call venv-cmd,$(PYTHON_INTERPRETER) -m http.server $(WEB_PORT) --directory docs/_build/html)
 
 servedocs: docs ## compile the docs watching for changes
 	$(call venv-cmd,watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .)
