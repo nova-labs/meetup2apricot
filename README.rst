@@ -8,8 +8,8 @@ Meetup2Apricot
 .. Start badges
 
 .. image:: https://readthedocs.org/projects/meetup2apricot/badge/?version=stable
-:target: https://meetup2apricot.readthedocs.io/en/stable/?badge=stable
-:alt: Documentation Status
+   :target: https://meetup2apricot.readthedocs.io/en/stable/?badge=stable
+   :alt: Documentation Status
 
 .. Start description
 
