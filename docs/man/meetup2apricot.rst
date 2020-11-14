@@ -79,19 +79,6 @@ Environment
 .. envvar:: APRICOT_PHOTO_DIRECTORY
 
    The Wild Apricot web directory for photos.
-   For example, specify this directory path for the event announcements folder
-   shown in :numref:`Figure %s <wild_apricot_photo_resources>`::
-
-      export APRICOT_PHOTO_DIRECTORY='/resources/Pictures/EventAnnouncements'
-
-   .. figure:: /images/screenshots/WildApricotPhotoResources.png
-      :alt: Wild Apricot's web file browser showing a folder hierarchy and a list
-            of photos
-      :name: wild_apricot_photo_resources
-      :align: center
-
-      Administrators uploaded event photos to Wild Apricot's
-      ``/resources/Pictures/EventAnnouncements`` folder.
 
 .. envvar:: CODES_TO_TAGS
 

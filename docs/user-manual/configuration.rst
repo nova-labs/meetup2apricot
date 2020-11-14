@@ -92,6 +92,20 @@ Event photos will be uploaded to a subdirectory in the Wild Apricot web site
 static resources area.
 The environment variable :envvar:`APRICOT_PHOTO_DIRECTORY` specifies the path
 to that subdirectory.
+For example, specify this directory path for the event announcements photos
+folder shown in :numref:`Figure %s <wild_apricot_photo_resources>`::
+
+   export APRICOT_PHOTO_DIRECTORY='/resources/Pictures/EventAnnouncements'
+
+.. figure:: /images/screenshots/ApricotFiles.png
+   :alt: Wild Apricot's web file browser showing a folder hierarchy and a list
+         of photos
+   :name: wild_apricot_photo_resources
+   :align: center
+
+   Within the Settings/Files section of the Wild Apricot web administration
+   interface (1), a directory tree shows
+   ``/resources/Pictures/EventAnnouncements`` (2) containing event photos (3).
 
 Local Paths
 -----------
