@@ -22,6 +22,11 @@ Recent History
 .. Next Release
 .. ------------------
 
+1.0.3 (2020-11-13)
+------------------
+
+* Link to documentation at readthedocs.io.
+
 1.0.2 (2020-11-13)
 ------------------
 
