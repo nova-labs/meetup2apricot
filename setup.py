@@ -20,7 +20,7 @@ test_requirements = [
     "hypothesis",
     "tox",
     "flake8",
-    "freezegun",
+    "coverage",
 ]
 
 setup(

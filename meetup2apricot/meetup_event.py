@@ -133,7 +133,6 @@ class MeetupEvent:
             return match.group(1)
         else:
             return None
-        return None
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

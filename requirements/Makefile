@@ -15,6 +15,11 @@ outputs := $(objects:.in=.txt)
 .PHONY: all
 all: $(outputs)
 
+clean:
+	- rm *.txt
+
+rebuild: clean all
+
 %.txt: %.in
 	pip-compile --verbose --output-file $@ $<
 
