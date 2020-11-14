@@ -69,4 +69,13 @@ def make_throttle(rate, time_span, utilization_factor, purpose):
     return Throttle(allocated_rate, time_span)
 
 
+class OpenThrottle:
+
+    """Allows work to proceed at full speed: an open throttle."""
+
+    def throttle(self, current_time=None):
+        """Pretend to throttle an event. Proceed without slowing."""
+        pass
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
