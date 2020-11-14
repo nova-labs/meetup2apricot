@@ -6,7 +6,6 @@ History
 Future History
 ~~~~~~~~~~~~~~
 
-* Improve documentation
 * Throttle Meetup API requests based on response headers.
 * Detect changed Meetup event IDs.
 * Detect photo file type by inspection; Meetup always claims jpeg.
@@ -20,8 +19,11 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Improve documentation.
+* Improve installation.
 
 1.0.1 (2020-11-10)
 ------------------

@@ -1,4 +1,4 @@
-Meetup to Xibo
+Meetup2Apricot
 ==============
 
 .. include:: ../README.rst
@@ -18,13 +18,10 @@ Meetup to Xibo
 
    user-manual/overview
    user-manual/prerequisites
-   user-manual/xibo-quick-start
-   user-manual/xibo-dataset-setup
-   user-manual/xibo-user-setup
+   user-manual/apricot-application-authorization.rst
    user-manual/installation
    user-manual/configuration
    user-manual/logging
-   user-manual/cron-jobs
 
 .. toctree::
    :maxdepth: 1
@@ -37,7 +34,6 @@ Meetup to Xibo
    :maxdepth: 2
    :caption: Project
 
-   faq
    authors
    contributing
    history
