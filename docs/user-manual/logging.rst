@@ -17,8 +17,11 @@ Logs are rotated daily; five days of logs are retained.
 The :option:`-l <meetup2apricot -l>` option can specify an alternate path to the
 log file.
 The :option:`-v <meetup2apricot -v>` option adds console output.
-The :option:`-w <meetup2apricot -w>` option adds console output and limits the
-console log level to warnings and errors.
+The :option:`-w <meetup2apricot -w>` option, intended for cron jobs, adds
+console output and limits the console log level to warnings and errors.
+In the rare situation when ``meetup2apricot -w`` reports a warning or error,
+cron will send an email.
+
 :numref:`Table %s <log-output>` summarizes the impact of the :option:`-l
 <meetup2apricot -l>`, :option:`-v <meetup2apricot -v>`, and :option:`-w
 <meetup2apricot -w>` flags on log destination.
