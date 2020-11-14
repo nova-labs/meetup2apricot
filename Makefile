@@ -5,12 +5,15 @@ PROJECT_NAME = meetup2apricot
 PYTHON_INTERPRETER = python3.9
 WEB_PORT = 8002
 
-ifeq (,$(shell which virtualenvwrapper.sh))
-BASH_CMD_ACTIVATE_VENV = venv/bin/activate
-MAKE_VENV = $(PYTHON_INTERPRETER) -m venv venv
-else
+ifneq ($(VIRTUAL_ENV),)
+BASH_CMD_ACTIVATE_VENV = :
+MAKE_VENV = :
+else ifneq ($(shell which virtualenvwrapper.sh),)
 BASH_CMD_ACTIVATE_VENV = source `which virtualenvwrapper.sh`; workon $(PROJECT_NAME)
 MAKE_VENV = bash -c "source `which virtualenvwrapper.sh`; mkvirtualenv --python=$(PYTHON_INTERPRETER) -a . $(PROJECT_NAME)"
+else
+BASH_CMD_ACTIVATE_VENV = [ -f venv/bin/activate ] && . venv/bin/activate
+MAKE_VENV = $(PYTHON_INTERPRETER) -m venv venv
 endif
 
 venv-cmd = bash -c "$(BASH_CMD_ACTIVATE_VENV); $(1)"
@@ -110,18 +113,17 @@ dist: clean ## builds source and wheel package
 	$(PYTHON_INTERPRETER) setup.py bdist_wheel
 	ls -l dist
 
-install: clean ## install the package to the active Python's site-packages
-	$(PYTHON_INTERPRETER) setup.py install
+requirements: ## update Python package versions in requirements files
+	$(MAKE) -C requirements rebuild
 
 venv: ## create a Python virtual environment
 	bash -c "$(BASH_CMD_ACTIVATE_VENV)" || $(MAKE_VENV)
 	$(call venv-cmd,pip install -U pip pip-tools)
 
-production: venv ## install required Python packages for production
-	$(call venv-cmd,pip-sync requirements/test-requirements.txt requirements/requirements.txt)
-dev: venv ## install required Python packages for local development
+install: venv ## install required Python packages for production
+	$(call venv-cmd,pip-sync requirements/requirements.txt)
+	$(call venv-cmd,pip3 install .)
+
+develop: venv ## install required Python packages for local development
 	$(call venv-cmd,pip-sync requirements/test-requirements.txt requirements/dev-requirements.txt requirements/requirements.txt)
-
-req: ## update Python package versions in requirements files
-	$(MAKE) -C requirements rebuild
-
+	$(call venv-cmd,pip3 install -e .)

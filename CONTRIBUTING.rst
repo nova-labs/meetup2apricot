@@ -1,4 +1,4 @@
-..highlight:: BashSessionLexer
+.. highlight:: console
 
 ============
 Contributing
@@ -68,7 +68,7 @@ Ready to contribute? Here's how to set up `meetup2apricot` for local development
 3. Setup for development by creating a Python 3.0 virtual environment and
    loading it with the required Python packages::
 
-    $ make dev
+    $ make develop
 
 4. Create a branch for local development::
 
@@ -185,26 +185,26 @@ The default target is help::
 
     $ make
 
-    clean                remove all build, test, coverage and Python artifacts
+    black                reformat code to conform to PEP-8
     clean-build          remove build artifacts
     clean-pyc            remove Python file artifacts
+    clean                remove all build, test, coverage and Python artifacts
     clean-test           remove test and coverage artifacts
-    black                reformat code to conform to PEP-8
-    lint                 check style with flake8
-    test                 run tests quickly with the default Python
-    test-all             run tests on every Python version with tox
     coverage             check code coverage quickly with the default Python
-    docs                 generate Sphinx HTML documentation, including API docs
-    docsbrowse           compile the docs and view them in a local browser
-    docsweb              compile the docs and serve them via the web
-    servedocs            compile the docs watching for changes
-    gitlog               show the Git graphical history
-    release              package and upload a release
+    develop              install required Python packages for local development
     dist                 builds source and wheel package
-    install              install the package to the active Python's site-packages
+    docsbrowse           compile the docs and view them in a local browser
+    docs                 generate Sphinx HTML documentation, including API docs
+    docsweb              compile the docs and serve them via the web
+    gitlog               show the Git graphical history
+    install              install required Python packages for production
+    lint                 check style with flake8
+    release              package and upload a release
+    requirements         update Python package versions in requirements files
+    servedocs            compile the docs watching for changes
+    test-all             run tests on every Python version with tox
+    test                 run tests quickly with the default Python
     venv                 create a Python virtual environment
-    production           install required Python packages for production
-    dev                  install required Python packages for local development
 
 Deploying Releases
 ------------------
