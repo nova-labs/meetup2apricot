@@ -20,6 +20,9 @@ On Linux, a configuration shell script is a common way to provide environment
 variables.
 An annotated example configuration script, :github-raw:`/data/run_sample.env`,
 provides a starting point for customization.
+This file also is included with the downloaded or cloned source files in the
+``/data`` directory.
+Customize a copy with a different name.
 
 The configuration script includes sensitive authorization data, so allow access only
 to the user running meetup2apricot.
