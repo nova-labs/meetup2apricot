@@ -1,0 +1,17 @@
+sudo: false
+
+dist: bionic
+
+language: python
+
+matrix:
+    include:
+      - python: 3.9
+        env: TOXENV=py39
+      - python: 3.9
+        env: TOXENV=flake8
+
+script: tox
+
+install:
+- pip install tox
