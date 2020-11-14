@@ -1,7 +1,7 @@
 """Tests for Meetup API"""
 
 from meetup2apricot.meetup_api import MeetupEventsRetriever, start_requests_session
-from meetup2apricot.throttle import Throttle
+from meetup2apricot.throttle import Throttle, OpenThrottle
 import os
 import json
 import logging
@@ -23,7 +23,7 @@ SAMPLE_STATUS_RESPONSE_HEADERS = {
 def meetup_event_retriever():
     """Return a Meetup events retriever configured to connect to Meetup.com."""
     group_name = os.getenv("MEETUP_GROUP_URL_NAME")
-    return MeetupEventsRetriever(group_name, MEETUP_EVENTS_WANTED)
+    return MeetupEventsRetriever(requests, OpenThrottle(), group_name, MEETUP_EVENTS_WANTED)
 
 
 def save_response(response, path):
@@ -42,25 +42,25 @@ def save_json(the_json, path):
 
 def test_build_url_none():
     """Test building a URL with no additional path segments."""
-    retriever = MeetupEventsRetriever("foo_name", MEETUP_EVENTS_WANTED)
+    retriever = MeetupEventsRetriever(None, None, "foo_name", MEETUP_EVENTS_WANTED)
     assert retriever.build_url() == "https://api.meetup.com/"
 
 
 def test_build_url_one():
     """Test building a URL with one additional path segment."""
-    retriever = MeetupEventsRetriever("foo_name", MEETUP_EVENTS_WANTED)
+    retriever = MeetupEventsRetriever(None, None, "foo_name", MEETUP_EVENTS_WANTED)
     assert retriever.build_url("events") == "https://api.meetup.com/events"
 
 
 def test_build_url_two():
     """Test building a URL with two additional path segments."""
-    retriever = MeetupEventsRetriever("foo_name", MEETUP_EVENTS_WANTED)
+    retriever = MeetupEventsRetriever(None, None, "foo_name", MEETUP_EVENTS_WANTED)
     assert retriever.build_url("events", "1234") == "https://api.meetup.com/events/1234"
 
 
 def test_request_params():
     """Test building a request parameter dictionary."""
-    retriever = MeetupEventsRetriever("foo_name", MEETUP_EVENTS_WANTED)
+    retriever = MeetupEventsRetriever(None, None, "foo_name", MEETUP_EVENTS_WANTED)
     expected_params = {
         "page": MEETUP_EVENTS_WANTED,
         "fields": "series,featured_photo",

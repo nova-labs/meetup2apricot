@@ -11,26 +11,30 @@ class MeetupEventsRetriever:
 
     api_utilization_ratio = 2 / 3
 
-    def __init__(self, group_url_name, events_wanted):
-        """Initialize with a Meetup group URL name and the number of events
-        wanted from Meetup."""
+    def __init__(self, session, throttle, group_url_name, events_wanted):
+        """Initialize with a Requests session, a throttle, a Meetup group URL
+        name, and the number of events wanted from Meetup."""
+        self.session = session
+        self.throttle = throttle
         self.group_url_name = group_url_name
         self.events_wanted = events_wanted
 
     def retrieve_status(self):
         """Retrieve the status of the Meetup API."""
+        self.throttle.throttle()
         url = self.build_url("status")
-        response = requests.get(url)
+        response = self.session.get(url)
         MeetupApiError.check_response_status(response)
         return response
 
     def retrieve_events_json(self, *path_segments, **kwargs):
         """Retrieve the JSON event list, adding path segments to the URL and
         keyword arguments to the usual request parameters."""
+        self.throttle.throttle()
         url = self.build_url(self.group_url_name, "events", *path_segments)
         params = self.request_params()
         params.update(kwargs)
-        response = requests.get(url, params=params)
+        response = self.session.get(url, params=params)
         MeetupApiError.check_response_status(response)
         return response.json()
 
