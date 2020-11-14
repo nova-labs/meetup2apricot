@@ -19,7 +19,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.0.2 (2020-11-13)
 ------------------
 
 * Improve documentation.
