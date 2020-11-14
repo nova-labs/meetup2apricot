@@ -7,6 +7,10 @@ Meetup2Apricot
 
 .. Start badges
 
+.. image:: https://readthedocs.org/projects/meetup2apricot/badge/?version=stable
+:target: https://meetup2apricot.readthedocs.io/en/stable/?badge=stable
+:alt: Documentation Status
+
 .. Start description
 
 **Meetup2apricot** is a command line program that retrieves event descriptions
@@ -30,6 +34,7 @@ November 2020.
 Resources
 ---------
 
+* Documentation: https://meetup2apricot.readthedocs.io
 * Source code: https://github.com/nova-labs/meetup2apricot
 * Free software: `MIT license`_
 
