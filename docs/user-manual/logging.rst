@@ -26,7 +26,7 @@ cron will send an email.
 <meetup2apricot -l>`, :option:`-v <meetup2apricot -v>`, and :option:`-w
 <meetup2apricot -w>` flags on log destination.
 
-.. tabularcolumns:: |L|C|C|C|
+.. tabularcolumns:: |L|C|C|C|C|
 
 .. _log-output:
 
