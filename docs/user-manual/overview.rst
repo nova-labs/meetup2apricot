@@ -28,7 +28,7 @@ See :doc:`prerequisites` for a description of the computing and skills
 requirements.
 
 Meetup2apricot accesses the Xibo :abbr:`API(application programming interface)`
-as a distinct authorized application.  See :doc:`apricot-application-setup` for
+as a distinct authorized application.  See :doc:`apricot-application-authorization` for
 instructions about adding and authorizing this application.
 
 Installation
