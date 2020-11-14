@@ -18,24 +18,32 @@ November 2020.
 
 .. _`Nova Labs`: https://www.nova-labs.org/
 
+.. PyPi requires an absolute image URL.
+.. image:: https://raw.githubusercontent.com/nova-labs/meetup2apricot/main/docs/images/diagrams/Meetup2Apricot-Architecture.png
+        :align: center
+        :alt: Diagram of meetup2apricot's function showing events and photos
+                retrieved by meetup2apricot from Meetup.com and transferred to
+                Wild Apricot.
+
 .. End description
 
 Resources
 ---------
 
-.. todo:: Update links when finalized.
-
-* Documentation: TBD
 * Source code: https://github.com/nova-labs/meetup2apricot
-* Free software: MIT license
+* Free software: `MIT license`_
+
+.. _`MIT license`: LICENSE
 
 
 Features
 --------
 
 * Retrieves events from the Meetup API.
+* Translates accounting codes into event tags to categorize events on Wild Apricot.
 * Inserts events via the Wild Apricot API.
-* Downloads events' featured photos from Meetup into a local directory
+* Downloads events' featured photos from Meetup into a local directory for manual upload to Wild Apricot.
+* Caches processed events and photos to avoid duplication.
 
 Credits
 -------

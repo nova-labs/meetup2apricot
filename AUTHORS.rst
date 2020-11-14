@@ -34,19 +34,18 @@ Testing Packages
 
 These Python packages help test **Meetup2xibo**.
 
-* `hypothesis`_, property based testing
-* `pytest-mock`_, mock objects for pytest
 * `pytest`_, a testing framework
+* `pytest-mock`_, mock objects for pytest
 
-.. _`hypothesis`: https://github.com/HypothesisWorks/hypothesis/tree/master/hypothesis-python#hypothesis
-.. _`pytest-mock`: https://github.com/pytest-dev/pytest-mock/#pytest-mock
 .. _`pytest`: https://docs.pytest.org/en/latest/
+.. _`pytest-mock`: https://github.com/pytest-dev/pytest-mock/#pytest-mock
 
 Development Tools
 -----------------
 
 These tools help build, document, test, and validate **Meetup2xibo**.
 
+* `black`_ reformats source code to conform to PEP 8 guidelines.
 * `bumpversion`_ updates version numbers in source code.
 * `coverage`_ measures code coverage during tests.
 * `flake8`_ checks code style.
@@ -54,7 +53,7 @@ These tools help build, document, test, and validate **Meetup2xibo**.
 * `Sphinx`_ renders documentation in HTML, PDF, and other formats.
 * `tox`_ automates testing with multiple Python versions.
 
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. _`black`: https://github.com/psf/black
 .. _`bumpversion`: https://github.com/peritus/bumpversion#bumpversion
 .. _`coverage`: https://github.com/nedbat/coveragepy#coveragepy
 .. _`flake8`: https://gitlab.com/pycqa/flake8

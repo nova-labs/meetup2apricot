@@ -3,13 +3,17 @@
 
 PROJECT_NAME = meetup2apricot
 PYTHON_INTERPRETER = python3.9
+WEB_PORT = 8002
 
-ifeq (,$(shell which virtualenvwrapper.sh))
-BASH_CMD_ACTIVATE_VENV = venv/bin/activate
-MAKE_VENV = $(PYTHON_INTERPRETER) -m venv venv
-else
+ifneq ($(VIRTUAL_ENV),)
+BASH_CMD_ACTIVATE_VENV = :
+MAKE_VENV = :
+else ifneq ($(shell which virtualenvwrapper.sh),)
 BASH_CMD_ACTIVATE_VENV = source `which virtualenvwrapper.sh`; workon $(PROJECT_NAME)
 MAKE_VENV = bash -c "source `which virtualenvwrapper.sh`; mkvirtualenv --python=$(PYTHON_INTERPRETER) -a . $(PROJECT_NAME)"
+else
+BASH_CMD_ACTIVATE_VENV = [ -f venv/bin/activate ] && . venv/bin/activate
+MAKE_VENV = $(PYTHON_INTERPRETER) -m venv venv
 endif
 
 venv-cmd = bash -c "$(BASH_CMD_ACTIVATE_VENV); $(1)"
@@ -41,7 +45,7 @@ export PRINT_HELP_PYSCRIPT
 BROWSER := $(PYTHON_INTERPRETER) -c "$$BROWSER_PYSCRIPT"
 
 help:
-	@$(PYTHON_INTERPRETER) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	@$(PYTHON_INTERPRETER) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST) | sort
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
@@ -64,31 +68,39 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+black: ## reformat code to conform to PEP-8
+	$(call venv-cmd,black .)
+
 lint: ## check style with flake8
-	flake8 meetup2apricot tests
+	$(call venv-cmd,flake8 meetup2apricot tests)
 
 test: ## run tests quickly with the default Python
 	$(call venv-cmd,py.test tests)
 
 test-all: ## run tests on every Python version with tox
-	tox
+	$(call venv-cmd,tox)
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source meetup2apricot -m pytest
-	coverage report -m
-	coverage html
+	$(call venv-cmd,coverage run --source meetup2apricot -m pytest)
+	$(call venv-cmd,coverage report -m)
+	$(call venv-cmd,coverage html)
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/meetup2apricot.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ meetup2apricot
+	#$(call venv-cmd,sphinx-apidoc -o docs/ meetup2apricot)
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
+
+docsbrowse: docs ## compile the docs and view them in a local browser
 	$(BROWSER) docs/_build/html/index.html
 
+docsweb: docs ## compile the docs and serve them via the web
+	- $(call venv-cmd,$(PYTHON_INTERPRETER) -m http.server $(WEB_PORT) --directory docs/_build/html)
+
 servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+	$(call venv-cmd,watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .)
 
 gitlog: ## show the Git graphical history
 	git log --oneline --graph --decorate --all
@@ -101,12 +113,17 @@ dist: clean ## builds source and wheel package
 	$(PYTHON_INTERPRETER) setup.py bdist_wheel
 	ls -l dist
 
-install: clean ## install the package to the active Python's site-packages
-	$(PYTHON_INTERPRETER) setup.py install
+requirements: ## update Python package versions in requirements files
+	$(MAKE) -C requirements rebuild
 
 venv: ## create a Python virtual environment
 	bash -c "$(BASH_CMD_ACTIVATE_VENV)" || $(MAKE_VENV)
-
-dev: venv ## install required Python packages for local development
 	$(call venv-cmd,pip install -U pip pip-tools)
+
+install: venv ## install required Python packages for production
+	$(call venv-cmd,pip-sync requirements/requirements.txt)
+	$(call venv-cmd,pip3 install .)
+
+develop: venv ## install required Python packages for local development
 	$(call venv-cmd,pip-sync requirements/test-requirements.txt requirements/dev-requirements.txt requirements/requirements.txt)
+	$(call venv-cmd,pip3 install -e .)
