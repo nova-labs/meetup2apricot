@@ -2,7 +2,6 @@
 
 from .http_response_error import MeetupApiError
 from .throttle import make_throttle
-import requests
 
 
 class MeetupEventsRetriever:
