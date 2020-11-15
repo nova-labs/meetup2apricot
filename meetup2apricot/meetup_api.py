@@ -58,12 +58,4 @@ class MeetupEventsRetriever:
         return make_throttle(rate, time_span, self.api_utilization_ratio, "Meetup API")
 
 
-def start_requests_session(user_agent=None):
-    """Start a requests session with an optional user agent."""
-    session = requests.Session()
-    if user_agent:
-        session.headers.update({"User-Agent": user_agent})
-    return session
-
-
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

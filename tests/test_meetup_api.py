@@ -1,6 +1,6 @@
 """Tests for Meetup API"""
 
-from meetup2apricot.meetup_api import MeetupEventsRetriever, start_requests_session
+from meetup2apricot.meetup_api import MeetupEventsRetriever
 from meetup2apricot.throttle import Throttle, OpenThrottle
 import os
 import json
@@ -23,7 +23,9 @@ SAMPLE_STATUS_RESPONSE_HEADERS = {
 def meetup_event_retriever():
     """Return a Meetup events retriever configured to connect to Meetup.com."""
     group_name = os.getenv("MEETUP_GROUP_URL_NAME")
-    return MeetupEventsRetriever(requests, OpenThrottle(), group_name, MEETUP_EVENTS_WANTED)
+    return MeetupEventsRetriever(
+        requests, OpenThrottle(), group_name, MEETUP_EVENTS_WANTED
+    )
 
 
 def save_response(response, path):
@@ -108,19 +110,6 @@ def test_make_meetup_api_throttle(meetup_event_retriever, mocker):
     assert type(throttle) == Throttle
     assert throttle.rate == 20
     assert throttle.time_span == 10
-
-
-def test_start_requests_session_user_agent():
-    """Test starting a requests session with a user agent."""
-    session = start_requests_session("Test 1")
-    assert type(session) == requests.Session
-    assert session.headers["User-Agent"] == "Test 1"
-
-
-def test_start_requests_session_no_user_agent():
-    """Test starting a requests session with a user agent."""
-    session = start_requests_session()
-    assert type(session) == requests.Session
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
