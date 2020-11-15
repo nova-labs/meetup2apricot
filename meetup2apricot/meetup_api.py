@@ -47,7 +47,7 @@ class MeetupEventsRetriever:
         """Return a dictionary of request parameters."""
         return {
             "page": self.events_wanted,
-            "fields": "series,featured_photo",
+            "fields": "featured_photo",
             "scroll": "recent_past",
         }
 

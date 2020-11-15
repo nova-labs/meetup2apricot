@@ -84,7 +84,7 @@ def test_request_params():
     retriever = MeetupEventsRetriever(None, None, "foo_name", MEETUP_EVENTS_WANTED)
     expected_params = {
         "page": MEETUP_EVENTS_WANTED,
-        "fields": "series,featured_photo",
+        "fields": "featured_photo",
         "scroll": "recent_past",
     }
     assert retriever.request_params() == expected_params
