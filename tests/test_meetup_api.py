@@ -18,12 +18,29 @@ SAMPLE_STATUS_RESPONSE_HEADERS = {
     "X-RateLimit-Reset": 10,
 }
 
+SAMPLE_GROUP_NAME = "Nova-Labs"
+
 
 @pytest.fixture()
 def meetup_api():
     """Return a Meetup API configured to connect to Meetup.com."""
     group_name = os.getenv("MEETUP_GROUP_URL_NAME")
     return MeetupApi(requests, OpenThrottle(), group_name, MEETUP_EVENTS_WANTED)
+
+
+@pytest.fixture()
+def mock_session(mocker):
+    """Return a mock session."""
+    mock_session = mocker.Mock()
+    return mock_session
+
+
+@pytest.fixture()
+def meetup_api_mock_session(mock_session):
+    """Return a Meetup API with a mock session."""
+    return MeetupApi(
+        mock_session, OpenThrottle(), SAMPLE_GROUP_NAME, MEETUP_EVENTS_WANTED
+    )
 
 
 @pytest.fixture()
@@ -37,11 +54,10 @@ def mock_session_for_status(mocker):
 
 
 @pytest.fixture()
-def meetup_event_retriever_for_status(mock_session_for_status):
+def meetup_api_for_status(mock_session_for_status):
     """Return a Meetup API mocked to return a status response."""
-    group_name = os.getenv("MEETUP_GROUP_URL_NAME")
     return MeetupApi(
-        mock_session_for_status, OpenThrottle(), group_name, MEETUP_EVENTS_WANTED
+        mock_session_for_status, OpenThrottle(), SAMPLE_GROUP_NAME, MEETUP_EVENTS_WANTED
     )
 
 
@@ -89,10 +105,10 @@ def test_request_params():
 
 
 def test_retrieve_status_request_interaction(
-    meetup_event_retriever_for_status, mock_session_for_status
+    meetup_api_for_status, mock_session_for_status
 ):
     """Test the interaction with Requests when retrieving Meetup's API status."""
-    response = meetup_event_retriever_for_status.retrieve_status()
+    response = meetup_api_for_status.retrieve_status()
     mock_session_for_status.get.assert_called_once_with("https://api.meetup.com/status")
 
 
@@ -127,12 +143,46 @@ def test_make_throttle(meetup_api, mocker):
     assert throttle.time_span == 10
 
 
-def test_make_meetup_api_throttle(meetup_event_retriever_for_status):
-    """Test the interaction with Requests when retrieving Meetup's API status."""
-    throttle = meetup_event_retriever_for_status.make_meetup_api_throttle()
+def test_make_meetup_api_throttle(meetup_api_for_status):
+    """Test the making a throttle."""
+    throttle = meetup_api_for_status.make_meetup_api_throttle()
     assert type(throttle) == Throttle
     assert throttle.rate == 20
     assert throttle.time_span == 10
+
+
+def test_retrieve_event_interaction(mock_session, meetup_api_mock_session):
+    """Test interaction with Requests when requesting an event."""
+    meetup_api_mock_session.retrieve_event_json("12345")
+    mock_session.get.assert_called_once_with(
+        "https://api.meetup.com/Nova-Labs/events/12345"
+    )
+
+
+def test_retrieve_event_success(mock_session, meetup_api_mock_session, mocker):
+    """Test retrieving an existing event from Meetup."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.json = mocker.Mock(return_value="foo")
+    mock_session.get = mocker.Mock(return_value=mock_response)
+    assert meetup_api_mock_session.retrieve_event_json("12345") == "foo"
+
+
+def test_retrieve_event_not_found(mock_session, meetup_api_mock_session, mocker):
+    """Test retrieving a missing event from Meetup."""
+    mock_response = mocker.Mock()
+    mock_response.status_code = 404
+    mock_session.get = mocker.Mock(return_value=mock_response)
+    assert meetup_api_mock_session.retrieve_event_json("12345") == None
+
+
+def test_retrieve_event(module_file_path, meetup_api):
+    """Save response from an individual event request to Meetup."""
+    event_id = os.getenv("MEETUP_EVENT_ID")
+    if not event_id:
+        pytest.skip("Define environment variable MEETUP_EVENT_ID")
+    response_json = meetup_api.retrieve_event_json(event_id)
+    save_json(response_json, module_file_path)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

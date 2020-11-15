@@ -2,6 +2,7 @@
 
 from .http_response_error import MeetupApiError
 from .throttle import make_throttle
+from http import HTTPStatus
 
 
 class MeetupApi:
@@ -34,6 +35,20 @@ class MeetupApi:
         params = self.request_params()
         params.update(kwargs)
         response = self.session.get(url, params=params)
+        MeetupApiError.check_response_status(response)
+        return response.json()
+
+    def retrieve_event_json(self, meetup_id):
+        """Retrieve the JSON event by its Meetup ID."""
+        self.throttle.throttle()
+        url = self.build_url(self.group_url_name, "events", meetup_id)
+        response = self.session.get(url)
+        if response.status_code in [
+            HTTPStatus.FORBIDDEN,
+            HTTPStatus.NOT_FOUND,
+            HTTPStatus.GONE,
+        ]:
+            return None
         MeetupApiError.check_response_status(response)
         return response.json()
 
