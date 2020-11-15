@@ -11,7 +11,7 @@ from .meetup_api import MeetupEventsRetriever
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import make_photo_cache
 from .photo_retriever import PhotoRetriever, make_session
-from .throttle import Throttle
+from .throttle import Throttle, OpenThrottle
 from requests_toolbelt import user_agent
 
 
@@ -79,6 +79,27 @@ def inject_meetup2apricot(application_scope):
 def inject_meetup_events_retriever(application_scope):
     """Return a Meetup events retriever configured by an application scope."""
     return MeetupEventsRetriever(
+        session=inject_http_session(application_scope),
+        throttle=inject_meetup_throttle(application_scope),
+        group_url_name=application_scope.meetup_group_url_name,
+        events_wanted=application_scope.meetup_events_wanted,
+    )
+
+
+def inject_meetup_throttle(application_scope):
+    """Return a throttle for Meetup API access configured by an application
+    scope."""
+    return inject_meetup_events_retriever_for_status(
+        application_scope
+    ).make_meetup_api_throttle()
+
+
+def inject_meetup_events_retriever_for_status(application_scope):
+    """Return a Meetup events retriever configured by an application scope for
+    one status request."""
+    return MeetupEventsRetriever(
+        session=inject_http_session(application_scope),
+        throttle=OpenThrottle(),
         group_url_name=application_scope.meetup_group_url_name,
         events_wanted=application_scope.meetup_events_wanted,
     )

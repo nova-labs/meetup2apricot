@@ -71,6 +71,7 @@ def test_get_event_response(module_file_path, apricot_api):
     save_json(apricot_json, module_file_path)
 
 
+@pytest.mark.skip("Avoid adding test events to live system.")
 def test_add_event_free(module_file_path, apricot_api):
     """Save response from adding a free event to Wild Apricot."""
     response = apricot_api.add_event(EXPECTED_FREE_EVENT_JSON)

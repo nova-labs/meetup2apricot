@@ -51,6 +51,7 @@ setup(
         "Documentation": "https://meetup2apricot.readthedocs.io/",
         "Source Code": "https://github.com/jshprentz/meetup2apricot",
     },
+    python_requires=">=3.9",
     scripts=[],
     setup_requires=setup_requirements,
     test_suite="tests",
