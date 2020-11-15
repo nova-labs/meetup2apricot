@@ -28,6 +28,25 @@ def meetup_event_retriever():
     )
 
 
+@pytest.fixture()
+def mock_session_for_status(mocker):
+    """Return a mock session the returns status responses."""
+    sample_response = mocker.Mock()
+    sample_response.headers = SAMPLE_STATUS_RESPONSE_HEADERS
+    mock_session = mocker.Mock()
+    mock_session.get = mocker.Mock(return_value=sample_response)
+    return mock_session
+
+
+@pytest.fixture()
+def meetup_event_retriever_for_status(mock_session_for_status):
+    """Return a Meetup events retriever mocked to return a status response."""
+    group_name = os.getenv("MEETUP_GROUP_URL_NAME")
+    return MeetupEventsRetriever(
+        mock_session_for_status, OpenThrottle(), group_name, MEETUP_EVENTS_WANTED
+    )
+
+
 def save_response(response, path):
     """Save an HTTP response to the path."""
     with path.with_suffix(".txt").open("w") as f:
@@ -71,18 +90,16 @@ def test_request_params():
     assert retriever.request_params() == expected_params
 
 
-def test_retrieve_status_request_interaction(meetup_event_retriever, mocker):
+def test_retrieve_status_request_interaction(
+    meetup_event_retriever_for_status, mock_session_for_status
+):
     """Test the interaction with Requests when retrieving Meetup's API status."""
-    sample_response = mocker.Mock()
-    sample_response.headers = SAMPLE_STATUS_RESPONSE_HEADERS
-    mocker.patch.object(requests, "get", return_value=sample_response)
-    response = meetup_event_retriever.retrieve_status()
-    requests.get.assert_called_once_with("https://api.meetup.com/status")
+    response = meetup_event_retriever_for_status.retrieve_status()
+    mock_session_for_status.get.assert_called_once_with("https://api.meetup.com/status")
 
 
-def test_retrieve_status_response(module_file_path, meetup_event_retriever, caplog):
+def test_retrieve_status_response(module_file_path, meetup_event_retriever):
     """Save the response from a status request to Meetup."""
-    caplog.set_level(logging.INFO)
     response = meetup_event_retriever.retrieve_status()
     save_response(response, module_file_path)
 
@@ -102,11 +119,19 @@ def test_retrieve_events_response_one(module_file_path, meetup_event_retriever):
     save_json(response_json, module_file_path)
 
 
-def test_make_meetup_api_throttle(meetup_event_retriever, mocker):
+def test_make_throttle(meetup_event_retriever, mocker):
     """Test making a throttle from Meetup API response header data."""
     sample_response = mocker.Mock()
     sample_response.headers = SAMPLE_STATUS_RESPONSE_HEADERS
-    throttle = meetup_event_retriever.make_meetup_api_throttle(sample_response)
+    throttle = meetup_event_retriever.make_throttle(sample_response)
+    assert type(throttle) == Throttle
+    assert throttle.rate == 20
+    assert throttle.time_span == 10
+
+
+def test_make_meetup_api_throttle(meetup_event_retriever_for_status):
+    """Test the interaction with Requests when retrieving Meetup's API status."""
+    throttle = meetup_event_retriever_for_status.make_meetup_api_throttle()
     assert type(throttle) == Throttle
     assert throttle.rate == 20
     assert throttle.time_span == 10

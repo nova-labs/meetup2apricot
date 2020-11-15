@@ -51,11 +51,17 @@ class MeetupEventsRetriever:
             "scroll": "recent_past",
         }
 
-    def make_meetup_api_throttle(self, requests_response):
+    def make_throttle(self, requests_response):
         """Make a throttle based on a Meetup API Request response."""
         rate = int(requests_response.headers["X-RateLimit-Limit"])
         time_span = int(requests_response.headers["X-RateLimit-Reset"])
         return make_throttle(rate, time_span, self.api_utilization_ratio, "Meetup API")
+
+    def make_meetup_api_throttle(self):
+        """Make a Meetup status request and return a throttle configured with
+        the rate limits contained in Meetup's response."""
+        response = self.retrieve_status()
+        return self.make_throttle(response)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
