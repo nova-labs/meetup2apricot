@@ -7,7 +7,7 @@ from .logging_application import LoggingApplication
 from .logging_context import LoggingContext
 from .logging_setup_manager import LoggingSetupManager
 from .meetup2apricot import Meetup2Apricot
-from .meetup_api import MeetupEventsRetriever
+from .meetup_api import MeetupApi
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import make_photo_cache
 from .photo_retriever import PhotoRetriever, make_session
@@ -68,17 +68,18 @@ def inject_no_trace_exceptions():
 
 
 def inject_meetup2apricot(application_scope):
-    """Return a Meetup events retriever configured by an application scope."""
+    """Return a Meetup to Wild Apricot processor configured by an application
+    scope."""
     return Meetup2Apricot(
-        meetup_events_retriever=inject_meetup_events_retriever(application_scope),
+        meetup_api=inject_meetup_api(application_scope),
         photo_cache=inject_photo_cache(application_scope),
         event_processor=inject_event_processor(application_scope),
     )
 
 
-def inject_meetup_events_retriever(application_scope):
-    """Return a Meetup events retriever configured by an application scope."""
-    return MeetupEventsRetriever(
+def inject_meetup_api(application_scope):
+    """Return a Meetup API configured by an application scope."""
+    return MeetupApi(
         session=inject_http_session(application_scope),
         throttle=inject_meetup_throttle(application_scope),
         group_url_name=application_scope.meetup_group_url_name,
@@ -89,15 +90,13 @@ def inject_meetup_events_retriever(application_scope):
 def inject_meetup_throttle(application_scope):
     """Return a throttle for Meetup API access configured by an application
     scope."""
-    return inject_meetup_events_retriever_for_status(
-        application_scope
-    ).make_meetup_api_throttle()
+    return inject_meetup_api_for_status(application_scope).make_meetup_api_throttle()
 
 
-def inject_meetup_events_retriever_for_status(application_scope):
-    """Return a Meetup events retriever configured by an application scope for
-    one status request."""
-    return MeetupEventsRetriever(
+def inject_meetup_api_for_status(application_scope):
+    """Return a Meetup API configured by an application scope for one status
+    request."""
+    return MeetupApi(
         session=inject_http_session(application_scope),
         throttle=OpenThrottle(),
         group_url_name=application_scope.meetup_group_url_name,

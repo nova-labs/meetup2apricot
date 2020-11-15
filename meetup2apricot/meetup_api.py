@@ -4,7 +4,7 @@ from .http_response_error import MeetupApiError
 from .throttle import make_throttle
 
 
-class MeetupEventsRetriever:
+class MeetupApi:
 
     """Retrieves events and other data from Meetup via their API."""
 
