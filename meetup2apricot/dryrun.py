@@ -35,20 +35,22 @@ def dryrunnable(flag_name="dryrun"):
     return decorator
 
 
-def method(flag_name="dryrun"):
-    """Return a method decorator to run a function in dry run mode if the named
-    flag is true."""
+def method(value=None, *, flag_name="dryrun"):
+    """Return a method decorator to skip a function in dry run mode, returning
+    the value, if the named flag is true."""
 
     def decorator(method):
         """Decorate a method with a wrapper that gates operation with a named
         flag."""
 
         def wrapper(obj, *args, **kwargs):
-            """Wrap a function, running it in dry run mode it the named flag is
-            true. The function runs normally if the flag is false."""
+            """Wrap a function, skipping it in dry run mode it the named flag is
+            true and returning the value. The function runs normally if the
+            flag is false."""
             dry_run = getattr(obj, flag_name, False)
             if dry_run:
-                return log_method_call(method, obj, *args, **kwargs)
+                log_method_call(method, obj, *args, **kwargs)
+                return value
             else:
                 return method(obj, *args, **kwargs)
 

@@ -20,18 +20,21 @@ class Sample:
     @method()
     def no_args(self):
         """A method with no args."""
-        message = "no_args"
+        message = self.helper()
         self.calls.append(message)
         return message
 
-    @method()
+    def helper(self):
+        return "no_args"
+
+    @method("foo")
     def some_args(self, x, y, z=3):
         """A method with some args."""
         message = f"some args x={x} y={y} z={z}"
         self.calls.append(message)
         return message
 
-    @method("other_flag")
+    @method(flag_name="other_flag")
     def other_flag_no_args(self):
         """A method with no args controlled by the other flag."""
         message = "other_flag_no_args"
@@ -104,7 +107,7 @@ def test_dryrun_no_args(dryrun_sample, caplog):
 
 def test_dryrun_some_args(dryrun_sample, caplog):
     """Test a dryrun run of the some_args method."""
-    assert dryrun_sample.some_args(1, y=2) is None
+    assert dryrun_sample.some_args(1, y=2) is "foo"
     assert dryrun_sample.calls == []
     assert caplog.messages == [
         PytestRegex(
