@@ -14,6 +14,27 @@ import logging
 logger = logging.getLogger("dryrun")
 
 
+def dryrunnable(flag_name="dryrun"):
+    """Return a class decorator to accept a named flag during object initialization."""
+
+    def decorator(cls):
+        """Decorate a class with a wrapper that accepts a named flag during
+        object initialization."""
+
+        def wrapper(*args, **kwargs):
+            """Wrap a class __init__ method, accepting a named flag among the
+            keyword arguments."""
+            dry_run = kwargs.get(flag_name, False)
+            reduced_kwargs = {key: value for key, value in kwargs.items() if key != flag_name}
+            obj = cls(*args, **reduced_kwargs)
+            setattr(obj, flag_name, dry_run)
+            return obj
+
+        return wrapper
+
+    return decorator
+
+
 def method(flag_name="dryrun"):
     """Return a method decorator to run a function in dry run mode if the named
     flag is true."""

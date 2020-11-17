@@ -1,7 +1,7 @@
 """Test the dry run decorator."""
 
 
-from meetup2apricot.dryrun import method, log_method_call
+from meetup2apricot.dryrun import dryrunnable, method, log_method_call
 from .pytest_regex import PytestRegex
 import logging
 import pytest
@@ -37,6 +37,16 @@ class Sample:
         message = "other_flag_no_args"
         self.calls.append(message)
         return message
+
+@dryrunnable()
+class DecoratedSample:
+
+    """A sample decorated class for testing the dry run decorator."""
+
+    def __init__(self, a, b):
+        """Initialize with some data."""
+        self.a = a
+        self.b = b
 
 
 @pytest.fixture
@@ -134,5 +144,20 @@ def test_other_flag_other_flag_no_args(other_flag_sample, caplog):
         )
     ]
 
+def test_decorated_sample_implicit():
+    """Test initializing the decorated sample class without setting the dry run
+    flag."""
+    sample = DecoratedSample(4, b=5)
+    assert sample.a == 4
+    assert sample.b == 5
+    assert sample.dryrun == False
+
+def test_decorated_sample_explicit():
+    """Test initializing the decorated sample class, setting the dry run
+    flag."""
+    sample = DecoratedSample(4, dryrun=True, b=5)
+    assert sample.a == 4
+    assert sample.b == 5
+    assert sample.dryrun == True
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
