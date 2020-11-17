@@ -125,6 +125,16 @@ class EventProcessor:
             pickle.dump(self.known_events, f)
 
 
+def load_cached_event_mapping(cache_path):
+    """Return a mapping of Meetup event IDs to Wild Apricot event details,
+    either loaded from a cache file or initialized to a default."""
+    if cache_path.exists():
+        with cache_path.open("rb") as f:
+            return pickle.load(f)
+    else:
+        return {}
+
+
 def make_event_processor(
     cache_path, cutoff_time, photo_cache, apricot_api, event_tagger, dryrun=False
 ):
@@ -132,11 +142,7 @@ def make_event_processor(
     known events (indexed by Meetup event ID); a cutoff time, the datetime
     before which events will be ignored; a photo cache; a Wild Apricot API
     interface; an event tagger; and a dry run flag."""
-    if cache_path.exists():
-        with cache_path.open("rb") as f:
-            known_events = pickle.load(f)
-    else:
-        known_events = {}
+    known_events = load_cached_event_mapping(cache_path)
     return EventProcessor(
         cutoff_time,
         known_events,

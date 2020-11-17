@@ -75,6 +75,16 @@ class PhotoCache:
         return f"{shorter_name}{date:%Y-%m-%d}"
 
 
+def load_cached_photo_urls(cache_path):
+    """Return a mapping of Meetup photo URLs to Wild Apricot photo paths,
+    either loaded from a cache file or initialized to a default."""
+    if cache_path.exists():
+        with cache_path.open("rb") as f:
+            return pickle.load(f)
+    else:
+        return {None: None}
+
+
 def make_photo_cache(
     cache_path, local_directory, apricot_directory, photo_retriever, dryrun=False
 ):
@@ -83,11 +93,7 @@ def make_photo_cache(
     retriever, and a dry run flag."""
     if not local_directory.is_dir():
         local_directory.mkdir()
-    if cache_path.exists():
-        with cache_path.open("rb") as f:
-            urls_to_paths = pickle.load(f)
-    else:
-        urls_to_paths = {None: None}
+    urls_to_paths = load_cached_photo_urls(cache_path)
     return PhotoCache(
         local_directory,
         apricot_directory,
