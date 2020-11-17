@@ -21,6 +21,7 @@ Recent History
 Next Release
 ------------------
 
+* Handle changes to Meetup event IDs.
 * Throttle Meetup API requests based on response headers.
 * Add dry run capability.
 * Improve documentation.
