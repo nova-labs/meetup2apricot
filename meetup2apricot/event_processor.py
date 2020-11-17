@@ -76,10 +76,11 @@ class EventProcessor:
         apricot_event_json = apricot_event.for_json()
         apricot_event_id = self.apricot_api.add_event(apricot_event_json)
         self.logger.info(
-            "add_apricot_event: meetup_id=%s apricot_id=%d title=%r",
+            "add_apricot_event: meetup_id=%s apricot_id=%d title=%r start_time=%s",
             meetup_event.meetup_id,
             apricot_event_id,
             meetup_event.name,
+            meetup_event.start_time,
         )
         return apricot_event_id
 
