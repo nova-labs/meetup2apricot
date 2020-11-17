@@ -22,6 +22,7 @@ Next Release
 ------------------
 
 * Throttle Meetup API requests based on response headers.
+* Add dry run capability.
 * Improve documentation.
 
 1.0.3 (2020-11-13)

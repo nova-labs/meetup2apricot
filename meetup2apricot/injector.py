@@ -112,6 +112,7 @@ def inject_event_processor(application_scope):
         photo_cache=inject_photo_cache(application_scope),
         apricot_api=inject_apricot_api(application_scope),
         event_tagger=inject_event_tagger(application_scope),
+        dryrun=application_scope.dryrun,
     )
 
 
@@ -130,6 +131,7 @@ def inject_photo_cache_provider(application_scope):
             local_directory=application_scope.photo_directory,
             apricot_directory=application_scope.apricot_photo_directory,
             photo_retriever=inject_photo_retriever(application_scope),
+            dryrun=application_scope.dryrun,
         )
 
     return get
@@ -137,7 +139,10 @@ def inject_photo_cache_provider(application_scope):
 
 def inject_photo_retriever(application_scope):
     """Return a photo retriever configured by an application scope."""
-    return PhotoRetriever(inject_http_session(application_scope))
+    return PhotoRetriever(
+        session=inject_http_session(application_scope),
+        dryrun=application_scope.dryrun,
+    )
 
 
 def inject_http_session(application_scope):
@@ -152,6 +157,7 @@ def inject_apricot_api(application_scope):
         account_id=application_scope.apricot_account_number,
         session=inject_apricot_oauth_session(application_scope),
         throttle=inject_apricot_throttle(application_scope),
+        dryrun=application_scope.dryrun,
     )
 
 

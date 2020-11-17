@@ -1,4 +1,4 @@
-"""Allow decorated methods and functions to log activity instead of performing activity.
+"""Allow decorated methods to log activity instead of performing activity.
 
 Inspired by these projects:
 
@@ -25,7 +25,9 @@ def dryrunnable(flag_name="dryrun"):
             """Wrap a class __init__ method, accepting a named flag among the
             keyword arguments."""
             dry_run = kwargs.get(flag_name, False)
-            reduced_kwargs = {key: value for key, value in kwargs.items() if key != flag_name}
+            reduced_kwargs = {
+                key: value for key, value in kwargs.items() if key != flag_name
+            }
             obj = cls(*args, **reduced_kwargs)
             setattr(obj, flag_name, dry_run)
             return obj

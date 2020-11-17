@@ -51,6 +51,10 @@ class ApplicationScope:
         return self._args.debug
 
     @property
+    def dryrun(self):
+        return self._args.dryrun
+
+    @property
     def earliest_event_start_time(self):
         return datetime.fromisoformat(self._env_vars["EARLIEST_EVENT_START_TIME"])
 

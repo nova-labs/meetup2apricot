@@ -41,6 +41,7 @@ class Sample:
         self.calls.append(message)
         return message
 
+
 @dryrunnable()
 class DecoratedSample:
 
@@ -147,6 +148,7 @@ def test_other_flag_other_flag_no_args(other_flag_sample, caplog):
         )
     ]
 
+
 def test_decorated_sample_implicit():
     """Test initializing the decorated sample class without setting the dry run
     flag."""
@@ -155,6 +157,7 @@ def test_decorated_sample_implicit():
     assert sample.b == 5
     assert sample.dryrun == False
 
+
 def test_decorated_sample_explicit():
     """Test initializing the decorated sample class, setting the dry run
     flag."""
@@ -162,5 +165,6 @@ def test_decorated_sample_explicit():
     assert sample.a == 4
     assert sample.b == 5
     assert sample.dryrun == True
+
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -1,5 +1,6 @@
 """Access Apricot API to insert events."""
 
+from . import dryrun
 from .http_response_error import ApricotApiError
 import logging
 
@@ -13,12 +14,14 @@ class ApricotApi:
     api_version = "v2.2"
     api_base_url = f"{api_url}/{api_version}"
 
-    def __init__(self, account_id, session, throttle):
+    def __init__(self, account_id, session, throttle, dryrun=False):
         """Initialize with a Wild Appricot account ID, an OAuth2 session to the
-        Apricot server, and a throttle to slow large numbers of requests."""
+        Apricot server, a throttle to slow large numbers of requests, and a dry
+        run flag."""
         self.account_id = account_id
         self.session = session
         self.throttle = throttle
+        self.dryrun = dryrun
 
     def get_response(self, url, **payload):
         """Request a URL and return the response."""
@@ -60,11 +63,13 @@ class ApricotApi:
         url = f"{self.api_base_url}/accounts/{self.account_id}/events/{event_id}"
         return self.get_json(url)
 
+    @dryrun.method(value=12345)
     def add_event(self, event):
         """Insert an event into Wild Apricot."""
         url = f"{self.api_base_url}/accounts/{self.account_id}/events"
         return int(self.post(url, json=event).content)
 
+    @dryrun.method(value=98765)
     def add_registration_type(self, registration_type):
         """Insert an event registration type into Wild Apricot."""
         url = (

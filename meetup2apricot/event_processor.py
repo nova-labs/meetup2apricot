@@ -2,6 +2,7 @@
 downloading Meetup photos for manual uploading to Wild Apricot, and by tracking
 events and photos already seen."""
 
+from . import dryrun
 from .meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
 from .event_registration_type import (
     make_apricot_registration_type,
@@ -25,17 +26,20 @@ class EventProcessor:
         apricot_api,
         cache_path,
         event_tagger,
+        dryrun=False,
     ):
         """Initialize with a cutoff time, a datetime before which events will
         be ignored; a dictionary of previously processed known events (indexed
         by Meetup event ID); a photo cache; a Wild Apricot API
-        interface; a path to the cache file; and an event tagger."""
+        interface; a path to the cache file; an event tagger, and a dry run
+        flag."""
         self.cutoff_time = cutoff_time
         self.known_events = known_events
         self.photo_cache = photo_cache
         self.apricot_api = apricot_api
         self.cache_path = cache_path
         self.event_tagger = event_tagger
+        self.dryrun = dryrun
 
     def process(self, meetup_event):
         """Process a meetup event."""
@@ -114,6 +118,7 @@ class EventProcessor:
             "start_time": meetup_event.start_time,
         }
 
+    @dryrun.method()
     def persist(self):
         """Persist cache to a file."""
         with self.cache_path.open("wb") as f:
@@ -121,19 +126,25 @@ class EventProcessor:
 
 
 def make_event_processor(
-    cache_path, cutoff_time, photo_cache, apricot_api, event_tagger
+    cache_path, cutoff_time, photo_cache, apricot_api, event_tagger, dryrun=False
 ):
     """Initialize with a file caching a dictionary of previously processed
     known events (indexed by Meetup event ID); a cutoff time, the datetime
     before which events will be ignored; a photo cache; a Wild Apricot API
-    interface; and an event tagger."""
+    interface; an event tagger; and a dry run flag."""
     if cache_path.exists():
         with cache_path.open("rb") as f:
             known_events = pickle.load(f)
     else:
         known_events = {}
     return EventProcessor(
-        cutoff_time, known_events, photo_cache, apricot_api, cache_path, event_tagger
+        cutoff_time,
+        known_events,
+        photo_cache,
+        apricot_api,
+        cache_path,
+        event_tagger,
+        dryrun,
     )
 
 

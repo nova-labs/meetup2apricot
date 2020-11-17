@@ -1,5 +1,6 @@
 """Retrieves photos from Meetup into local storage."""
 
+from . import dryrun
 import requests
 import logging
 
@@ -10,10 +11,12 @@ class PhotoRetriever:
 
     logger = logging.getLogger("PhotoRetriever")
 
-    def __init__(self, session):
-        """Initialize with a requests session."""
+    def __init__(self, session, dryrun=False):
+        """Initialize with a requests session and a dry run flag."""
         self.session = session
+        self.dryrun = dryrun
 
+    @dryrun.method()
     def get(self, photo_url, local_photo_path):
         """Get the photo from the URL and store it at the local path."""
         response = self.session.get(photo_url)
