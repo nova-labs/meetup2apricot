@@ -60,6 +60,11 @@ class PhotoCache:
         extension = PurePosixPath(urlparse(meetup_event.photo_url).path).suffix
         return file_name + extension
 
+    def assure_local_directory(self):
+        """Assure that the local photo directory exists."""
+        if not self.local_directory.is_dir():
+            self.local_directory.mkdir()
+
     @dryrun.method()
     def persist(self):
         """Persist cache to a file."""
@@ -83,25 +88,6 @@ def load_cached_photo_urls(cache_path):
             return pickle.load(f)
     else:
         return {None: None}
-
-
-def make_photo_cache(
-    cache_path, local_directory, apricot_directory, photo_retriever, dryrun=False
-):
-    """Initialize with path to a file caching mapping of Meetup photo URLs to
-    Wild Apricot photo paths, local and Wild Apricot directory paths, a photo
-    retriever, and a dry run flag."""
-    if not local_directory.is_dir():
-        local_directory.mkdir()
-    urls_to_paths = load_cached_photo_urls(cache_path)
-    return PhotoCache(
-        local_directory,
-        apricot_directory,
-        urls_to_paths,
-        photo_retriever,
-        cache_path,
-        dryrun,
-    )
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -135,23 +135,4 @@ def load_cached_event_mapping(cache_path):
         return {}
 
 
-def make_event_processor(
-    cache_path, cutoff_time, photo_cache, apricot_api, event_tagger, dryrun=False
-):
-    """Initialize with a file caching a dictionary of previously processed
-    known events (indexed by Meetup event ID); a cutoff time, the datetime
-    before which events will be ignored; a photo cache; a Wild Apricot API
-    interface; an event tagger; and a dry run flag."""
-    known_events = load_cached_event_mapping(cache_path)
-    return EventProcessor(
-        cutoff_time,
-        known_events,
-        photo_cache,
-        apricot_api,
-        cache_path,
-        event_tagger,
-        dryrun,
-    )
-
-
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
