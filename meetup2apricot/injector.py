@@ -1,17 +1,20 @@
 from .apricot_api import ApricotApi
-from .event_processor import make_event_processor
+from .event_mapping_updater import EventMappingUpdater
+from .event_processor import EventProcessor, load_cached_event_mapping
 from .event_tagger import make_event_tagger
 from .exceptions import JsonConversionError, MissingEnvVarError
 from .http_response_error import HttpResponseError
+from .initial_data_loader import InitialDataLoader
 from .logging_application import LoggingApplication
 from .logging_context import LoggingContext
 from .logging_setup_manager import LoggingSetupManager
 from .meetup2apricot import Meetup2Apricot
-from .meetup_api import MeetupEventsRetriever
+from .meetup_api import MeetupApi
+from .meetup_event_retriever import MeetupEventRetriever
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
-from .photo_cache import make_photo_cache
+from .photo_cache import PhotoCache, load_cached_photo_urls
 from .photo_retriever import PhotoRetriever, make_session
-from .throttle import Throttle
+from .throttle import Throttle, OpenThrottle
 from requests_toolbelt import user_agent
 
 
@@ -46,17 +49,6 @@ def inject_logging_setup_manager(application_scope):
     )
 
 
-def inject_enter_logging_application_scope(application_scope):
-    """Return a function configured by an application scope that provides a
-    processor configured by an application scope and a notional logging
-    application scope."""
-
-    def enter():
-        return inject_meetup2apricot(application_scope)
-
-    return enter
-
-
 def inject_no_trace_exceptions():
     """Return a tuple listing exception classes that need no traceback."""
     return (
@@ -67,49 +59,147 @@ def inject_no_trace_exceptions():
     )
 
 
-def inject_meetup2apricot(application_scope):
-    """Return a Meetup events retriever configured by an application scope."""
-    return Meetup2Apricot(
-        meetup_events_retriever=inject_meetup_events_retriever(application_scope),
-        photo_cache=inject_photo_cache(application_scope),
-        event_processor=inject_event_processor(application_scope),
+def inject_enter_logging_application_scope(application_scope):
+    """Return a function configured by an application scope that provides a
+    processor configured by an application scope and a notional logging
+    application scope."""
+
+    def enter():
+        return inject_initial_data_loader(application_scope)
+
+    return enter
+
+
+def inject_initial_data_loader(application_scope):
+    """Inject an initial data loader configured by an application scope."""
+    return InitialDataLoader(
+        meetup_api=inject_meetup_api(application_scope),
+        event_mapping_provider=inject_event_mapping_provider(application_scope),
+        photo_urls_provider=inject_photo_urls_provider(application_scope),
+        enter_initial_data_scope=inject_enter_initial_data_scope(application_scope),
     )
 
 
-def inject_meetup_events_retriever(application_scope):
-    """Return a Meetup events retriever configured by an application scope."""
-    return MeetupEventsRetriever(
+def inject_event_mapping_provider(application_scope):
+    """Inject a function configured by an application scope that provides cached
+    event mappings."""
+
+    def get():
+        return load_cached_event_mapping(application_scope.event_cache_file)
+
+    return get
+
+
+def inject_photo_urls_provider(application_scope):
+    """Inject a function configured by an application scope that provides
+    cached mappings of Meetup photo URLs to Wild Apricot photo paths."""
+
+    def get():
+        return load_cached_photo_urls(application_scope.photo_cache_file)
+
+    return get
+
+
+def inject_enter_initial_data_scope(application_scope):
+    """Return a function configured by an application scope that provides a
+    processor configured by an application scope and an initial data scope."""
+
+    def enter(initial_data_scope):
+        return inject_meetup2apricot(application_scope, initial_data_scope)
+
+    return enter
+
+
+def inject_meetup2apricot(application_scope, initial_data_scope):
+    """Return a Meetup to Wild Apricot processor configured by application and
+    initial data scopes."""
+    return Meetup2Apricot(
+        meetup_events=initial_data_scope.meetup_events,
+        initial_event_mapping=initial_data_scope.meetup_to_apricot_event_mapping,
+        photo_cache=inject_photo_cache(application_scope, initial_data_scope),
+        event_mapping_updater=inject_event_mapping_updater(
+            application_scope, initial_data_scope
+        ),
+        event_processor_provider=inject_event_processor_provider(
+            application_scope, initial_data_scope
+        ),
+    )
+
+
+def inject_meetup_api(application_scope):
+    """Return a Meetup API configured by an application scope."""
+    return application_scope.meetup_api(inject_meetup_api_provider(application_scope))
+
+
+def inject_meetup_api_provider(application_scope):
+    """Return function that provides a Meetup API configured by an application
+    scope."""
+
+    def get():
+        return MeetupApi(
+            session=inject_http_session(application_scope),
+            throttle=inject_meetup_throttle(application_scope),
+            group_url_name=application_scope.meetup_group_url_name,
+            events_wanted=application_scope.meetup_events_wanted,
+        )
+
+    return get
+
+
+def inject_meetup_throttle(application_scope):
+    """Return a throttle for Meetup API access configured by an application
+    scope."""
+    return inject_meetup_api_for_status(application_scope).make_meetup_api_throttle()
+
+
+def inject_meetup_api_for_status(application_scope):
+    """Return a Meetup API configured by an application scope for one status
+    request."""
+    return MeetupApi(
+        session=inject_http_session(application_scope),
+        throttle=OpenThrottle(),
         group_url_name=application_scope.meetup_group_url_name,
         events_wanted=application_scope.meetup_events_wanted,
     )
 
 
-def inject_event_processor(application_scope):
-    """Return an event processor configured by an application scope."""
-    return make_event_processor(
-        cache_path=application_scope.event_cache_file,
-        cutoff_time=application_scope.earliest_event_start_time,
-        photo_cache=inject_photo_cache(application_scope),
-        apricot_api=inject_apricot_api(application_scope),
-        event_tagger=inject_event_tagger(application_scope),
+def inject_event_processor_provider(application_scope, initial_data_scope):
+    """Return a function that provides an event processor configured by an
+    event mapping and by application and initial data scopes."""
+
+    def get(event_mapping):
+        return EventProcessor(
+            cutoff_time=application_scope.earliest_event_start_time,
+            known_events=event_mapping,
+            photo_cache=inject_photo_cache(application_scope, initial_data_scope),
+            apricot_api=inject_apricot_api(application_scope),
+            cache_path=application_scope.event_cache_file,
+            event_tagger=inject_event_tagger(application_scope),
+            dryrun=application_scope.dryrun,
+        )
+
+    return get
+
+
+def inject_photo_cache(application_scope, initial_data_scope):
+    """Return a photo cache configured by application and initial data scopes."""
+    return initial_data_scope.photo_cache(
+        inject_photo_cache_provider(application_scope, initial_data_scope)
     )
 
 
-def inject_photo_cache(application_scope):
-    """Return a photo cache configured by an application scope."""
-    return application_scope.photo_cache(inject_photo_cache_provider(application_scope))
-
-
-def inject_photo_cache_provider(application_scope):
-    """Return a function that provides an photo cache configured by an
-    application session scope."""
+def inject_photo_cache_provider(application_scope, initial_data_scope):
+    """Return a function that provides an photo cache configured by application
+    and initial data scopes."""
 
     def get():
-        return make_photo_cache(
-            cache_path=application_scope.photo_cache_file,
+        return PhotoCache(
             local_directory=application_scope.photo_directory,
             apricot_directory=application_scope.apricot_photo_directory,
+            urls_to_paths=initial_data_scope.photo_urls_to_paths,
             photo_retriever=inject_photo_retriever(application_scope),
+            cache_path=application_scope.photo_cache_file,
+            dryrun=application_scope.dryrun,
         )
 
     return get
@@ -117,7 +207,30 @@ def inject_photo_cache_provider(application_scope):
 
 def inject_photo_retriever(application_scope):
     """Return a photo retriever configured by an application scope."""
-    return PhotoRetriever(inject_http_session(application_scope))
+    return PhotoRetriever(
+        session=inject_http_session(application_scope),
+        dryrun=application_scope.dryrun,
+    )
+
+
+def inject_event_mapping_updater(application_scope, initial_data_scope):
+    """Return an event mapping updater configured by application and initial
+    data scopes."""
+    return EventMappingUpdater(
+        meetup_event_retriever=inject_meetup_event_retriever(
+            application_scope, initial_data_scope
+        ),
+        earliest_start_time=application_scope.earliest_event_start_time,
+    )
+
+
+def inject_meetup_event_retriever(application_scope, initial_data_scope):
+    """Return a Meetup event retriever configured by application and initial
+    data scopes."""
+    return MeetupEventRetriever(
+        meetup_api=inject_meetup_api(application_scope),
+        meetup_events=initial_data_scope.meetup_events,
+    )
 
 
 def inject_http_session(application_scope):
@@ -132,6 +245,7 @@ def inject_apricot_api(application_scope):
         account_id=application_scope.apricot_account_number,
         session=inject_apricot_oauth_session(application_scope),
         throttle=inject_apricot_throttle(application_scope),
+        dryrun=application_scope.dryrun,
     )
 
 

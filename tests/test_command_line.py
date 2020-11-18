@@ -67,4 +67,22 @@ def test_logfile_long():
     assert "foo.log" == args.logfile
 
 
+def test_dryrun_flag_short():
+    """Test setting the dry run flag with the short argument."""
+    args = parse_command_line("-n")
+    assert args.dryrun
+
+
+def test_dryrun_flag_long():
+    """Test setting the dry run flag with the long argument."""
+    args = parse_command_line("--dryrun")
+    assert args.dryrun
+
+
+def test_dryrun_flag_off():
+    """Test the default dry run flag value."""
+    args = parse_without_args()
+    assert not args.dryrun
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

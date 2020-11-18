@@ -19,6 +19,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-n",
+    "--dryrun",
+    action="store_true",
+    help="Do not add events to Wild Apricot, download photos, or update cached data",
+)
+
+parser.add_argument(
     "-v", "--verbose", action="store_true", help="Log to standard error"
 )
 

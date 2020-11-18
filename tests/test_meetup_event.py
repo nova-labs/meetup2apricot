@@ -112,4 +112,9 @@ def test_accounting_code_missing():
     assert meetup_event.accounting_code is None
 
 
+def test_status(free_meetup_event):
+    """Test getting the status."""
+    assert free_meetup_event.status == "upcoming"
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

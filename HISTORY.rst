@@ -6,8 +6,6 @@ History
 Future History
 ~~~~~~~~~~~~~~
 
-* Throttle Meetup API requests based on response headers.
-* Detect changed Meetup event IDs.
 * Detect photo file type by inspection; Meetup always claims jpeg.
 * Accept multiple accounting codes from event title.
 * Tag featured events.
@@ -21,6 +19,14 @@ Recent History
 
 .. Next Release
 .. ------------------
+
+1.1.0 (2020-11-17)
+------------------
+
+* Handle changes to Meetup event IDs.
+* Throttle Meetup API requests based on response headers.
+* Add dry run capability.
+* Improve documentation.
 
 1.0.3 (2020-11-13)
 ------------------

@@ -71,6 +71,7 @@ def test_get_event_response(module_file_path, apricot_api):
     save_json(apricot_json, module_file_path)
 
 
+@pytest.mark.skip("Avoid adding test events to live system.")
 def test_add_event_free(module_file_path, apricot_api):
     """Save response from adding a free event to Wild Apricot."""
     response = apricot_api.add_event(EXPECTED_FREE_EVENT_JSON)
@@ -83,16 +84,54 @@ def test_add_event_free(module_file_path, apricot_api):
 
 
 def test_add_event(mocker):
-    """Save response from a "dataset data insert" request to Wild Apricot."""
+    """Test posting parameters when adding an event."""
     sample_event = {"name": "Sample Event", "start_date": "2020-11-02 19:00"}
-    expected_url = "https://api.wildapricot.org/v2.2/accounts/12345/events"
+    expected_url = "https://api.wildapricot.org/v2.2/accounts/123/events"
     mock_response = mocker.Mock()
     mock_response.content = "4567"
-    apricot_api = ApricotApi("12345", None, None)
+    apricot_api = ApricotApi("123", None, None)
     apricot_api.post = mocker.Mock(return_value=mock_response)
     response = apricot_api.add_event(sample_event)
     assert response == 4567
     apricot_api.post.assert_called_once_with(expected_url, json=sample_event)
+
+
+def test_add_registration_type(mocker):
+    """Test posting parameters when adding an event registration type."""
+    sample_registration_type = {"name": "RSVP"}
+    expected_url = (
+        "https://api.wildapricot.org/v2.2/accounts/123/EventRegistrationTypes"
+    )
+    mock_response = mocker.Mock()
+    mock_response.content = "4567"
+    apricot_api = ApricotApi("123", None, None)
+    apricot_api.post = mocker.Mock(return_value=mock_response)
+    response = apricot_api.add_registration_type(sample_registration_type)
+    assert response == 4567
+    apricot_api.post.assert_called_once_with(
+        expected_url, json=sample_registration_type
+    )
+
+
+# These tests check that dry runs return values.
+
+
+def test_add_event_dry_run():
+    """Test that an add event dry run returns a value without contacting Wild
+    Apricot."""
+    sample_event = {}
+    apricot_api = ApricotApi("123", None, None)
+    apricot_api.dryrun = True
+    assert apricot_api.add_event(sample_event) == 12345
+
+
+def test_add_registration_type_dry_run():
+    """Test that an add event registration type dry run returns a value without
+    contacting Wild Apricot."""
+    sample_registration_type = {}
+    apricot_api = ApricotApi("123", None, None)
+    apricot_api.dryrun = True
+    assert apricot_api.add_registration_type(sample_registration_type) == 98765
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

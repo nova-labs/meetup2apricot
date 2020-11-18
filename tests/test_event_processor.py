@@ -1,6 +1,6 @@
 """Test the event processor."""
 
-from meetup2apricot.event_processor import EventProcessor, make_event_processor
+from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
 from datetime import datetime
 from .sample_apricot_json import (
     EXPECTED_FREE_PHOTO_PATH,
@@ -222,31 +222,19 @@ def test_persist(event_processor, tmp_path):
     assert cached_data == KNOWN_EVENTS
 
 
-def test_make_event_processor(
-    event_processor, tmp_path, mock_photo_cache, mock_apricot_api
-):
-    """Test making an event processor from cached data."""
+def test_load_cached_event_mapping(event_processor, tmp_path):
+    """Test loading cached data."""
     event_processor.persist()
     data_path = tmp_path / CACHE_FILE_NAME
-    another_event_processor = make_event_processor(
-        data_path, CUTOFF_TIME, mock_photo_cache, mock_apricot_api, EXPECTED_TAGS
-    )
-    assert another_event_processor.cutoff_time == CUTOFF_TIME
-    assert another_event_processor.known_events == KNOWN_EVENTS
-    assert another_event_processor.photo_cache == mock_photo_cache
-    assert another_event_processor.apricot_api == mock_apricot_api
+    known_events = load_cached_event_mapping(data_path)
+    assert known_events == KNOWN_EVENTS
 
 
-def test_make_event_processor_no_prior(tmp_path, mock_photo_cache, mock_apricot_api):
-    """Test making an event processor with no prior cached data."""
+def test_make_load_cached_event_mapping_no_prior(tmp_path):
+    """Test loading cached data with no prior cached data."""
     data_path = tmp_path / "event_processor.pickle"
-    another_event_processor = make_event_processor(
-        data_path, CUTOFF_TIME, mock_photo_cache, mock_apricot_api, EXPECTED_TAGS
-    )
-    assert another_event_processor.cutoff_time == CUTOFF_TIME
-    assert another_event_processor.known_events == {}
-    assert another_event_processor.photo_cache == mock_photo_cache
-    assert another_event_processor.apricot_api == mock_apricot_api
+    known_events = load_cached_event_mapping(data_path)
+    assert known_events == {}
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -78,20 +78,52 @@ When a Wild Apricot administrator adds or edits an application, Wild Apricot
 reveals the API key as described in `Authorizing External Applications`_.
 The environment variable :envvar:`APRICOT_API_KEY` provides the necessary
 credential to meetup2apricot.
+:doc:`apricot-application-authorization` explains how to authorize the
+meetup2apricot application and obtain its API key.
 
 .. _`wild-apricot-paths`:
 
 Wild Apricot Paths
 ------------------
 
-Several Wild Apricot API requests include Nova Labs' account number in the URL.
+Several Wild Apricot API requests include Nova Labs' Wild Apricot account
+number in their URL paths.
 The environment variable :envvar:`APRICOT_ACCOUNT_NUMBER` provides the account
 number to meetup2apricot.
+For example, specify this account number found in the Wild Apricot account
+settings shown in :numref:`Figure %s <wild_apricot_account_number>`::
+
+
+   # Wild Apricot account number
+   export APRICOT_ACCOUNT_NUMBER='123456'
+
+.. figure:: /images/screenshots/ApricotAccountNumber.png
+   :alt: Wild Apricot's account settings
+   :name: wild_apricot_account_number
+   :align: center
+
+   Within the Account section of the Wild Apricot web administration
+   interface (1), copy the account number (2).
 
 Event photos will be uploaded to a subdirectory in the Wild Apricot web site
 static resources area.
 The environment variable :envvar:`APRICOT_PHOTO_DIRECTORY` specifies the path
 to that subdirectory.
+For example, specify this directory path for the event announcements photos
+folder shown in :numref:`Figure %s <wild_apricot_photo_resources>`::
+
+   # Wild Apricot web directory for photos
+   export APRICOT_PHOTO_DIRECTORY='/resources/Pictures/EventAnnouncements'
+
+.. figure:: /images/screenshots/ApricotFiles.png
+   :alt: Wild Apricot's web file browser showing a folder hierarchy and a list
+         of photos
+   :name: wild_apricot_photo_resources
+   :align: center
+
+   Within the Settings/Files section of the Wild Apricot web administration
+   interface (1), a directory tree shows
+   ``/resources/Pictures/EventAnnouncements`` (2) containing event photos (3).
 
 Local Paths
 -----------

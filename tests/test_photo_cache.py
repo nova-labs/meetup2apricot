@@ -1,6 +1,6 @@
 """Test the photo cache."""
 
-from meetup2apricot.photo_cache import PhotoCache, make_photo_cache
+from meetup2apricot.photo_cache import PhotoCache, load_cached_photo_urls
 from datetime import datetime
 from pathlib import Path, PurePosixPath, PosixPath
 import pickle
@@ -120,6 +120,22 @@ def test_cache_photo_share(
     )
 
 
+def test_assure_local_directory_existing(tmp_path, photo_cache):
+    """Test assuring an existing photo directory."""
+    local_photo_directory = tmp_path
+    photo_cache.local_directory = local_photo_directory
+    photo_cache.assure_local_directory()
+    assert local_photo_directory.is_dir()
+
+
+def test_assure_local_directory_new(tmp_path, photo_cache):
+    """Test creating a new photo directory."""
+    local_photo_directory = tmp_path / "photos"
+    photo_cache.local_directory = local_photo_directory
+    photo_cache.assure_local_directory()
+    assert local_photo_directory.is_dir()
+
+
 def test_persist(photo_cache, tmp_path):
     """Test persisting the photo cache."""
     photo_cache.persist()
@@ -129,41 +145,19 @@ def test_persist(photo_cache, tmp_path):
     assert cached_data == INITIAL_CACHE
 
 
-def test_make_photo_cache(tmp_path, photo_cache, mock_photo_retriever):
-    """Test making a photo cache from cached data."""
+def test_load_cached_photo_urls(photo_cache, tmp_path):
+    """Test loading cached photo data."""
     photo_cache.persist()
     data_path = tmp_path / CACHE_FILE_NAME
-    another_photo_cache = make_photo_cache(
-        data_path, tmp_path, SAMPLE_APRICOT_DIRECTORY, mock_photo_retriever
-    )
-    assert another_photo_cache.urls_to_paths == INITIAL_CACHE
-    assert another_photo_cache.local_directory == tmp_path
-    assert another_photo_cache.apricot_directory == SAMPLE_APRICOT_DIRECTORY
-    assert another_photo_cache.photo_retriever == mock_photo_retriever
+    urls_to_paths = load_cached_photo_urls(data_path)
+    assert urls_to_paths == INITIAL_CACHE
 
 
-def test_make_photo_cache_new_dir(tmp_path, photo_cache, mock_photo_retriever):
-    """Test creating a new photo directory while making a photo cache from
-    cached data."""
-    photo_cache.persist()
+def test_load_cached_photo_urls_no_prior(tmp_path):
+    """Test loading cached data with no prior cached data."""
     data_path = tmp_path / CACHE_FILE_NAME
-    local_photo_directory = tmp_path / "photos"
-    make_photo_cache(
-        data_path, local_photo_directory, SAMPLE_APRICOT_DIRECTORY, mock_photo_retriever
-    )
-    assert local_photo_directory.is_dir()
-
-
-def test_make_photo_cache_no_prior(tmp_path, mock_photo_retriever):
-    """Test making a photo cache with no prior cached data."""
-    data_path = tmp_path / CACHE_FILE_NAME
-    another_photo_cache = make_photo_cache(
-        data_path, tmp_path, SAMPLE_APRICOT_DIRECTORY, mock_photo_retriever
-    )
-    assert another_photo_cache.urls_to_paths == {None: None}
-    assert another_photo_cache.local_directory == tmp_path
-    assert another_photo_cache.apricot_directory == SAMPLE_APRICOT_DIRECTORY
-    assert another_photo_cache.photo_retriever == mock_photo_retriever
+    urls_to_paths = load_cached_photo_urls(data_path)
+    assert urls_to_paths == {None: None}
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

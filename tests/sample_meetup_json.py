@@ -37,18 +37,6 @@ FREE_MEETUP_EVENT_JSON = """
         "local_time": "19:00",
         "member_pay_fee": false,
         "name": "AC: Mending Monday (Test Event)",
-        "series": {
-            "description": "Every 2 weeks on Monday",
-            "id": 44165671,
-            "start_date": 1594008000000,
-            "template_event_id": 0,
-            "weekly": {
-                "days_of_week": [
-                    1
-                ],
-                "interval": 2
-            }
-        },
         "status": "upcoming",
         "time": 1604966400000,
         "updated": 1594000624000,

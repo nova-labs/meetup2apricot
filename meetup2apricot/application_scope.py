@@ -20,7 +20,7 @@ class ApplicationScope:
         environment variable dictionary."""
         self._args = args
         self._env_vars = env_vars
-        self._photo_cache_cache = ScopeCache()
+        self._meetup_api_cache = ScopeCache()
 
     @property
     def app_name(self):
@@ -51,6 +51,10 @@ class ApplicationScope:
         return self._args.debug
 
     @property
+    def dryrun(self):
+        return self._args.dryrun
+
+    @property
     def earliest_event_start_time(self):
         return datetime.fromisoformat(self._env_vars["EARLIEST_EVENT_START_TIME"])
 
@@ -66,6 +70,10 @@ class ApplicationScope:
     def log_level(self):
         return logging.DEBUG if self.debug else logging.INFO
 
+    def meetup_api(self, meetup_api_provider):
+        """Return a cached Meetup API or one provided by a provider."""
+        return self._meetup_api_cache.get(meetup_api_provider)
+
     @property
     def meetup_events_wanted(self):
         return self._env_vars["MEETUP_EVENTS_WANTED"]
@@ -73,9 +81,6 @@ class ApplicationScope:
     @property
     def meetup_group_url_name(self):
         return self._env_vars["MEETUP_GROUP_URL_NAME"]
-
-    def photo_cache(self, photo_cache_provider):
-        return self._photo_cache_cache.get(photo_cache_provider)
 
     @property
     def photo_cache_file(self):
