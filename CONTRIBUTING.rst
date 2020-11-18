@@ -190,12 +190,14 @@ The default target is help::
     clean-pyc            remove Python file artifacts
     clean                remove all build, test, coverage and Python artifacts
     clean-test           remove test and coverage artifacts
+    coverage-browse      check code coverage and browse locally
     coverage             check code coverage quickly with the default Python
+    coverage-web         check code coverage and serve results via the web
     develop              install required Python packages for local development
     dist                 builds source and wheel package
-    docsbrowse           compile the docs and view them in a local browser
+    docs-browse          compile the docs and view them in a local browser
     docs                 generate Sphinx HTML documentation, including API docs
-    docsweb              compile the docs and serve them via the web
+    docs-web             compile the docs and serve them via the web
     gitlog               show the Git graphical history
     install              install required Python packages for production
     lint                 check style with flake8
