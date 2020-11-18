@@ -20,7 +20,8 @@ class EventProcessor:
 
     def __init__(
         self,
-        cutoff_time,
+        earliest_start_time,
+        latest_start_time,
         known_events,
         photo_cache,
         apricot_api,
@@ -28,12 +29,12 @@ class EventProcessor:
         event_tagger,
         dryrun=False,
     ):
-        """Initialize with a cutoff time, a datetime before which events will
-        be ignored; a dictionary of previously processed known events (indexed
-        by Meetup event ID); a photo cache; a Wild Apricot API
-        interface; a path to the cache file; an event tagger, and a dry run
-        flag."""
-        self.cutoff_time = cutoff_time
+        """Initialize with the earliest and latest event start times, a
+        dictionary of previously processed known events (indexed by Meetup
+        event ID), a photo cache; a Wild Apricot API interface, a path to the
+        cache file; an event tagger, and a dry run flag."""
+        self.earliest_start_time = earliest_start_time
+        self.latest_start_time = latest_start_time
         self.known_events = known_events
         self.photo_cache = photo_cache
         self.apricot_api = apricot_api
@@ -54,7 +55,8 @@ class EventProcessor:
     def can_ignore_event(self, meetup_event):
         """Return true if a Meetup event can be ignored; false otherwise."""
         return (
-            meetup_event.start_time < self.cutoff_time
+            meetup_event.start_time < self.earliest_start_time
+            or meetup_event.start_time > self.latest_start_time
             or meetup_event.meetup_id in self.known_events
         )
 

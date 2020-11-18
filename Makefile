@@ -84,6 +84,11 @@ coverage: ## check code coverage quickly with the default Python
 	$(call venv-cmd,coverage run --source meetup2apricot -m pytest)
 	$(call venv-cmd,coverage report -m)
 	$(call venv-cmd,coverage html)
+
+coverage-web: coverage ## check code coverage and serve results via the web
+	- $(call venv-cmd,$(PYTHON_INTERPRETER) -m http.server $(WEB_PORT) --directory htmlcov)
+
+coverage-browse: coverage ## check code coverage and browse locally
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
@@ -93,10 +98,10 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 
-docsbrowse: docs ## compile the docs and view them in a local browser
+docs-browse: docs ## compile the docs and view them in a local browser
 	$(BROWSER) docs/_build/html/index.html
 
-docsweb: docs ## compile the docs and serve them via the web
+docs-web: docs ## compile the docs and serve them via the web
 	- $(call venv-cmd,$(PYTHON_INTERPRETER) -m http.server $(WEB_PORT) --directory docs/_build/html)
 
 servedocs: docs ## compile the docs watching for changes

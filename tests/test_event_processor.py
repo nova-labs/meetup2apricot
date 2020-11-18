@@ -12,7 +12,8 @@ import pickle
 import pytest
 
 
-CUTOFF_TIME = datetime.fromisoformat("2020-11-10 00:00 -05:00")
+EARLIEST_START_TIME = datetime.fromisoformat("2020-11-10 00:00 -05:00")
+LATEST_START_TIME = datetime.fromisoformat("2020-12-31 23:59 -05:00")
 
 KNOWN_EVENTS = {
     "274139316": {
@@ -114,7 +115,8 @@ def mock_apricot_api(mocker):
 @pytest.fixture()
 def event_processor(mock_photo_cache, mock_apricot_api, tmp_path, event_tagger):
     return EventProcessor(
-        cutoff_time=CUTOFF_TIME,
+        earliest_start_time=EARLIEST_START_TIME,
+        latest_start_time=LATEST_START_TIME,
         known_events=KNOWN_EVENTS.copy(),
         photo_cache=mock_photo_cache,
         apricot_api=mock_apricot_api,
@@ -124,13 +126,19 @@ def event_processor(mock_photo_cache, mock_apricot_api, tmp_path, event_tagger):
 
 
 def test_can_ignore_event_past(event_processor, free_meetup_event):
-    """Test that an event before the cutoff time can be ignored."""
+    """Test that an event before the earliest start time can be ignored."""
     assert event_processor.can_ignore_event(free_meetup_event)
 
 
 def test_can_ignore_event_future_new(event_processor, later_free_meetup_event):
-    """Test that an unseen event after the cutoff time can not be ignored."""
+    """Test that an unseen event after the earliest start time can not be
+    ignored."""
     assert not event_processor.can_ignore_event(later_free_meetup_event)
+
+
+def test_can_ignore_event_far_future(event_processor, much_later_free_meetup_event):
+    """Test that an unseen event after the latest start time can be ignored."""
+    assert event_processor.can_ignore_event(much_later_free_meetup_event)
 
 
 def test_can_ignore_event_seen(event_processor, paid_meetup_event):

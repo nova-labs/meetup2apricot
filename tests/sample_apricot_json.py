@@ -8,7 +8,7 @@ EXPECTED_FREE_PHOTO_PATH = (
 
 EXPECTED_TAGS = ["meetup", "test"]
 
-EXPECTED_FREE_TAGS = ["arts-and-crafts", "the-studio", "meetup", "test"]
+EXPECTED_FREE_TAGS = ["meetup", "test", "arts-and-crafts", "the-studio"]
 
 EXPECTED_FREE_DESCRIPTION_HTML = (
     f'<p><img src="{EXPECTED_FREE_PHOTO_PATH}" '
@@ -32,8 +32,14 @@ EXPECTED_FREE_EVENT_JSON = {
     "Tags": EXPECTED_FREE_TAGS,
     "Details": {
         "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
-        "AccessControl": {"AccessLevel": "Public"},
+        "AccessControl": {
+            "AccessLevel": "Public",
+            "AvailableForAnyLevel": True,
+            "AvailableForAnyGroup": True,
+        },
         "PaymentMethod": "OnlineOnly",
+        "RegistrationConfirmationExtraInfo": "How to find us: "
+        "https://zoom.us/j/92758362882?pwd=a2VJOGxyOTBqelNhdjY1dGpqZStjZz09",
         "IsWaitlistEnabled": True,
         "WaitlistSettings": {
             "WaitlistType": "Manual",

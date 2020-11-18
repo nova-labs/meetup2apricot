@@ -2,6 +2,7 @@
 
 from meetup2apricot.meetup_event import MeetupEvent, MeetupVenue
 from datetime import datetime
+import pytest
 
 
 def test_duration(free_meetup_event_json):
@@ -95,26 +96,61 @@ def test_yes_rsvp_count(paid_meetup_event):
     assert paid_meetup_event.yes_rsvp_count == 2
 
 
-def test_accounting_code(free_meetup_event):
-    """Test getting the accounting code."""
-    assert free_meetup_event.accounting_code == "AC"
+def test_accounting_codes(free_meetup_event):
+    """Test getting an accounting code."""
+    assert free_meetup_event.accounting_codes == ["AC"]
 
 
-def test_accounting_code_underscore(paid_meetup_event):
-    """Test getting only the first part of an accounting code with an
-    underscore."""
-    assert paid_meetup_event.accounting_code == "AV"
+def test_accounting_codes_underscore(paid_meetup_event):
+    """Test getting all parts of an accounting code with an underscore."""
+    assert paid_meetup_event.accounting_codes == ["AV", "P"]
 
 
-def test_accounting_code_missing():
+def test_accounting_codes_missing():
     """Test getting a missing accounting code."""
     meetup_event = MeetupEvent({"name": "NO code in event name"})
-    assert meetup_event.accounting_code is None
+    assert meetup_event.accounting_codes == []
+
+
+def test_accounting_codes_multiple():
+    """Test getting multiple accounting codes."""
+    meetup_event = MeetupEvent({"name": "BL_MW_X: Two codes in event name"})
+    assert meetup_event.accounting_codes == ["BL", "MW", "X"]
 
 
 def test_status(free_meetup_event):
     """Test getting the status."""
     assert free_meetup_event.status == "upcoming"
+
+
+def test_members_only_no(free_meetup_event):
+    """Test checking for members only with an unrestricted event."""
+    assert not free_meetup_event.members_only
+
+
+@pytest.mark.parametrize(
+    "event_name",
+    [
+        "AC: Mending Monday (Members Only)",
+        "AC: Mending Monday (members only)",
+        "AC: Mending Monday members-only",
+    ],
+)
+def test_members_only_yes(event_name):
+    """Test checking for members only with a restricted event name."""
+    event_json = {"name": event_name}
+    meetup_event = MeetupEvent(event_json)
+    assert meetup_event.members_only
+
+
+def test_featured_missing(free_meetup_event):
+    """Test getting a missing featured flag."""
+    assert not free_meetup_event.featured
+
+
+def test_featured_missing(paid_meetup_event):
+    """Test getting the featured flag."""
+    assert paid_meetup_event.featured
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
