@@ -17,7 +17,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.1.0 (2020-11-17)
 ------------------
 
 * Handle changes to Meetup event IDs.
