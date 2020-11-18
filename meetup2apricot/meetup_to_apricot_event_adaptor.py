@@ -97,7 +97,18 @@ class MeetupToApricotEventAdaptor:
     @property
     def access_level(self):
         """Return the event accessability."""
-        return "Public"
+        if self._meetup_event.members_only:
+            return "Restricted"
+        else:
+            return "Public"
+
+    @property
+    def extra_info(self):
+        """Return extra info shown to registrants."""
+        if self._meetup_event.find_us:
+            return f"How to find us: {self._meetup_event.find_us}"
+        else:
+            return ""
 
     @staticmethod
     def format_date_for_json(date):
@@ -119,8 +130,13 @@ class MeetupToApricotEventAdaptor:
             "Tags": self.apricot_event_tags,
             "Details": {
                 "DescriptionHtml": self.description_html,
-                "AccessControl": {"AccessLevel": self.access_level},
+                "AccessControl": {
+                    "AccessLevel": self.access_level,
+                    "AvailableForAnyLevel": True,
+                    "AvailableForAnyGroup": True,
+                },
                 "PaymentMethod": "OnlineOnly",
+                "RegistrationConfirmationExtraInfo": self.extra_info,
                 "IsWaitlistEnabled": True,
                 "WaitlistSettings": {
                     "WaitlistType": "Manual",

@@ -117,6 +117,14 @@ Environment
    The path to a Python pickle formatted cache file of event conversion
    details.
 
+.. envvar:: LATEST_EVENT_START_TIME
+
+   The start time of the latest event to convert from Meetup to Wild Apricot.
+   Use ISO 8601 format including a timezone offset.
+   For example::
+
+      export LATEST_EVENT_START_TIME="2020-12-31 23:59 -05:00"
+
 .. envvar:: MEETUP_EVENTS_WANTED
 
    The number of events to request from Meetup.

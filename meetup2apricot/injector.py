@@ -169,7 +169,8 @@ def inject_event_processor_provider(application_scope, initial_data_scope):
 
     def get(event_mapping):
         return EventProcessor(
-            cutoff_time=application_scope.earliest_event_start_time,
+            earliest_start_time=application_scope.earliest_event_start_time,
+            latest_start_time=application_scope.latest_event_start_time,
             known_events=event_mapping,
             photo_cache=inject_photo_cache(application_scope, initial_data_scope),
             apricot_api=inject_apricot_api(application_scope),

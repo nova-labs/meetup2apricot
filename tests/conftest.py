@@ -11,7 +11,9 @@ import os
 import json
 import pytest
 
-ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000
+ONE_DAY_MS = 24 * 60 * 60 * 1000
+ONE_WEEK_MS = 7 * ONE_DAY_MS
+ONE_YEAR_MS = 365 * ONE_DAY_MS
 
 
 @pytest.fixture(scope="module")
@@ -83,6 +85,12 @@ def later_free_meetup_event_json(free_meetup_event_json):
 
 
 @pytest.fixture(scope="session")
+def much_later_free_meetup_event_json(free_meetup_event_json):
+    one_year_later = free_meetup_event_json["time"] + ONE_YEAR_MS
+    return free_meetup_event_json | {"time": one_year_later}
+
+
+@pytest.fixture(scope="session")
 def paid_meetup_event_json():
     return json.loads(PAID_MEETUP_EVENT_JSON)
 
@@ -95,6 +103,11 @@ def free_meetup_event(free_meetup_event_json):
 @pytest.fixture()
 def later_free_meetup_event(later_free_meetup_event_json):
     return MeetupEvent(later_free_meetup_event_json)
+
+
+@pytest.fixture()
+def much_later_free_meetup_event(much_later_free_meetup_event_json):
+    return MeetupEvent(much_later_free_meetup_event_json)
 
 
 @pytest.fixture()

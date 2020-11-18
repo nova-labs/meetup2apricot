@@ -60,6 +60,7 @@ PAID_MEETUP_EVENT_JSON = r"""
         "date_in_series_pattern": false,
         "description": "<p>Get information about how to manage multiple cameras, set up OBS, and run smoother streaming for that great online class or steaming experience. Ask about which equipment to buy and how to set up with your current equipment for the best effect.</p> <p>**Refund and Events Policy: <a href=\"https://www.nova-labs.org/class-and-event-policies/\" class=\"linkified\">https://www.nova-labs.org/class-and-event-policies/</a></p> ",
         "duration": 7200000,
+        "featured": true,
         "fee": {
             "accepts": "wepay",
             "amount": 20.0,
