@@ -195,7 +195,6 @@ def inject_photo_cache_provider(application_scope, initial_data_scope):
 
     def get():
         return PhotoCache(
-            local_directory=application_scope.photo_directory,
             apricot_directory=application_scope.apricot_photo_directory,
             urls_to_paths=initial_data_scope.photo_urls_to_paths,
             photo_retriever=inject_photo_retriever(application_scope),

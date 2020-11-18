@@ -13,17 +13,15 @@ class PhotoCache:
 
     def __init__(
         self,
-        local_directory,
         apricot_directory,
         urls_to_paths,
         photo_retriever,
         cache_path,
         dryrun=False,
     ):
-        """Initialize with local and Wild Apricot directory paths, an initial
-        mapping of Meetup photo URLs to Wild Apricot photo paths, a photo
-        retriever, a path to the cache file, and a dry run flag."""
-        self.local_directory = local_directory
+        """Initialize a Wild Apricot directory path, an initial mapping of
+        Meetup photo URLs to Wild Apricot photo paths, a photo retriever, a
+        path to the cache file, and a dry run flag."""
         self.apricot_directory = apricot_directory
         self.urls_to_paths = urls_to_paths
         self.photo_retriever = photo_retriever
@@ -39,31 +37,21 @@ class PhotoCache:
 
     def get_meetup_photo_for_apricot(self, meetup_event):
         """Get a Meetup photo for Wild Apricot."""
-        apricot_photo_name = self.apricot_photo_file_name(meetup_event)
+        proposed_photo_name = self.apricot_photo_file_name(meetup_event)
+        apricot_photo_name = self.photo_retriever.get(meetup_event.photo_url, proposed_photo_name)
         self.urls_to_paths[meetup_event.photo_url] = self.apricot_photo_path(
             apricot_photo_name
         )
-        local_photo_path = self.local_photo_path(apricot_photo_name)
-        self.photo_retriever.get(meetup_event.photo_url, local_photo_path)
 
     def apricot_photo_path(self, photo_file_name):
         """Return a photo's Wild Apricot URL path."""
         return self.apricot_directory / photo_file_name
-
-    def local_photo_path(self, photo_file_name):
-        """Return a photo's local path."""
-        return self.local_directory / photo_file_name
 
     def apricot_photo_file_name(self, meetup_event):
         """Return the Wild Apricot photo file name for a Meetup event."""
         file_name = self.apricot_photo_name(meetup_event.name, meetup_event.start_time)
         extension = PurePosixPath(urlparse(meetup_event.photo_url).path).suffix
         return file_name + extension
-
-    def assure_local_directory(self):
-        """Assure that the local photo directory exists."""
-        if not self.local_directory.is_dir():
-            self.local_directory.mkdir()
 
     @dryrun.method()
     def persist(self):

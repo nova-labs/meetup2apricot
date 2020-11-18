@@ -23,7 +23,6 @@ class Meetup2Apricot:
 
     def run(self):
         """Run the Meetup to Wild Apricot conversion."""
-        self.photo_cache.assure_local_directory()
         event_processor = self.setup_event_processor()
         self.add_apricot_events(event_processor)
         event_processor.persist()

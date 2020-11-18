@@ -6,15 +6,16 @@ History
 Future History
 ~~~~~~~~~~~~~~
 
-* Detect photo file type by inspection; Meetup always claims jpeg.
 * Update tags and member-only status of existing events.
 
 ~~~~~~~~~~~~~~
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Detect photo file type by inspection; Meetup always claims jpeg.
 
 1.2.0 (2020-11-18)
 ------------------
