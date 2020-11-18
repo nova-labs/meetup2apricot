@@ -38,7 +38,9 @@ class PhotoCache:
     def get_meetup_photo_for_apricot(self, meetup_event):
         """Get a Meetup photo for Wild Apricot."""
         proposed_photo_name = self.apricot_photo_file_name(meetup_event)
-        apricot_photo_name = self.photo_retriever.get(meetup_event.photo_url, proposed_photo_name)
+        apricot_photo_name = self.photo_retriever.get(
+            meetup_event.photo_url, proposed_photo_name
+        )
         self.urls_to_paths[meetup_event.photo_url] = self.apricot_photo_path(
             apricot_photo_name
         )
