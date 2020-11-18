@@ -1,8 +1,8 @@
 .. highlight:: Bash
 
-=====================================
-Wild Apricot Appliction Authorization
-=====================================
+======================================
+Wild Apricot Application Authorization
+======================================
 
 Wild Apricot authenticates client applications such as meetup2apricot with OAuth2.
 The client application, meetup2apricot, needs an :abbr:`API(application

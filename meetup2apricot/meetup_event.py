@@ -17,6 +17,7 @@ MEETUP_ID_KEY = "id"
 NAME_KEY = "name"
 RSVP_LIMIT_KEY = "rsvp_limit"
 START_TIME_KEY = "time"
+STATUS_KEY = "status"
 VENUE_KEY = "venue"
 VENUE_NAME_KEY = "name"
 VENUE_ADDRESS_KEY = "address_1"
@@ -133,6 +134,11 @@ class MeetupEvent:
             return match.group(1)
         else:
             return None
+
+    @property
+    def status(self):
+        """Return the status, typically upcoming or cancelled."""
+        return self.event_json[STATUS_KEY]
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

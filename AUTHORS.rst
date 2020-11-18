@@ -36,9 +36,11 @@ These Python packages help test **Meetup2xibo**.
 
 * `pytest`_, a testing framework
 * `pytest-mock`_, mock objects for pytest
+* `pytest_regex`_, regular expression match for assertions (sample code copied from blog)
 
 .. _`pytest`: https://docs.pytest.org/en/latest/
 .. _`pytest-mock`: https://github.com/pytest-dev/pytest-mock/#pytest-mock
+.. _`pytest_regex`: https://kalnytskyi.com/howto/assert-str-matches-regex-in-pytest/
 
 Development Tools
 -----------------
