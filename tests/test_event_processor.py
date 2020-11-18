@@ -135,6 +135,7 @@ def test_can_ignore_event_future_new(event_processor, later_free_meetup_event):
     ignored."""
     assert not event_processor.can_ignore_event(later_free_meetup_event)
 
+
 def test_can_ignore_event_far_future(event_processor, much_later_free_meetup_event):
     """Test that an unseen event after the latest start time can be ignored."""
     assert event_processor.can_ignore_event(much_later_free_meetup_event)
