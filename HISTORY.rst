@@ -13,7 +13,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.2.0 (2020-11-18)
 ------------------
 
 * Restrict registrations for events labeled members only.
