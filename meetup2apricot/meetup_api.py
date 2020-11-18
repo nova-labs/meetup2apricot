@@ -61,7 +61,7 @@ class MeetupApi:
         """Return a dictionary of request parameters."""
         return {
             "page": self.events_wanted,
-            "fields": "featured_photo",
+            "fields": "featured,featured_photo",
             "scroll": "recent_past",
         }
 

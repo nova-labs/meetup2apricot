@@ -143,4 +143,14 @@ def test_members_only_yes(event_name):
     assert meetup_event.members_only
 
 
+def test_featured_missing(free_meetup_event):
+    """Test getting a missing featured flag."""
+    assert not free_meetup_event.featured
+
+
+def test_featured_missing(paid_meetup_event):
+    """Test getting the featured flag."""
+    assert paid_meetup_event.featured
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

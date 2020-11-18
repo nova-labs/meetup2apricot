@@ -7,6 +7,7 @@ import re
 # Meetup event JSON field names
 DESCRIPTION_KEY = "description"
 DURATION_KEY = "duration"
+FEATURED_KEY = "featured"
 FEATURED_PHOTO_KEY = "featured_photo"
 FEATURED_PHOTO_HIGHRES_LINK_KEY = "highres_link"
 FEE_KEY = "fee"
@@ -141,6 +142,11 @@ class MeetupEvent:
     def members_only(self):
         """Return true if the title includes "members only"; false otherwise."""
         return bool(MEMBER_ONLY_PATTERN.search(self.name))
+
+    @property
+    def featured(self):
+        """Return the featured flag."""
+        return self.event_json.get(FEATURED_KEY, False)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

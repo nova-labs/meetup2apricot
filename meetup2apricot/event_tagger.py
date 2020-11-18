@@ -14,11 +14,12 @@ class EventTagger:
 
     def tag_event(self, meetup_event):
         """Return a list of tags for a Meetup event."""
-        return self.tag_codes(meetup_event.accounting_codes)
+        other_tags = self.featured_tags(meetup_event)
+        return self.tag_codes(meetup_event.accounting_codes, other_tags)
 
-    def tag_codes(self, codes):
+    def tag_codes(self, codes, other_tags):
         """Return a list of tags for an event's list of accounting codes."""
-        code_tags = [] + self.all_event_tags
+        code_tags = other_tags + self.all_event_tags
         for code in codes:
             code_tags += self.tag_code(code)
         return list(dict.fromkeys(code_tags))
@@ -26,6 +27,14 @@ class EventTagger:
     def tag_code(self, code):
         """Return a list of tags for an accounting code."""
         return self.codes_to_tags.get(code, [])
+
+    def featured_tags(self, meetup_event):
+        """Return a list of codes showing the "featured" status of a Meetup
+        event."""
+        if meetup_event.featured:
+            return ["featured"]
+        else:
+            return []
 
 
 def make_event_tagger(codes_to_tags, all_event_tags):
