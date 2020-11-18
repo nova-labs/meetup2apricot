@@ -32,7 +32,11 @@ EXPECTED_FREE_EVENT_JSON = {
     "Tags": EXPECTED_FREE_TAGS,
     "Details": {
         "DescriptionHtml": EXPECTED_FREE_DESCRIPTION_HTML,
-        "AccessControl": {"AccessLevel": "Public"},
+        "AccessControl": {
+            "AccessLevel": "Public",
+            "AvailableForAnyLevel": True,
+            "AvailableForAnyGroup": True,
+        },
         "PaymentMethod": "OnlineOnly",
         "IsWaitlistEnabled": True,
         "WaitlistSettings": {

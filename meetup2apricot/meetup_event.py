@@ -31,6 +31,7 @@ THREE_HOURS_MSEC = 3 * 60 * 60 * 1000
 DEFAULT_DURATION = THREE_HOURS_MSEC
 
 ACCOUNTING_CODE_PATTERN = re.compile(r"([A-Z3][A-Z]*)(?:_[A-Z_]*)?:")
+MEMBER_ONLY_PATTERN = re.compile(r"members[ -]*only", re.IGNORECASE)
 
 MeetupVenue = namedtuple("MeetupVenue", "name address city state zipcode")
 
@@ -139,6 +140,11 @@ class MeetupEvent:
     def status(self):
         """Return the status, typically upcoming or cancelled."""
         return self.event_json[STATUS_KEY]
+
+    @property
+    def members_only(self):
+        """Return true if the title includes "members only"; false otherwise."""
+        return bool(MEMBER_ONLY_PATTERN.search(self.name))
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

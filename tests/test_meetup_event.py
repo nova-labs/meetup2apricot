@@ -2,6 +2,7 @@
 
 from meetup2apricot.meetup_event import MeetupEvent, MeetupVenue
 from datetime import datetime
+import pytest
 
 
 def test_duration(free_meetup_event_json):
@@ -115,6 +116,26 @@ def test_accounting_code_missing():
 def test_status(free_meetup_event):
     """Test getting the status."""
     assert free_meetup_event.status == "upcoming"
+
+
+def test_members_only_no(free_meetup_event):
+    """Test checking for members only with an unrestricted event."""
+    assert not free_meetup_event.members_only
+
+
+@pytest.mark.parametrize(
+    "event_name",
+    [
+        "AC: Mending Monday (Members Only)",
+        "AC: Mending Monday (members only)",
+        "AC: Mending Monday members-only",
+    ],
+)
+def test_members_only_yes(event_name):
+    """Test checking for members only with a restricted event name."""
+    event_json = {"name": event_name}
+    meetup_event = MeetupEvent(event_json)
+    assert meetup_event.members_only
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
