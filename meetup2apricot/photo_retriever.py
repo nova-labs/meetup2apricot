@@ -2,6 +2,7 @@
 
 from . import dryrun
 import requests
+import imghdr
 import logging
 
 
@@ -18,13 +19,29 @@ class PhotoRetriever:
         self.session = session
         self.dryrun = dryrun
 
-    @dryrun.method()
-    def get(self, photo_url, local_photo_path):
-        """Get the photo from the URL and store it at the local path."""
-        response = self.session.get(photo_url)
-        with local_photo_path.open("wb") as photo_file:
-            photo_file.write(response.content)
+    @dryrun.method(value="photo.png")
+    def get(self, photo_url, proposed_photo_filename):
+        """Get the photo from the URL and store it with the proposed name in
+        the local directory, adjusting the filename extension if needed for the
+        image type. Return the actual filename."""
+        proposed_photo_path = self.local_directory / proposed_photo_filename
+        self.retrieve_photo(photo_url, proposed_photo_path)
+        local_photo_path = self.adjust_extension(proposed_photo_path)
+        proposed_photo_path.rename(local_photo_path)
         self.logger.info("get: local_photo_path=%s", local_photo_path)
+        return local_photo_path.name
+
+    def retrieve_photo(self, photo_url, photo_path):
+        """Retrieve a photo from a URL and save it to a path."""
+        response = self.session.get(photo_url)
+        with photo_path.open("wb") as photo_file:
+            photo_file.write(response.content)
+
+    def adjust_extension(self, photo_path):
+        """Examine the image type at a photo path and adjust its filename
+        extension accordingly. Return the corrected path."""
+        image_type = imghdr.what(photo_path)
+        return photo_path.with_suffix(f".{image_type}")
 
     def assure_local_directory(self):
         """Assure that the local photo directory exists."""
