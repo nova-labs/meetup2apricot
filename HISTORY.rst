@@ -6,7 +6,6 @@ History
 Future History
 ~~~~~~~~~~~~~~
 
-* Detect changed Meetup event IDs.
 * Detect photo file type by inspection; Meetup always claims jpeg.
 * Accept multiple accounting codes from event title.
 * Tag featured events.
