@@ -12,7 +12,7 @@ The configuration includes:
 
 - Meetup :abbr:`API(application programming interface)` settings
 - Wild Apricot API credentials
-- Date/time thresholds for event conversion
+- Date/time limits for event conversion
 - Event tagging
 - Paths to local and remote files and directories
 
@@ -66,6 +66,7 @@ events.
 Rather than rely on the Meetup default, environment variable
 :envvar:`MEETUP_EVENTS_WANTED` specifies the number of upcoming events wanted
 from Meetup.
+
 
 .. _`wild-apricot-api-credentials`:
 
@@ -187,5 +188,27 @@ Meetup2apricot would extract accounting code *RO* from event title "RO: Robot
 Group Meetup" and use the ``CODES_TO_TAGS`` mapping to apply tags *electronics*
 and *3d-printing* to the event.
 
+Event Time Limits
+-----------------
+
+Nova Labs plans to use meetup2apricot from November 10, 2020 through the end
+of the year..
+
+Environment variables :envvar:`EARLIEST_EVENT_START_TIME` and
+:envvar:`LATEST_EVENT_START_TIME` specify the earliest and latest start times
+for events converted by meetup2apricot.
+Specify times (and dates) in `ISO 8601`_ format including a timezone offset.
+For example::
+
+    # Earliest event start time to convert
+    export EARLIEST_EVENT_START_TIME="2020-11-10 00:00 -05:00"
+
+    # Latest event start time to convert
+    export LATEST_EVENT_START_TIME="2020-12-31 23:59 -05:00"
+
+To convert all upcoming Meetup events, choose an earliest time in the past and a
+latest time years in the future.
+
 .. _`Authorizing External Applications`: https://gethelp.wildapricot.com/en/articles/180
+.. _`ISO 8601`: https://www.iso.org/iso-8601-date-and-time-format.html
 .. _`The Twelve-Factor App`: https://12factor.net/config

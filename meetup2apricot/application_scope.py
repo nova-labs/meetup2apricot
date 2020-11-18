@@ -63,6 +63,10 @@ class ApplicationScope:
         return Path(self._env_vars["EVENT_CACHE_FILE"])
 
     @property
+    def latest_event_start_time(self):
+        return datetime.fromisoformat(self._env_vars["LATEST_EVENT_START_TIME"])
+
+    @property
     def logfile(self):
         return self._args.logfile
 
