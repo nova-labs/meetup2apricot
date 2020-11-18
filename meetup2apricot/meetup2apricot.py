@@ -1,8 +1,5 @@
 """Retrieve events from Meetup and add the to Wild Apricot."""
 
-from .meetup_event import MeetupEvent
-from collections import namedtuple
-
 
 class Meetup2Apricot:
 
