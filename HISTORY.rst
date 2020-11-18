@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.2.1 (2020-11-18)
 ------------------
 
 * Detect photo file type by inspection; Meetup always claims jpeg.
