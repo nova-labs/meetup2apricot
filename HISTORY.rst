@@ -20,6 +20,7 @@ Next Release
 ------------------
 
 * Restrict registrations for events labeled members only.
+* Show Meetup's "how to find us" as extra info for registrants.
 
 1.1.0 (2020-11-17)
 ------------------

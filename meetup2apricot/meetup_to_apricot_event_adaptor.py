@@ -102,6 +102,14 @@ class MeetupToApricotEventAdaptor:
         else:
             return "Public"
 
+    @property
+    def extra_info(self):
+        """Return extra info shown to registrants."""
+        if self._meetup_event.find_us:
+            return f"How to find us: {self._meetup_event.find_us}"
+        else:
+            return ""
+
     @staticmethod
     def format_date_for_json(date):
         """Format a date/time for JSON as YYYY-MM-DD HH:MM+HH:MM."""
@@ -128,6 +136,7 @@ class MeetupToApricotEventAdaptor:
                     "AvailableForAnyGroup": True,
                 },
                 "PaymentMethod": "OnlineOnly",
+                "RegistrationConfirmationExtraInfo": self.extra_info,
                 "IsWaitlistEnabled": True,
                 "WaitlistSettings": {
                     "WaitlistType": "Manual",

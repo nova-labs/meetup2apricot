@@ -38,6 +38,8 @@ EXPECTED_FREE_EVENT_JSON = {
             "AvailableForAnyGroup": True,
         },
         "PaymentMethod": "OnlineOnly",
+        "RegistrationConfirmationExtraInfo": "How to find us: "
+        "https://zoom.us/j/92758362882?pwd=a2VJOGxyOTBqelNhdjY1dGpqZStjZz09",
         "IsWaitlistEnabled": True,
         "WaitlistSettings": {
             "WaitlistType": "Manual",
