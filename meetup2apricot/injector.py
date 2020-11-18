@@ -13,7 +13,7 @@ from .meetup_api import MeetupApi
 from .meetup_event_retriever import MeetupEventRetriever
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import PhotoCache, load_cached_photo_urls
-from .photo_retriever import PhotoRetriever, make_session
+from .photo_retriever import make_photo_retriever, make_session
 from .throttle import Throttle, OpenThrottle
 from requests_toolbelt import user_agent
 
@@ -208,7 +208,8 @@ def inject_photo_cache_provider(application_scope, initial_data_scope):
 
 def inject_photo_retriever(application_scope):
     """Return a photo retriever configured by an application scope."""
-    return PhotoRetriever(
+    return make_photo_retriever(
+        local_directory=application_scope.photo_directory,
         session=inject_http_session(application_scope),
         dryrun=application_scope.dryrun,
     )
