@@ -7,7 +7,6 @@ Future History
 ~~~~~~~~~~~~~~
 
 * Detect photo file type by inspection; Meetup always claims jpeg.
-* Accept multiple accounting codes from event title.
 * Tag featured events.
 * Update tags and member-only status of existing events.
 * Limit processed events by last start date.
@@ -21,6 +20,7 @@ Next Release
 
 * Restrict registrations for events labeled members only.
 * Show Meetup's "how to find us" as extra info for registrants.
+* Accept multiple accounting codes from event title.
 
 1.1.0 (2020-11-17)
 ------------------

@@ -96,21 +96,26 @@ def test_yes_rsvp_count(paid_meetup_event):
     assert paid_meetup_event.yes_rsvp_count == 2
 
 
-def test_accounting_code(free_meetup_event):
-    """Test getting the accounting code."""
-    assert free_meetup_event.accounting_code == "AC"
+def test_accounting_codes(free_meetup_event):
+    """Test getting an accounting code."""
+    assert free_meetup_event.accounting_codes == ["AC"]
 
 
-def test_accounting_code_underscore(paid_meetup_event):
-    """Test getting only the first part of an accounting code with an
-    underscore."""
-    assert paid_meetup_event.accounting_code == "AV"
+def test_accounting_codes_underscore(paid_meetup_event):
+    """Test getting all parts of an accounting code with an underscore."""
+    assert paid_meetup_event.accounting_codes == ["AV", "P"]
 
 
-def test_accounting_code_missing():
+def test_accounting_codes_missing():
     """Test getting a missing accounting code."""
     meetup_event = MeetupEvent({"name": "NO code in event name"})
-    assert meetup_event.accounting_code is None
+    assert meetup_event.accounting_codes == []
+
+
+def test_accounting_codes_multiple():
+    """Test getting multiple accounting codes."""
+    meetup_event = MeetupEvent({"name": "BL_MW_X: Two codes in event name"})
+    assert meetup_event.accounting_codes == ["BL", "MW", "X"]
 
 
 def test_status(free_meetup_event):

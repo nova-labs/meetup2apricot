@@ -14,14 +14,18 @@ class EventTagger:
 
     def tag_event(self, meetup_event):
         """Return a list of tags for a Meetup event."""
-        return self.tag_code(meetup_event.accounting_code)
+        return self.tag_codes(meetup_event.accounting_codes)
+
+    def tag_codes(self, codes):
+        """Return a list of tags for an event's list of accounting codes."""
+        code_tags = [] + self.all_event_tags
+        for code in codes:
+            code_tags += self.tag_code(code)
+        return list(dict.fromkeys(code_tags))
 
     def tag_code(self, code):
         """Return a list of tags for an accounting code."""
-        if code is None:
-            return self.all_event_tags
-        code_tags = self.codes_to_tags.get(code, [])
-        return code_tags + self.all_event_tags
+        return self.codes_to_tags.get(code, [])
 
 
 def make_event_tagger(codes_to_tags, all_event_tags):
