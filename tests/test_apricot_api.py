@@ -46,6 +46,15 @@ def test_bad_status(apricot_api):
         apricot_api.get_response(bad_about_url)
 
 
+def test_membership_level_url():
+    """Test building a URL to request a specific membership level."""
+    apricot_api = ApricotApi("123", None, None)
+    assert (
+        apricot_api.membership_level_url(5432)
+        == "https://api.wildapricot.org/v2.2/accounts/123/membershiplevels/5432"
+    )
+
+
 # These tests retrieve and save data from Wild Apricot to aid development.
 # Provide required environment variables to run these tests.
 
@@ -111,6 +120,17 @@ def test_add_registration_type(mocker):
     apricot_api.post.assert_called_once_with(
         expected_url, json=sample_registration_type
     )
+
+
+def test_get_membership_levels(mocker):
+    """Test getting membership levels."""
+    sample_levels = [1, 3, 6]
+    expected_url = "https://api.wildapricot.org/v2.2/accounts/123/membershiplevels"
+    apricot_api = ApricotApi("123", None, None)
+    apricot_api.get_json = mocker.Mock(return_value=sample_levels)
+    response = apricot_api.get_membership_levels()
+    assert response == sample_levels
+    apricot_api.get_json.assert_called_once_with(expected_url)
 
 
 # These tests check that dry runs return values.
