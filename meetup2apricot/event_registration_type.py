@@ -6,15 +6,25 @@ class EventRegistrationType:
     """Holds data needed to add event registration types to Wild Apricot."""
 
     def __init__(
-        self, event_id, name, is_enabled, description, price, maximum_registrants_count
+        self,
+        event_id,
+        name,
+        price,
+        maximum_registrants_count,
+        is_enabled=True,
+        description="",
+        availability="Everyone",
+        **more_attributes,
     ):
-        """Initialize with parameters from thw Wild Apricot API."""
+        """Initialize with parameters for the Wild Apricot API."""
         self.event_id = event_id
         self.name = name
-        self.is_enabled = is_enabled
-        self.description = description
         self.price = price
         self.maximum_registrants_count = maximum_registrants_count
+        self.is_enabled = is_enabled
+        self.description = description
+        self.availability = availability
+        self.more_attributes = more_attributes
 
     def for_json(self):
         """Structure this event registration type into dictionaries and lists
@@ -26,14 +36,14 @@ class EventRegistrationType:
             "Description": self.description,
             "BasePrice": self.price,
             "GuestPrice": self.price,
-            "Availability": "Everyone",
+            "Availability": self.availability,
             "MaximumRegistrantsCount": self.maximum_registrants_count,
             "GuestRegistrationPolicy": "NumberOfGuests",
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
             "IsWaitlistEnabled": True,
-        }
+        } | self.more_attributes
 
 
 class EventRegistrationTypeMaker:
@@ -62,10 +72,21 @@ class EventRegistrationTypeMaker:
         return EventRegistrationType(
             event_id=event_id,
             name="RSVP",
-            is_enabled=True,
-            description="",
             price=price,
             maximum_registrants_count=maximum_registrants_count,
+        )
+
+    def make_members_only_registration_type(
+        self, event_id, maximum_registrants_count, price
+    ):
+        """Make an event registration type for members only RSVPs."""
+        return EventRegistrationType(
+            event_id=event_id,
+            name="Members Only",
+            price=price,
+            availability="MembersOnly",
+            maximum_registrants_count=maximum_registrants_count,
+            AvailableForMembershipLevels=self.membership_levels,
         )
 
 

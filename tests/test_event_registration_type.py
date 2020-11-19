@@ -41,6 +41,23 @@ EXPECTED_MEETUP_JSON = {
     "UnavailabilityPolicy": "ShowDisabled",
 }
 
+EXPECTED_MEMBERS_ONLY_JSON = {
+    "Availability": "MembersOnly",
+    "AvailableForMembershipLevels": SAMPLE_MEMBER_LEVELS,
+    "BasePrice": 78.9,
+    "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
+    "CancellationDaysBeforeEvent": 2,
+    "Description": "",
+    "EventId": 12345,
+    "GuestPrice": 78.9,
+    "GuestRegistrationPolicy": "NumberOfGuests",
+    "IsEnabled": True,
+    "IsWaitlistEnabled": True,
+    "MaximumRegistrantsCount": 6,
+    "Name": "Members Only",
+    "UnavailabilityPolicy": "ShowDisabled",
+}
+
 
 @pytest.fixture()
 def event_registration_type_maker():
@@ -62,6 +79,15 @@ def test_make_meetup_registration_type_for_json(event_registration_type_maker):
     and lists suitable for conversion to JSON."""
     reg_type = event_registration_type_maker.make_meetup_registration_type(12345, 6)
     assert reg_type.for_json() == EXPECTED_MEETUP_JSON
+
+
+def test_make_apricot_registration_type_for_json(event_registration_type_maker):
+    """Test converting a members only RSVP event registration type into
+    dictionaries and lists suitable for conversion to JSON."""
+    reg_type = event_registration_type_maker.make_members_only_registration_type(
+        12345, 6, 78.9
+    )
+    assert reg_type.for_json() == EXPECTED_MEMBERS_ONLY_JSON
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
