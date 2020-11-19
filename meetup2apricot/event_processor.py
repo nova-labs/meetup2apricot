@@ -4,7 +4,6 @@ events and photos already seen."""
 
 from . import dryrun
 from .meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
-from .event_registration_type import EventRegistrationTypeMaker
 import pickle
 import logging
 
@@ -87,32 +86,44 @@ class EventProcessor:
         return apricot_event_id
 
     def add_event_registration_types(self, meetup_event, apricot_event_id):
+        """Add event registration types for a Wild Apricot event based on a
+        Meetup event."""
+        reg_types = self.choose_registration_types(meetup_event, apricot_event_id)
+        for reg_type in reg_types:
+            self.apricot_api.add_registration_type(reg_type.for_json())
+            self.log_add_event_registration_type(apricot_event_id, reg_type)
+
+    def choose_registration_types(self, meetup_event, apricot_event_id):
+        """Choose event registration types for a Wild Apricot event based on a
+        Meetup event."""
         meetup_count = meetup_event.yes_rsvp_count
         if meetup_event.rsvp_limit:
             apricot_count = meetup_event.rsvp_limit - meetup_count
         else:
             apricot_count = None
-        for reg_type in [
+        return [
             self.event_registration_type_maker.make_meetup_registration_type(
                 apricot_event_id, meetup_event.yes_rsvp_count
             ),
             self.event_registration_type_maker.make_apricot_registration_type(
                 apricot_event_id, apricot_count, meetup_event.fee_amount
             ),
-        ]:
-            self.apricot_api.add_registration_type(reg_type.for_json())
-            if reg_type.maximum_registrants_count is None:
-                display_count = "unlimited"
-            else:
-                display_count = f"{reg_type.maximum_registrants_count:d}"
-            self.logger.info(
-                "add_event_registration_types: apricot_id=%d "
-                "maximum_registrants_count=%s price=%.2f name=%r",
-                apricot_event_id,
-                display_count,
-                reg_type.price,
-                reg_type.name,
-            )
+        ]
+
+    def log_add_event_registration_type(self, apricot_event_id, reg_type):
+        """Log adding an event registration type for a Wild Apricot event."""
+        if reg_type.maximum_registrants_count is None:
+            display_count = "unlimited"
+        else:
+            display_count = f"{reg_type.maximum_registrants_count:d}"
+        self.logger.info(
+            "add_event_registration_types: apricot_id=%d "
+            "maximum_registrants_count=%s price=%.2f name=%r",
+            apricot_event_id,
+            display_count,
+            reg_type.price,
+            reg_type.name,
+        )
 
     def record_event(self, meetup_event, apricot_event_id):
         """Record the known event to ignore in the future."""
