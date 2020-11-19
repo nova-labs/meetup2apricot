@@ -63,4 +63,60 @@ EXPECTED_PAID_DESCRIPTION_HTML = (
     'href="https://www.meetup.com/NOVA-Makers/events/274139316/">Meetup.com</a>.</p>'
 )
 
+SAMPLE_MEMBERSHIP_LEVEL_JSON = [
+    {
+        "ApplicationReview": {"AdminApprovalRequired": True, "PrepayRequired": False},
+        "AutomaticRecurringPayments": False,
+        "Description": "Associates receive access to space during open hours. \r\n\r\n\r\n",
+        "Id": 1206421,
+        "MembershipFee": 0.0,
+        "Name": "Associate (legacy-billing)",
+        "PublicCanApply": False,
+        "RenewalPeriod": {"Kind": "Never"},
+        "Type": "Individual",
+        "Url": "https://api.wildapricot.org/v2.2/accounts/335649/MembershipLevels/1206421",
+    },
+    {
+        "ApplicationReview": {"AdminApprovalRequired": True, "PrepayRequired": True},
+        "AutomaticRecurringPayments": False,
+        "Description": "24x7 access to space\r\nPriority access to certain resources and events\r\nEligible for additional discounts for events\r\n",
+        "Id": 1206426,
+        "MembershipFee": 100.0,
+        "Name": "Key",
+        "PublicCanApply": False,
+        "RenewalPeriod": {
+            "Dates": [
+                {"Day": 1, "Month": 1},
+                {"Day": 1, "Month": 2},
+                {"Day": 1, "Month": 3},
+                {"Day": 1, "Month": 4},
+                {"Day": 1, "Month": 5},
+                {"Day": 1, "Month": 6},
+                {"Day": 1, "Month": 7},
+                {"Day": 1, "Month": 8},
+                {"Day": 1, "Month": 9},
+                {"Day": 1, "Month": 10},
+                {"Day": 1, "Month": 11},
+                {"Day": 1, "Month": 12},
+            ],
+            "Kind": "Monthly",
+            "StartFromJoinDate": False,
+        },
+        "Type": "Individual",
+        "Url": "https://api.wildapricot.org/v2.2/accounts/335649/MembershipLevels/1206426",
+    },
+    {
+        "ApplicationReview": {"AdminApprovalRequired": False, "PrepayRequired": True},
+        "AutomaticRecurringPayments": False,
+        "Description": "Temporary level used during initial migration",
+        "Id": 1207614,
+        "MembershipFee": 0.0,
+        "Name": "NL Member",
+        "PublicCanApply": False,
+        "RenewalPeriod": {"Kind": "Never"},
+        "Type": "Individual",
+        "Url": "https://api.wildapricot.org/v2.2/accounts/335649/MembershipLevels/1207614",
+    },
+]
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -46,15 +46,6 @@ def test_bad_status(apricot_api):
         apricot_api.get_response(bad_about_url)
 
 
-def test_membership_level_url():
-    """Test building a URL to request a specific membership level."""
-    apricot_api = ApricotApi("123", None, None)
-    assert (
-        apricot_api.membership_level_url(5432)
-        == "https://api.wildapricot.org/v2.2/accounts/123/membershiplevels/5432"
-    )
-
-
 # These tests retrieve and save data from Wild Apricot to aid development.
 # Provide required environment variables to run these tests.
 

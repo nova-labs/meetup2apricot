@@ -74,6 +74,7 @@ def inject_initial_data_loader(application_scope):
     """Inject an initial data loader configured by an application scope."""
     return InitialDataLoader(
         meetup_api=inject_meetup_api(application_scope),
+        apricot_api=inject_apricot_api(application_scope),
         event_mapping_provider=inject_event_mapping_provider(application_scope),
         photo_urls_provider=inject_photo_urls_provider(application_scope),
         enter_initial_data_scope=inject_enter_initial_data_scope(application_scope),
