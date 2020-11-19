@@ -1,6 +1,7 @@
 from .apricot_api import ApricotApi
 from .event_mapping_updater import EventMappingUpdater
 from .event_processor import EventProcessor, load_cached_event_mapping
+from .event_registration_type import EventRegistrationTypeMaker
 from .event_tagger import make_event_tagger
 from .exceptions import JsonConversionError, MissingEnvVarError
 from .http_response_error import HttpResponseError
@@ -174,6 +175,9 @@ def inject_event_processor_provider(application_scope, initial_data_scope):
             latest_start_time=application_scope.latest_event_start_time,
             known_events=event_mapping,
             photo_cache=inject_photo_cache(application_scope, initial_data_scope),
+            event_registration_type_maker=inject_event_registration_type_maker(
+                initial_data_scope
+            ),
             apricot_api=inject_apricot_api(application_scope),
             cache_path=application_scope.event_cache_file,
             event_tagger=inject_event_tagger(application_scope),
@@ -233,6 +237,11 @@ def inject_meetup_event_retriever(application_scope, initial_data_scope):
         meetup_api=inject_meetup_api(application_scope),
         meetup_events=initial_data_scope.meetup_events,
     )
+
+
+def inject_event_registration_type_maker(initial_data_scope):
+    """Return an event registration type maker configured by an initial data scope."""
+    return EventRegistrationTypeMaker(initial_data_scope.membership_levels)
 
 
 def inject_http_session(application_scope):

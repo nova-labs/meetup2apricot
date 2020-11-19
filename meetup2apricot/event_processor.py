@@ -4,10 +4,7 @@ events and photos already seen."""
 
 from . import dryrun
 from .meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
-from .event_registration_type import (
-    make_apricot_registration_type,
-    make_meetup_registration_type,
-)
+from .event_registration_type import EventRegistrationTypeMaker
 import pickle
 import logging
 
@@ -24,6 +21,7 @@ class EventProcessor:
         latest_start_time,
         known_events,
         photo_cache,
+        event_registration_type_maker,
         apricot_api,
         cache_path,
         event_tagger,
@@ -31,12 +29,14 @@ class EventProcessor:
     ):
         """Initialize with the earliest and latest event start times, a
         dictionary of previously processed known events (indexed by Meetup
-        event ID), a photo cache; a Wild Apricot API interface, a path to the
-        cache file; an event tagger, and a dry run flag."""
+        event ID), a photo cache, an event registration type maker, a Wild
+        Apricot API interface, a path to the cache file; an event tagger, and a
+        dry run flag."""
         self.earliest_start_time = earliest_start_time
         self.latest_start_time = latest_start_time
         self.known_events = known_events
         self.photo_cache = photo_cache
+        self.event_registration_type_maker = event_registration_type_maker
         self.apricot_api = apricot_api
         self.cache_path = cache_path
         self.event_tagger = event_tagger
@@ -93,10 +93,10 @@ class EventProcessor:
         else:
             apricot_count = None
         for reg_type in [
-            make_meetup_registration_type(
+            self.event_registration_type_maker.make_meetup_registration_type(
                 apricot_event_id, meetup_event.yes_rsvp_count
             ),
-            make_apricot_registration_type(
+            self.event_registration_type_maker.make_apricot_registration_type(
                 apricot_event_id, apricot_count, meetup_event.fee_amount
             ),
         ]:

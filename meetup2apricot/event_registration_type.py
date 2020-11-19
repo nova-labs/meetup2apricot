@@ -36,28 +36,37 @@ class EventRegistrationType:
         }
 
 
-def make_meetup_registration_type(event_id, maximum_registrants_count):
-    """Make an event registration type for existing Meetup RSVPs."""
-    return EventRegistrationType(
-        event_id=event_id,
-        name="Meetup RSVP",
-        is_enabled=False,
-        description="RSVPs on Meetup",
-        price=0.0,
-        maximum_registrants_count=maximum_registrants_count,
-    )
+class EventRegistrationTypeMaker:
 
+    """Makes various event registration types."""
 
-def make_apricot_registration_type(event_id, maximum_registrants_count, price):
-    """Make an event registration type for Wild Apricot RSVPs."""
-    return EventRegistrationType(
-        event_id=event_id,
-        name="RSVP",
-        is_enabled=True,
-        description="",
-        price=price,
-        maximum_registrants_count=maximum_registrants_count,
-    )
+    def __init__(self, membership_levels):
+        """Initialize with a list of all membership levels."""
+        self.membership_levels = membership_levels
+
+    def make_meetup_registration_type(self, event_id, maximum_registrants_count):
+        """Make an event registration type for existing Meetup RSVPs."""
+        return EventRegistrationType(
+            event_id=event_id,
+            name="Meetup RSVP",
+            is_enabled=False,
+            description="RSVPs on Meetup",
+            price=0.0,
+            maximum_registrants_count=maximum_registrants_count,
+        )
+
+    def make_apricot_registration_type(
+        self, event_id, maximum_registrants_count, price
+    ):
+        """Make an event registration type for Wild Apricot RSVPs."""
+        return EventRegistrationType(
+            event_id=event_id,
+            name="RSVP",
+            is_enabled=True,
+            description="",
+            price=price,
+            maximum_registrants_count=maximum_registrants_count,
+        )
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
