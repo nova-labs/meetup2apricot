@@ -80,6 +80,12 @@ def test_get_event_response(module_file_path, apricot_api):
     save_json(apricot_json, module_file_path)
 
 
+def test_get_membership_levels_response(module_file_path, apricot_api):
+    """Save response from a "membership levels" request to Wild Apricot."""
+    apricot_json = apricot_api.get_membership_levels()
+    save_json(apricot_json, module_file_path)
+
+
 @pytest.mark.skip("Avoid adding test events to live system.")
 def test_add_event_free(module_file_path, apricot_api):
     """Save response from adding a free event to Wild Apricot."""
