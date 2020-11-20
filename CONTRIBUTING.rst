@@ -207,6 +207,7 @@ The default target is help::
     test-all             run tests on every Python version with tox
     test                 run tests quickly with the default Python
     venv                 create a Python virtual environment
+    which                show path to meetup2apricot
 
 Deploying Releases
 ------------------
