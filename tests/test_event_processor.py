@@ -83,14 +83,15 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     "IsWaitlistEnabled": True,
 }
 
-EXPECTED_RSVP_TYPE_FOR_PAID = {
+EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
     "EventId": 7890,
-    "Name": "RSVP",
+    "Name": "Members Only",
     "IsEnabled": True,
     "Description": "",
     "BasePrice": 20.0,
     "GuestPrice": 20.0,
-    "Availability": "Everyone",
+    "Availability": "MembersOnly",
+    "AvailableForMembershipLevels": SAMPLE_MEMBER_LEVELS,
     "MaximumRegistrantsCount": 4,
     "GuestRegistrationPolicy": "NumberOfGuests",
     "UnavailabilityPolicy": "ShowDisabled",
@@ -205,7 +206,7 @@ def test_add_event_registration_types_limited(
     capacity."""
     expected_calls = [
         mocker.call(EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID),
-        mocker.call(EXPECTED_RSVP_TYPE_FOR_PAID),
+        mocker.call(EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID),
     ]
     event_processor.add_event_registration_types(paid_meetup_event, 7890)
     mock_apricot_api.add_registration_type.assert_has_calls(expected_calls)
