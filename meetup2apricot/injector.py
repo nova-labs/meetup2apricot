@@ -250,14 +250,23 @@ def inject_http_session(application_scope):
 
 
 def inject_apricot_api(application_scope):
-    """Return a Wild Apricot API interface configured by an application
-    scope."""
-    return ApricotApi(
-        account_id=application_scope.apricot_account_number,
-        session=inject_apricot_oauth_session(application_scope),
-        throttle=inject_apricot_throttle(application_scope),
-        dryrun=application_scope.dryrun,
-    )
+    """Return a Wild Apricot API configured by an application scope."""
+    return application_scope.apricot_api(inject_apricot_api_provider(application_scope))
+
+
+def inject_apricot_api_provider(application_scope):
+    """Return function that provides a Wild Apricot API configured by an
+    application scope."""
+
+    def get():
+        return ApricotApi(
+            account_id=application_scope.apricot_account_number,
+            session=inject_apricot_oauth_session(application_scope),
+            throttle=inject_apricot_throttle(application_scope),
+            dryrun=application_scope.dryrun,
+        )
+
+    return get
 
 
 def inject_apricot_oauth_session(application_scope):
