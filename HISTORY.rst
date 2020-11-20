@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* For "members only" events, restrict registrations instead of event visibility.
 
 1.2.1 (2020-11-18)
 ------------------
