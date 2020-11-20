@@ -123,9 +123,14 @@ def test_status(free_meetup_event):
     assert free_meetup_event.status == "upcoming"
 
 
-def test_members_only_no(free_meetup_event):
+def test_members_only_free_no(free_meetup_event):
     """Test checking for members only with an unrestricted event."""
     assert not free_meetup_event.members_only
+
+
+def test_members_only_paid_yes(paid_meetup_event):
+    """Test checking for members only with a members only event."""
+    assert paid_meetup_event.members_only
 
 
 @pytest.mark.parametrize(
