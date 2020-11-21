@@ -90,7 +90,7 @@ PAID_MEETUP_EVENT_JSON = r"""
         "local_date": "2020-11-13",
         "local_time": "19:00",
         "member_pay_fee": false,
-        "name": "AV_P: Online Instructor Training-Video equipment setup, streaming, OBS/Zoom tips (Test Event)",
+        "name": "AV_P: Online Instructor Training-Video equipment setup, streaming, OBS/Zoom tips (Members Only) (Test Event)",
         "rsvp_limit": 6,
         "status": "upcoming",
         "time": 1605312000000,

@@ -71,6 +71,12 @@ def test_get_event_response(module_file_path, apricot_api):
     save_json(apricot_json, module_file_path)
 
 
+def test_get_membership_levels_response(module_file_path, apricot_api):
+    """Save response from a "membership levels" request to Wild Apricot."""
+    apricot_json = apricot_api.get_membership_levels()
+    save_json(apricot_json, module_file_path)
+
+
 @pytest.mark.skip("Avoid adding test events to live system.")
 def test_add_event_free(module_file_path, apricot_api):
     """Save response from adding a free event to Wild Apricot."""
@@ -111,6 +117,17 @@ def test_add_registration_type(mocker):
     apricot_api.post.assert_called_once_with(
         expected_url, json=sample_registration_type
     )
+
+
+def test_get_membership_levels(mocker):
+    """Test getting membership levels."""
+    sample_levels = [1, 3, 6]
+    expected_url = "https://api.wildapricot.org/v2.2/accounts/123/membershiplevels"
+    apricot_api = ApricotApi("123", None, None)
+    apricot_api.get_json = mocker.Mock(return_value=sample_levels)
+    response = apricot_api.get_membership_levels()
+    assert response == sample_levels
+    apricot_api.get_json.assert_called_once_with(expected_url)
 
 
 # These tests check that dry runs return values.

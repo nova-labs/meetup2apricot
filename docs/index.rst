@@ -22,6 +22,7 @@ Meetup2Apricot
    user-manual/installation
    user-manual/configuration
    user-manual/logging
+   user-manual/operation
 
 .. toctree::
    :maxdepth: 1

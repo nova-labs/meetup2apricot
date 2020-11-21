@@ -20,6 +20,7 @@ class ApplicationScope:
         environment variable dictionary."""
         self._args = args
         self._env_vars = env_vars
+        self._apricot_api_cache = ScopeCache()
         self._meetup_api_cache = ScopeCache()
 
     @property
@@ -29,6 +30,10 @@ class ApplicationScope:
     @property
     def apricot_account_number(self):
         return self._env_vars["APRICOT_ACCOUNT_NUMBER"]
+
+    def apricot_api(self, apricot_api_provider):
+        """Return a cached Wild Apricot API or one provided by a provider."""
+        return self._apricot_api_cache.get(apricot_api_provider)
 
     @property
     def apricot_api_key(self):

@@ -1,6 +1,7 @@
 """Test the event processor."""
 
 from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
+from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
 from datetime import datetime
 from .sample_apricot_json import (
     EXPECTED_FREE_PHOTO_PATH,
@@ -27,6 +28,12 @@ EXPECTED_APRICOT_EVENT_ID = 43210987
 EXPECTED_REGISTRATION_TYPE_ID = 76543
 
 CACHE_FILE_NAME = "event_processor.pickle"
+
+SAMPLE_MEMBER_LEVELS = [
+    {"Id": 222, "Url": "http://example.com/222"},
+    {"Id": 333, "Url": "http://example.com/333"},
+    {"Id": 444, "Url": "http://example.com/444"},
+]
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     "EventId": EXPECTED_APRICOT_EVENT_ID,
@@ -76,14 +83,15 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     "IsWaitlistEnabled": True,
 }
 
-EXPECTED_RSVP_TYPE_FOR_PAID = {
+EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
     "EventId": 7890,
-    "Name": "RSVP",
+    "Name": "Members Only",
     "IsEnabled": True,
     "Description": "",
     "BasePrice": 20.0,
     "GuestPrice": 20.0,
-    "Availability": "Everyone",
+    "Availability": "MembersOnly",
+    "AvailableForMembershipLevels": SAMPLE_MEMBER_LEVELS,
     "MaximumRegistrantsCount": 4,
     "GuestRegistrationPolicy": "NumberOfGuests",
     "UnavailabilityPolicy": "ShowDisabled",
@@ -113,12 +121,25 @@ def mock_apricot_api(mocker):
 
 
 @pytest.fixture()
-def event_processor(mock_photo_cache, mock_apricot_api, tmp_path, event_tagger):
+def event_registration_type_maker():
+    """Return an event registration type maker."""
+    return EventRegistrationTypeMaker(SAMPLE_MEMBER_LEVELS)
+
+
+@pytest.fixture()
+def event_processor(
+    mock_photo_cache,
+    mock_apricot_api,
+    event_registration_type_maker,
+    tmp_path,
+    event_tagger,
+):
     return EventProcessor(
         earliest_start_time=EARLIEST_START_TIME,
         latest_start_time=LATEST_START_TIME,
         known_events=KNOWN_EVENTS.copy(),
         photo_cache=mock_photo_cache,
+        event_registration_type_maker=event_registration_type_maker,
         apricot_api=mock_apricot_api,
         cache_path=tmp_path / CACHE_FILE_NAME,
         event_tagger=event_tagger,
@@ -185,7 +206,7 @@ def test_add_event_registration_types_limited(
     capacity."""
     expected_calls = [
         mocker.call(EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID),
-        mocker.call(EXPECTED_RSVP_TYPE_FOR_PAID),
+        mocker.call(EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID),
     ]
     event_processor.add_event_registration_types(paid_meetup_event, 7890)
     mock_apricot_api.add_registration_type.assert_has_calls(expected_calls)

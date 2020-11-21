@@ -1,6 +1,7 @@
 from .apricot_api import ApricotApi
 from .event_mapping_updater import EventMappingUpdater
 from .event_processor import EventProcessor, load_cached_event_mapping
+from .event_registration_type import EventRegistrationTypeMaker
 from .event_tagger import make_event_tagger
 from .exceptions import JsonConversionError, MissingEnvVarError
 from .http_response_error import HttpResponseError
@@ -74,6 +75,7 @@ def inject_initial_data_loader(application_scope):
     """Inject an initial data loader configured by an application scope."""
     return InitialDataLoader(
         meetup_api=inject_meetup_api(application_scope),
+        apricot_api=inject_apricot_api(application_scope),
         event_mapping_provider=inject_event_mapping_provider(application_scope),
         photo_urls_provider=inject_photo_urls_provider(application_scope),
         enter_initial_data_scope=inject_enter_initial_data_scope(application_scope),
@@ -173,6 +175,9 @@ def inject_event_processor_provider(application_scope, initial_data_scope):
             latest_start_time=application_scope.latest_event_start_time,
             known_events=event_mapping,
             photo_cache=inject_photo_cache(application_scope, initial_data_scope),
+            event_registration_type_maker=inject_event_registration_type_maker(
+                initial_data_scope
+            ),
             apricot_api=inject_apricot_api(application_scope),
             cache_path=application_scope.event_cache_file,
             event_tagger=inject_event_tagger(application_scope),
@@ -234,20 +239,34 @@ def inject_meetup_event_retriever(application_scope, initial_data_scope):
     )
 
 
+def inject_event_registration_type_maker(initial_data_scope):
+    """Return an event registration type maker configured by an initial data scope."""
+    return EventRegistrationTypeMaker(initial_data_scope.membership_levels)
+
+
 def inject_http_session(application_scope):
     """Return a Requests HTTP session configured by an application scope."""
     return make_session(inject_user_agent(application_scope))
 
 
 def inject_apricot_api(application_scope):
-    """Return a Wild Apricot API interface configured by an application
-    scope."""
-    return ApricotApi(
-        account_id=application_scope.apricot_account_number,
-        session=inject_apricot_oauth_session(application_scope),
-        throttle=inject_apricot_throttle(application_scope),
-        dryrun=application_scope.dryrun,
-    )
+    """Return a Wild Apricot API configured by an application scope."""
+    return application_scope.apricot_api(inject_apricot_api_provider(application_scope))
+
+
+def inject_apricot_api_provider(application_scope):
+    """Return function that provides a Wild Apricot API configured by an
+    application scope."""
+
+    def get():
+        return ApricotApi(
+            account_id=application_scope.apricot_account_number,
+            session=inject_apricot_oauth_session(application_scope),
+            throttle=inject_apricot_throttle(application_scope),
+            dryrun=application_scope.dryrun,
+        )
+
+    return get
 
 
 def inject_apricot_oauth_session(application_scope):

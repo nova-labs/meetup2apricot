@@ -132,3 +132,6 @@ install: venv ## install required Python packages for production
 develop: venv ## install required Python packages for local development
 	$(call venv-cmd,pip-sync requirements/test-requirements.txt requirements/dev-requirements.txt requirements/requirements.txt)
 	$(call venv-cmd,pip3 install -e .)
+
+which: ## show path to meetup2apricot
+	$(call venv-cmd,which meetup2apricot)
