@@ -9,10 +9,15 @@ class InitialDataScope:
     """Initial data scope provides data loaded once at the beginning of a run."""
 
     def __init__(
-        self, meetup_events, photo_urls_to_paths, meetup_to_apricot_event_mapping
+        self,
+        meetup_events,
+        membership_levels,
+        photo_urls_to_paths,
+        meetup_to_apricot_event_mapping,
     ):
         """Initialize with data loaded from Meetup and caches."""
         self.meetup_events = meetup_events
+        self.membership_levels = membership_levels
         self.photo_urls_to_paths = photo_urls_to_paths
         self.meetup_to_apricot_event_mapping = meetup_to_apricot_event_mapping
         self._photo_cache_cache = ScopeCache()
@@ -30,13 +35,16 @@ class InitialDataLoader:
     def __init__(
         self,
         meetup_api,
+        apricot_api,
         event_mapping_provider,
         photo_urls_provider,
         enter_initial_data_scope,
     ):
-        """Initialize with a Meetup API and functions to provide cached event
-        and photo data and to enter the initial data scope."""
+        """Initialize with Meetup and Wild Apricot APIs and functions to
+        provide cached event and photo data and to enter the initial data
+        scope."""
         self.meetup_api = meetup_api
+        self.apricot_api = apricot_api
         self.event_mapping_provider = event_mapping_provider
         self.photo_urls_provider = photo_urls_provider
         self.enter_initial_data_scope = enter_initial_data_scope
@@ -44,19 +52,30 @@ class InitialDataLoader:
     def run(self):
         """Run the Meetup to Wild Apricot conversion."""
         meetup_events = self.retreive_meetup_events()
+        membership_levels = self.retrieve_membership_levels()
         event_mapping = self.event_mapping_provider()
         photo_urls_to_paths = self.photo_urls_provider()
-        self.convert_events(meetup_events, photo_urls_to_paths, event_mapping)
+        self.convert_events(
+            meetup_events, membership_levels, photo_urls_to_paths, event_mapping
+        )
 
     def retreive_meetup_events(self):
         """Return a list of Meetup events to convert."""
         json_events = self.meetup_api.retrieve_events_json()
         return [MeetupEvent(event) for event in json_events]
 
-    def convert_events(self, meetup_events, photo_urls_to_paths, event_mapping):
+    def retrieve_membership_levels(self):
+        """Return a list of Wild Apricot membership levels in a format suitable
+        for selecting all membership levels."""
+        membership_levels = self.apricot_api.get_membership_levels()
+        return [{"Id": level["Id"], "Url": level["Url"]} for level in membership_levels]
+
+    def convert_events(
+        self, meetup_events, membership_levels, photo_urls_to_paths, event_mapping
+    ):
         """Convert Meetup events to Wild Apricot events using some initial data."""
         initial_data_scope = InitialDataScope(
-            meetup_events, photo_urls_to_paths, event_mapping
+            meetup_events, membership_levels, photo_urls_to_paths, event_mapping
         )
         processor = self.enter_initial_data_scope(initial_data_scope)
         processor.run()

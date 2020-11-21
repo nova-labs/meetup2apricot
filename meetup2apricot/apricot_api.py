@@ -63,6 +63,11 @@ class ApricotApi:
         url = f"{self.api_base_url}/accounts/{self.account_id}/events/{event_id}"
         return self.get_json(url)
 
+    def get_membership_levels(self):
+        """Get the JSON list of membership levels."""
+        url = f"{self.api_base_url}/accounts/{self.account_id}/membershiplevels"
+        return self.get_json(url)
+
     @dryrun.method(value=12345)
     def add_event(self, event):
         """Insert an event into Wild Apricot."""
@@ -72,9 +77,7 @@ class ApricotApi:
     @dryrun.method(value=98765)
     def add_registration_type(self, registration_type):
         """Insert an event registration type into Wild Apricot."""
-        url = (
-            f"{self.api_base_url}/accounts/{self.account_id}/" "EventRegistrationTypes"
-        )
+        url = f"{self.api_base_url}/accounts/{self.account_id}/EventRegistrationTypes"
         return int(self.post(url, json=registration_type).content)
 
 

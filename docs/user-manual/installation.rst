@@ -30,5 +30,13 @@ Once you have a copy of the source, you can install it with::
 :program:`Make` will create a Python virtual environment, if neccessary;
 install the required Python packages; and install meetup2python.
 
+Make's *install* target automatically handles these Python virtual environment
+scenarios:
+
+1. Using an existing, activated virtual environment
+2. Creating a new virtual envrionment with virtualenvwrapper
+3. Creating a new virtual envrionment with built-in Python tools
+
+
 .. _Github repo: https://github.com/nova-labs/meetup2apricot
 .. _zip file: https://github.com/nova-labs/meetup2apricot/archive/main.zip

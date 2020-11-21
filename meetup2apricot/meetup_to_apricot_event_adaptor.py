@@ -97,10 +97,7 @@ class MeetupToApricotEventAdaptor:
     @property
     def access_level(self):
         """Return the event accessability."""
-        if self._meetup_event.members_only:
-            return "Restricted"
-        else:
-            return "Public"
+        return "Public"
 
     @property
     def extra_info(self):
