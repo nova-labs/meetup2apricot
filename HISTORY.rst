@@ -16,6 +16,7 @@ Next Release
 ------------------
 
 * For "members only" events, restrict registrations instead of event visibility.
+* Document how to run meetup2apricot.
 
 1.2.1 (2020-11-18)
 ------------------

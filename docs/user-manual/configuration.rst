@@ -26,7 +26,7 @@ Customize a copy with a different name.
 
 The configuration script includes sensitive authorization data, so allow access only
 to the user running meetup2apricot.
-(The sample configuration script contains no sensitive data.)
+(The sample configuration script contains sanitized data.)
 
 For example, this chmod command gives the user read and write permissions, and
 removes permissions from group members and other users:
