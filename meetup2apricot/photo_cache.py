@@ -17,15 +17,17 @@ class PhotoCache:
         urls_to_paths,
         photo_retriever,
         cache_path,
+        reporter,
         dryrun=False,
     ):
         """Initialize a Wild Apricot directory path, an initial mapping of
         Meetup photo URLs to Wild Apricot photo paths, a photo retriever, a
-        path to the cache file, and a dry run flag."""
+        path to the cache file, a reporter, and a dry run flag."""
         self.apricot_directory = apricot_directory
         self.urls_to_paths = urls_to_paths
         self.photo_retriever = photo_retriever
         self.cache_path = cache_path
+        self.reporter = reporter
         self.dryrun = dryrun
 
     def cache_photo(self, meetup_event):
@@ -44,6 +46,7 @@ class PhotoCache:
         self.urls_to_paths[meetup_event.photo_url] = self.apricot_photo_path(
             apricot_photo_name
         )
+        self.reporter.report_photo_name(apricot_photo_name)
 
     def apricot_photo_path(self, photo_file_name):
         """Return a photo's Wild Apricot URL path."""

@@ -26,6 +26,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-r",
+    "--report",
+    action="store_true",
+    help="Report added events, photos, and registration types to standard output",
+)
+
+parser.add_argument(
     "-v", "--verbose", action="store_true", help="Log to standard error"
 )
 

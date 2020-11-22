@@ -2,6 +2,7 @@
 
 from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
 from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
+from meetup2apricot.reporter import Reporter, NullReporter
 from datetime import datetime
 from .sample_apricot_json import (
     EXPECTED_FREE_PHOTO_PATH,
@@ -9,6 +10,7 @@ from .sample_apricot_json import (
     EXPECTED_TAGS,
     EXPECTED_FREE_TAGS,
 )
+import io
 import pickle
 import pytest
 
@@ -100,6 +102,13 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
     "IsWaitlistEnabled": True,
 }
 
+EXPECTED_REPORT = """AC: Mending Monday (Test Event)
+    2020-11-16 19:00 to 2020-11-16 21:00
+    Meetup RSVP    $  0.00   3
+    RSVP           $  0.00   unlimited
+
+"""
+
 
 @pytest.fixture()
 def mock_photo_cache(mocker):
@@ -143,6 +152,7 @@ def event_processor(
         apricot_api=mock_apricot_api,
         cache_path=tmp_path / CACHE_FILE_NAME,
         event_tagger=event_tagger,
+        reporter=NullReporter(),
     )
 
 
@@ -230,6 +240,8 @@ def test_process_skip(event_processor, free_meetup_event):
 
 def test_process(event_processor, later_free_meetup_event, mock_apricot_api, mocker):
     """Test processing an event."""
+    output = io.StringIO()
+    event_processor.reporter = Reporter(output)
     expected_calls = [
         mocker.call(EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE),
         mocker.call(EXPECTED_RSVP_TYPE_FOR_FREE),
@@ -240,6 +252,7 @@ def test_process(event_processor, later_free_meetup_event, mock_apricot_api, moc
         "start_time": later_free_meetup_event.start_time,
     }
     mock_apricot_api.add_registration_type.assert_has_calls(expected_calls)
+    assert output.getvalue() == EXPECTED_REPORT
 
 
 def test_persist(event_processor, tmp_path):
