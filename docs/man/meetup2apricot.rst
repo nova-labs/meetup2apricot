@@ -6,7 +6,7 @@ meetup2apricot
 Synopsis
 --------
 
-**meetup2apricot** [-h] [-d] [-l LOGFILE] [-n] [-v] [-w]
+**meetup2apricot** [-h] [-d] [-l LOGFILE] [-n] [-r] [-v] [-w]
 
 Description
 -----------
@@ -48,6 +48,10 @@ Options
    Do not add events to Wild Apricot.
    Do not download photos from Meetup.
    Do not update event and photo data cached between runs.
+
+.. option:: -r, --report
+
+   Report added events, registration types, and photos to standard output.
 
 .. option:: -v, --verbose
 

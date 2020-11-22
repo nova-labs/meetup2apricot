@@ -49,10 +49,23 @@ For example::
 
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) )
 
-To monitor the progress of meetup2apricot use the verbose option
-(:option:`-v <meetup2apricot -v>`), as described in :doc:`logging`::
+To monitor the progress of meetup2apricot use the report option
+(:option:`-r <meetup2apricot -r>`), as described in :doc:`logging` to report
+added events, registration types, and photos::
 
-    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -v )
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r )
+
+    GO: New Member Orientation/Onboarding
+        2020-11-29 16:00 to 2020-11-29 18:00
+        Downloaded GO_New_Member_Orientation_2020-11-10.jpeg
+        Meetup RSVP    $  0.00   2
+        RSVP           $  0.00   9
+    
+    BL_G: Blacksmithing Open Office Hours and Practice Session (Members ONLY)
+        2020-12-02 18:30 to 2020-12-02 20:30
+        Meetup RSVP    $  0.00   1
+        Members Only   $ 15.00   7
+
 
 Dry Runs
 --------
@@ -60,10 +73,10 @@ Dry Runs
 *Dry run* mode lets you preview changes.
 When you run meetup2apricot in dry run mode, no events will be added to Wild
 Apricot and no photos will be downloaded from Meetup.
-Use the dry run option (:option:`-n <meetup2apricot -n>`) with the verbose
-option (:option:`-v <meetup2apricot -v>`) to see the proposed changes::
+Use the dry run option (:option:`-n <meetup2apricot -n>`) with the report
+option (:option:`-r <meetup2apricot -r>`) to see the proposed changes::
 
-    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -n -v )
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -n -r )
 
 Run on a Schedule
 -----------------
