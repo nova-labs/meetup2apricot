@@ -1,6 +1,7 @@
 """Test the photo cache."""
 
 from meetup2apricot.photo_cache import PhotoCache, load_cached_photo_urls
+from meetup2apricot.reporter import NullReporter
 from datetime import datetime
 from pathlib import Path, PurePosixPath, PosixPath
 import pickle
@@ -31,6 +32,7 @@ def photo_cache(mock_photo_retriever, tmp_path):
         urls_to_paths=INITIAL_CACHE.copy(),
         photo_retriever=mock_photo_retriever,
         cache_path=tmp_path / CACHE_FILE_NAME,
+        reporter=NullReporter(),
     )
 
 

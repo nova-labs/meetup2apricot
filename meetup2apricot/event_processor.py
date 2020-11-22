@@ -24,13 +24,14 @@ class EventProcessor:
         apricot_api,
         cache_path,
         event_tagger,
+        reporter,
         dryrun=False,
     ):
         """Initialize with the earliest and latest event start times, a
         dictionary of previously processed known events (indexed by Meetup
         event ID), a photo cache, an event registration type maker, a Wild
-        Apricot API interface, a path to the cache file; an event tagger, and a
-        dry run flag."""
+        Apricot API interface, a path to the cache file; an event tagger, a
+        reporter, and a dry run flag."""
         self.earliest_start_time = earliest_start_time
         self.latest_start_time = latest_start_time
         self.known_events = known_events
@@ -39,6 +40,7 @@ class EventProcessor:
         self.apricot_api = apricot_api
         self.cache_path = cache_path
         self.event_tagger = event_tagger
+        self.reporter = reporter
         self.dryrun = dryrun
 
     def process(self, meetup_event):
@@ -50,6 +52,7 @@ class EventProcessor:
         apricot_event_id = self.add_apricot_event(meetup_event, photo_path, event_tags)
         self.add_event_registration_types(meetup_event, apricot_event_id)
         self.record_event(meetup_event, apricot_event_id)
+        self.reporter.report()
 
     def can_ignore_event(self, meetup_event):
         """Return true if a Meetup event can be ignored; false otherwise."""
@@ -76,6 +79,7 @@ class EventProcessor:
         )
         apricot_event_json = apricot_event.for_json()
         apricot_event_id = self.apricot_api.add_event(apricot_event_json)
+        self.reporter.report_event(apricot_event)
         self.logger.info(
             "add_apricot_event: meetup_id=%s apricot_id=%d title=%r start_time=%s",
             meetup_event.meetup_id,
@@ -91,6 +95,7 @@ class EventProcessor:
         reg_types = self.gather_registration_types(meetup_event, apricot_event_id)
         for reg_type in reg_types:
             self.apricot_api.add_registration_type(reg_type.for_json())
+            self.reporter.report_registration_type(reg_type)
             self.log_add_event_registration_type(apricot_event_id, reg_type)
 
     def gather_registration_types(self, meetup_event, apricot_event_id):

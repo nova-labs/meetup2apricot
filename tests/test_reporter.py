@@ -130,7 +130,7 @@ def test_report(reporter, free_apricot_event, event_registration_type_maker, out
         == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
         "    Downloaded sample.jpg\n"
         "    Meetup RSVP    $  0.00   0\n"
-        "    Members Only   $125.00   6\n"
+        "    Members Only   $125.00   6\n\n"
     )
 
 
@@ -152,7 +152,7 @@ def test_report_no_photo(
         output.getvalue()
         == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
         "    Meetup RSVP    $  0.00   0\n"
-        "    Members Only   $125.00   6\n"
+        "    Members Only   $125.00   6\n\n"
     )
 
 

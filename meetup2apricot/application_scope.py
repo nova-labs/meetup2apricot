@@ -22,7 +22,7 @@ class ApplicationScope:
         self._env_vars = env_vars
         self._apricot_api_cache = ScopeCache()
         self._meetup_api_cache = ScopeCache()
-        self._reporter = ScopeCache()
+        self._reporter_cache = ScopeCache()
 
     @property
     def app_name(self):

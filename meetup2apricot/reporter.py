@@ -83,6 +83,7 @@ class Reporter:
     def report(self):
         """Report an event and associated data to an output stream."""
         self.event_report.report(self.output)
+        self.output.write("\n")
         self.event_report = EventReport()
 
 

@@ -182,6 +182,7 @@ def inject_event_processor_provider(application_scope, initial_data_scope):
             apricot_api=inject_apricot_api(application_scope),
             cache_path=application_scope.event_cache_file,
             event_tagger=inject_event_tagger(application_scope),
+            reporter=inject_reporter(application_scope),
             dryrun=application_scope.dryrun,
         )
 
@@ -205,6 +206,7 @@ def inject_photo_cache_provider(application_scope, initial_data_scope):
             urls_to_paths=initial_data_scope.photo_urls_to_paths,
             photo_retriever=inject_photo_retriever(application_scope),
             cache_path=application_scope.photo_cache_file,
+            reporter=inject_reporter(application_scope),
             dryrun=application_scope.dryrun,
         )
 
