@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.3.0 (2020-11-21)
 ------------------
 
 * Report added events, regristration types, and photos.
