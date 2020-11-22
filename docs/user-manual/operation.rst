@@ -84,15 +84,20 @@ Run on a Schedule
 Schedule meetup2apricot with `cron`_ to run on a schedule.
 Add the ``MEETUP2APRICOT`` environment variable and the scheduled commands to
 ``crontab``, cron's configuration file.
-The example cron job was written for the bash shell, so specify that shell if
-necessary.
-The warning option (:option:`-w <meetup2apricot -w>`) reports warning and error
-messages to the standard error output; cron can send these results via email.
-For example, to run meetup2apricot every hour on the half hour::
+This example cron job runs meetup2apricot every hour on the half hour::
 
     SHELL=/bin/bash
     MEETUP2APRICOT=/home/joel/.virtualenvs/meetup2apricot/bin/meetup2apricot
-    30 * * * * . meetup2apricot.env && $(MEETUP2APRICOT) -w
+    30 * * * * . meetup2apricot.env && $(MEETUP2APRICOT) -r -w
+
+In the example, the  warning option (:option:`-w <meetup2apricot -w>`) reports
+warning and error messages to the standard error output.
+The report option (:option:`-r <meetup2apricot -r>`) reports added events,
+registration types, and photos to standard output.
+Cron will send these results via email.
+If there are no warnings and no added events, cron will not send an email.
+
+The example was written for the bash shell, so specify that shell if necessary.
 
 .. _cron: https://en.wikipedia.org/wiki/Cron
 .. _path: https://en.wikipedia.org/wiki/PATH_(variable)
