@@ -1,5 +1,6 @@
 """Reports added events, registration types, and photos."""
 
+import sys
 
 class EventReport:
 
@@ -103,6 +104,14 @@ class NullReporter:
     def report(self):
         """Ignore reporting an event and associated data."""
         pass
+
+
+def make_reporter(report_flag):
+    """Make a real or null reporter depending on the report flag."""
+    if report_flag:
+        return Reporter(sys.stdout)
+    else:
+        return NullReporter()
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

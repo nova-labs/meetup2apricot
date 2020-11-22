@@ -2,7 +2,7 @@
 
 from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
 from meetup2apricot.meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
-from meetup2apricot.reporter import EventReport, Reporter, NullReporter
+from meetup2apricot.reporter import EventReport, Reporter, NullReporter, make_reporter
 from .sample_apricot_json import EXPECTED_FREE_PHOTO_PATH, EXPECTED_FREE_TAGS
 from datetime import datetime
 import io
@@ -171,5 +171,14 @@ def test_null_reporter(free_apricot_event, event_registration_type_maker, output
     reporter.report_registration_type(reg_type_2)
     reporter.report()
 
+def test_make_reporter():
+    """Test making a reporter with a true report flag."""
+    reporter = make_reporter (True)
+    assert type(reporter) == Reporter
+
+def test_make_reporter_null():
+    """Test making a reporter with a false report flag."""
+    reporter = make_reporter (False)
+    assert type(reporter) == NullReporter
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
