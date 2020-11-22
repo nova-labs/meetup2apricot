@@ -85,4 +85,22 @@ def test_dryrun_flag_off():
     assert not args.dryrun
 
 
+def test_report_flag_off():
+    """Test the default report flag value."""
+    args = parse_without_args()
+    assert not args.report
+
+
+def test_report_flag_short():
+    """Test setting the report flag with the short argument."""
+    args = parse_command_line("-r")
+    assert args.report
+
+
+def test_report_flag_long():
+    """Test setting the report flag with the long argument."""
+    args = parse_command_line("--report")
+    assert args.report
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
