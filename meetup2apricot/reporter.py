@@ -34,7 +34,8 @@ class EventReport:
 
     def report_photo_name(self, output):
         """Report a photo name to an output stream."""
-        output.write(f"    Downloaded {self.photo_name}\n")
+        if self.photo_name:
+            output.write(f"    Downloaded {self.photo_name}\n")
 
     def report_registration_type(self, output, reg_type):
         """Report an event registration type to an output stream."""

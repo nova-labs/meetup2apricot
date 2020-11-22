@@ -113,6 +113,7 @@ def test_report_registration_types(event_report, event_registration_type_maker, 
 
 
 def test_report(reporter, free_apricot_event, event_registration_type_maker, output):
+    """Test reporting an event, its photo, and its registration types."""
     reg_type_1 = event_registration_type_maker.make_meetup_registration_type(
         event_id=12345, maximum_registrants_count=0
     )
@@ -128,6 +129,28 @@ def test_report(reporter, free_apricot_event, event_registration_type_maker, out
         output.getvalue()
         == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
         "    Downloaded sample.jpg\n"
+        "    Meetup RSVP    $  0.00   0\n"
+        "    Members Only   $125.00   6\n"
+    )
+
+
+def test_report_no_photo(
+    reporter, free_apricot_event, event_registration_type_maker, output
+):
+    """Test reporting an event without a photo and its registration types."""
+    reg_type_1 = event_registration_type_maker.make_meetup_registration_type(
+        event_id=12345, maximum_registrants_count=0
+    )
+    reg_type_2 = event_registration_type_maker.make_members_only_registration_type(
+        event_id=12345, maximum_registrants_count=6, price=125.0
+    )
+    reporter.report_event(free_apricot_event)
+    reporter.report_registration_type(reg_type_1)
+    reporter.report_registration_type(reg_type_2)
+    reporter.report()
+    assert (
+        output.getvalue()
+        == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
         "    Meetup RSVP    $  0.00   0\n"
         "    Members Only   $125.00   6\n"
     )
