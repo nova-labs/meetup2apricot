@@ -22,6 +22,7 @@ class ApplicationScope:
         self._env_vars = env_vars
         self._apricot_api_cache = ScopeCache()
         self._meetup_api_cache = ScopeCache()
+        self._reporter = ScopeCache()
 
     @property
     def app_name(self):
@@ -98,6 +99,14 @@ class ApplicationScope:
     @property
     def photo_directory(self):
         return Path(self._env_vars["PHOTO_DIRECTORY"])
+
+    @property
+    def report(self):
+        return self._args.report
+
+    def reporter(self, reporter_provider):
+        """Return a cached reporter or one provided by a provider."""
+        return self._reporter_cache.get(reporter_provider)
 
     @property
     def verbose(self):

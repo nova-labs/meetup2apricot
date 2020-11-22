@@ -15,6 +15,7 @@ from .meetup_event_retriever import MeetupEventRetriever
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import PhotoCache, load_cached_photo_urls
 from .photo_retriever import make_photo_retriever, make_session
+from .reporter import make_reporter
 from .throttle import Throttle, OpenThrottle
 from requests_toolbelt import user_agent
 
@@ -304,6 +305,21 @@ def inject_event_tagger(application_scope):
     return make_event_tagger(
         application_scope.codes_to_tags, application_scope.all_event_tags
     )
+
+
+def inject_reporter(application_scope):
+    """Return a reporter configured by an application scope."""
+    return application_scope.reporter(inject_reporter_provider(application_scope))
+
+
+def inject_reporter_provider(application_scope):
+    """Return function that provides a reporter configured by an application
+    scope."""
+
+    def get():
+        return make_reporter(application_scope.report)
+
+    return get
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

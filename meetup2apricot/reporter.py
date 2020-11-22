@@ -2,6 +2,7 @@
 
 import sys
 
+
 class EventReport:
 
     """Details about one event for reporting."""
