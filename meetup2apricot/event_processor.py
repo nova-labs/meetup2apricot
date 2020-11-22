@@ -139,15 +139,11 @@ class EventProcessor:
 
     def log_add_event_registration_type(self, apricot_event_id, reg_type):
         """Log adding an event registration type for a Wild Apricot event."""
-        if reg_type.maximum_registrants_count is None:
-            display_count = "unlimited"
-        else:
-            display_count = f"{reg_type.maximum_registrants_count:d}"
         self.logger.info(
             "add_event_registration_types: apricot_id=%d "
             "maximum_registrants_count=%s price=%.2f name=%r",
             apricot_event_id,
-            display_count,
+            reg_type.display_count,
             reg_type.price,
             reg_type.name,
         )

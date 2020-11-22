@@ -26,6 +26,14 @@ class EventRegistrationType:
         self.availability = availability
         self.more_attributes = more_attributes
 
+    @property
+    def display_count(self):
+        """Return the maximum registrants count formatted for reporting."""
+        if self.maximum_registrants_count is None:
+            return "unlimited"
+        else:
+            return f"{self.maximum_registrants_count:d}"
+
     def for_json(self):
         """Structure this event registration type into dictionaries and lists
         suitable for conversion to JSON."""
