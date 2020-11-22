@@ -81,7 +81,7 @@ def test_report_registration_type_meetup(
         event_id=12345, maximum_registrants_count=0
     )
     event_report.report_registration_type(output, reg_type)
-    assert output.getvalue() == "    Meetup RSVP    $  0.00   0\n"
+    assert output.getvalue() == "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
 
 
 def test_report_registration_type_members_only(
@@ -92,7 +92,7 @@ def test_report_registration_type_members_only(
         event_id=12345, maximum_registrants_count=6, price=125.0
     )
     event_report.report_registration_type(output, reg_type)
-    assert output.getvalue() == "    Members Only   $125.00   6\n"
+    assert output.getvalue() == "    Members Only   $125.00   6 available\n"
 
 
 def test_report_registration_types(event_report, event_registration_type_maker, output):
@@ -107,8 +107,8 @@ def test_report_registration_types(event_report, event_registration_type_maker, 
     event_report.add_registration_type(reg_type_2)
     event_report.report_registration_types(output)
     assert (
-        output.getvalue() == "    Meetup RSVP    $  0.00   0\n"
-        "    Members Only   $125.00   6\n"
+        output.getvalue() == "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
+        "    Members Only   $125.00   6 available\n"
     )
 
 
@@ -129,8 +129,8 @@ def test_report(reporter, free_apricot_event, event_registration_type_maker, out
         output.getvalue()
         == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
         "    Downloaded sample.jpg\n"
-        "    Meetup RSVP    $  0.00   0\n"
-        "    Members Only   $125.00   6\n\n"
+        "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
+        "    Members Only   $125.00   6 available\n\n"
     )
 
 
@@ -151,8 +151,8 @@ def test_report_no_photo(
     assert (
         output.getvalue()
         == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
-        "    Meetup RSVP    $  0.00   0\n"
-        "    Members Only   $125.00   6\n\n"
+        "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
+        "    Members Only   $125.00   6 available\n\n"
     )
 
 

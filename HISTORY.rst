@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Label availability counts in reports.
 
 1.3.0 (2020-11-21)
 ------------------

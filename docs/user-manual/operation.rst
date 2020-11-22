@@ -50,7 +50,7 @@ For example::
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) )
 
 To monitor the progress of meetup2apricot use the report option
-(:option:`-r <meetup2apricot -r>`), as described in :doc:`logging` to report
+(:option:`-r <meetup2apricot -r>`) to report
 added events, registration types, and photos::
 
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r )
@@ -58,13 +58,13 @@ added events, registration types, and photos::
     GO: New Member Orientation/Onboarding
         2020-11-29 16:00 to 2020-11-29 18:00
         Downloaded GO_New_Member_Orientation_2020-11-10.jpeg
-        Meetup RSVP    $  0.00   2
-        RSVP           $  0.00   9
+        Meetup RSVP    $  0.00   2 registered on Meetup
+        RSVP           $  0.00   unlimited 
     
     BL_G: Blacksmithing Open Office Hours and Practice Session (Members ONLY)
         2020-12-02 18:30 to 2020-12-02 20:30
-        Meetup RSVP    $  0.00   1
-        Members Only   $ 15.00   7
+        Meetup RSVP    $  0.00   1 registered on Meetup
+        Members Only   $ 15.00   7 available
 
 
 Dry Runs
@@ -84,15 +84,20 @@ Run on a Schedule
 Schedule meetup2apricot with `cron`_ to run on a schedule.
 Add the ``MEETUP2APRICOT`` environment variable and the scheduled commands to
 ``crontab``, cron's configuration file.
-The example cron job was written for the bash shell, so specify that shell if
-necessary.
-The warning option (:option:`-w <meetup2apricot -w>`) reports warning and error
-messages to the standard error output; cron can send these results via email.
-For example, to run meetup2apricot every hour on the half hour::
+This example cron job runs meetup2apricot every hour on the half hour::
 
     SHELL=/bin/bash
     MEETUP2APRICOT=/home/joel/.virtualenvs/meetup2apricot/bin/meetup2apricot
-    30 * * * * . meetup2apricot.env && $(MEETUP2APRICOT) -w
+    30 * * * * . meetup2apricot.env && $(MEETUP2APRICOT) -r -w
+
+In the example, the  warning option (:option:`-w <meetup2apricot -w>`) reports
+warning and error messages to the standard error output.
+The report option (:option:`-r <meetup2apricot -r>`) reports added events,
+registration types, and photos to standard output.
+Cron will send these results via email.
+If there are no warnings and no added events, cron will not send an email.
+
+The example was written for the bash shell, so specify that shell if necessary.
 
 .. _cron: https://en.wikipedia.org/wiki/Cron
 .. _path: https://en.wikipedia.org/wiki/PATH_(variable)
