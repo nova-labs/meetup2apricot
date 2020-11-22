@@ -50,7 +50,7 @@ For example::
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) )
 
 To monitor the progress of meetup2apricot use the report option
-(:option:`-r <meetup2apricot -r>`), as described in :doc:`logging` to report
+(:option:`-r <meetup2apricot -r>`) to report
 added events, registration types, and photos::
 
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r )
