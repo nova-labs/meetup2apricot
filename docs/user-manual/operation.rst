@@ -58,13 +58,13 @@ added events, registration types, and photos::
     GO: New Member Orientation/Onboarding
         2020-11-29 16:00 to 2020-11-29 18:00
         Downloaded GO_New_Member_Orientation_2020-11-10.jpeg
-        Meetup RSVP    $  0.00   2
-        RSVP           $  0.00   9
+        Meetup RSVP    $  0.00   2 registered on Meetup
+        RSVP           $  0.00   unlimited 
     
     BL_G: Blacksmithing Open Office Hours and Practice Session (Members ONLY)
         2020-12-02 18:30 to 2020-12-02 20:30
-        Meetup RSVP    $  0.00   1
-        Members Only   $ 15.00   7
+        Meetup RSVP    $  0.00   1 registered on Meetup
+        Members Only   $ 15.00   7 available
 
 
 Dry Runs
