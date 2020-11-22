@@ -11,6 +11,7 @@ class EventRegistrationType:
         name,
         price,
         maximum_registrants_count,
+        max_reg_count_desc="available",
         is_enabled=True,
         description="",
         availability="Everyone",
@@ -21,6 +22,7 @@ class EventRegistrationType:
         self.name = name
         self.price = price
         self.maximum_registrants_count = maximum_registrants_count
+        self.max_reg_count_desc = max_reg_count_desc
         self.is_enabled = is_enabled
         self.description = description
         self.availability = availability
@@ -32,7 +34,7 @@ class EventRegistrationType:
         if self.maximum_registrants_count is None:
             return "unlimited"
         else:
-            return f"{self.maximum_registrants_count:d}"
+            return f"{self.maximum_registrants_count:d} {self.max_reg_count_desc}"
 
     def for_json(self):
         """Structure this event registration type into dictionaries and lists
@@ -71,6 +73,7 @@ class EventRegistrationTypeMaker:
             description="RSVPs on Meetup",
             price=0.0,
             maximum_registrants_count=maximum_registrants_count,
+            max_reg_count_desc="registered on Meetup",
         )
 
     def make_apricot_registration_type(
