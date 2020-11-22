@@ -84,4 +84,25 @@ class Reporter:
         self.event_report = EventReport()
 
 
+class NullReporter:
+
+    """Ignores requests to report added events, registration types, and photos."""
+
+    def report_event(self, apricot_event):
+        """Ignore reporting an event to the report."""
+        pass
+
+    def report_registration_type(self, registration_type):
+        """Ignore reporting an event registration type to the report."""
+        pass
+
+    def report_photo_name(self, photo_name):
+        """Ignore reporting a photo name to the report."""
+        pass
+
+    def report(self):
+        """Ignore reporting an event and associated data."""
+        pass
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
