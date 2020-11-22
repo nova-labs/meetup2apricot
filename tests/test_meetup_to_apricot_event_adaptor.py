@@ -9,6 +9,7 @@ from .sample_apricot_json import (
     EXPECTED_TAGS,
     EXPECTED_FREE_TAGS,
     EXPECTED_PAID_DESCRIPTION_HTML,
+    EXPECTED_PAID_EVENT_JSON,
 )
 from datetime import datetime
 import pytest
@@ -120,6 +121,12 @@ def test_for_json_free(free_event_adaptor):
     """Test converting the free event into dictionaries and lists suitable for
     conversion to JSON."""
     assert free_event_adaptor.for_json() == EXPECTED_FREE_EVENT_JSON
+
+
+def test_for_json_paid(paid_event_adaptor):
+    """Test converting the paid event into dictionaries and lists suitable for
+    conversion to JSON."""
+    assert paid_event_adaptor.for_json() == EXPECTED_PAID_EVENT_JSON
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Add registrations limit to Wild Apricot events.
 
 1.3.1 (2020-11-22)
 ------------------
