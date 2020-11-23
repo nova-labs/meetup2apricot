@@ -11,14 +11,21 @@ import requests
 import shutil
 import pytest
 
-SAMPLE_PHOTO_FILENAME = "dot.png"
+SAMPLE_PNG_FILENAME = "dot.png"
+SAMPLE_JPEG_FILENAME = "3D_S_FDM_3d_Printer_101_Sign_2020-11-30.jpeg"
+
+
+@pytest.fixture()
+def testcase_dir_path():
+    """Return the path to the directory containing tests and test dat files."""
+    return Path(inspect.getsourcefile(test_assure_directory_exists)).parent
 
 
 @pytest.fixture()
 def sample_photo_path():
     """Return the path to a sample image file."""
-    test_file_path = Path(inspect.getsourcefile(test_assure_directory_exists))
-    return test_file_path.parent / SAMPLE_PHOTO_FILENAME
+    testcase_dir_path = Path(inspect.getsourcefile(test_assure_directory_exists))
+    return testcase_dir_path.parent / SAMPLE_PNG_FILENAME
 
 
 def test_assure_directory_exists(tmp_path):
@@ -36,17 +43,31 @@ def test_assure_directory_new(tmp_path):
     assert dir_path.is_dir()
 
 
-def test_get(tmp_path, sample_photo_path, mocker):
+@pytest.mark.parametrize(
+    "test_photo_name,proposed_photo_name,corrected_photo_name",
+    [
+        (SAMPLE_PNG_FILENAME, "foo.jpeg", "foo.png"),
+        (SAMPLE_JPEG_FILENAME, "bar.jpeg", "bar.jpeg"),
+    ],
+)
+def test_get(
+    test_photo_name,
+    proposed_photo_name,
+    corrected_photo_name,
+    tmp_path,
+    testcase_dir_path,
+    mocker,
+):
     """Test getting and storing a file."""
-    sample_url = "http://example.com/foo.txt"
-    sample_bytes = sample_photo_path.open("rb").read()
+    sample_url = "http://example.com/foo.jpeg"
+    sample_bytes = (testcase_dir_path / test_photo_name).open("rb").read()
     mock_response = mocker.Mock()
     mock_response.content = sample_bytes
     mock_session = mocker.Mock()
     mock_session.get = mocker.Mock(return_value=mock_response)
     photo_retriever = PhotoRetriever(tmp_path, mock_session)
-    assert photo_retriever.get(sample_url, "foo.jpg") == "foo.png"
-    assert (tmp_path / "foo.png").open("rb").read() == sample_bytes
+    assert photo_retriever.get(sample_url, proposed_photo_name) == corrected_photo_name
+    assert (tmp_path / corrected_photo_name).open("rb").read() == sample_bytes
 
 
 def test_retrieve_photo(tmp_path, mocker):

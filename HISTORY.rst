@@ -12,8 +12,11 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Add registrations limit to Wild Apricot events.
+* Work around imghdr bug of not recognizing some jpeg images.
 
 1.3.1 (2020-11-22)
 ------------------

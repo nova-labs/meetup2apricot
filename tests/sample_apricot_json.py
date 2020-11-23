@@ -50,6 +50,7 @@ EXPECTED_FREE_EVENT_JSON = {
             "ShowPendingAttendees": False,
         },
     },
+    "RegistrationsLimit": None,
 }
 
 EXPECTED_PAID_DESCRIPTION_HTML = (
@@ -62,6 +63,40 @@ EXPECTED_PAID_DESCRIPTION_HTML = (
     "<p>Nova Labs previously announced this event on <a "
     'href="https://www.meetup.com/NOVA-Makers/events/274139316/">Meetup.com</a>.</p>'
 )
+
+EXPECTED_PAID_EVENT_JSON = {
+    "Details": {
+        "AccessControl": {
+            "AccessLevel": "Public",
+            "AvailableForAnyGroup": True,
+            "AvailableForAnyLevel": True,
+        },
+        "AttendeesDisplaySettings": {
+            "ShowPendingAttendees": False,
+            "VisibleTo": "Members",
+        },
+        "DescriptionHtml": EXPECTED_PAID_DESCRIPTION_HTML,
+        "IsWaitlistEnabled": True,
+        "PaymentMethod": "OnlineOnly",
+        "RegistrationConfirmationExtraInfo": "",
+        "WaitlistSettings": {
+            "InformationToCollect": "ContactInformation",
+            "WaitlistType": "Manual",
+        },
+    },
+    "EndDate": "2020-11-13 21:00-05:00",
+    "EndTimeSpecified": True,
+    "EventType": "Regular",
+    "Location": "Nova Labs Inc., 1916 Isaac Newton Square W, Reston, VA 20190",
+    "Name": "AV_P: Online Instructor Training-Video equipment setup, streaming, "
+    "OBS/Zoom tips (Members Only) (Test Event)",
+    "RegistrationEnabled": True,
+    "RegistrationsLimit": 6,
+    "StartDate": "2020-11-13 19:00-05:00",
+    "StartTimeSpecified": True,
+    "Tags": ["meetup", "test"],
+}
+
 
 SAMPLE_MEMBERSHIP_LEVEL_JSON = [
     {
