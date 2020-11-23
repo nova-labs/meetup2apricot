@@ -4,7 +4,6 @@ from . import dryrun
 import requests
 import imghdr
 import logging
-import pysnooper
 
 
 class PhotoRetriever:
@@ -38,7 +37,6 @@ class PhotoRetriever:
         with photo_path.open("wb") as photo_file:
             photo_file.write(response.content)
 
-    @pysnooper.snoop()
     def adjust_extension(self, photo_path):
         """Examine the image type at a photo path and adjust its filename
         extension accordingly. Return the corrected path. As of 11/22/2020,
