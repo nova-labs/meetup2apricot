@@ -144,6 +144,7 @@ class MeetupToApricotEventAdaptor:
                     "ShowPendingAttendees": False,
                 },
             },
+            "RegistrationsLimit": self.registrations_limit,
         }
 
 
