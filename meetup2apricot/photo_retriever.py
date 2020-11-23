@@ -4,6 +4,7 @@ from . import dryrun
 import requests
 import imghdr
 import logging
+import pysnooper
 
 
 class PhotoRetriever:
@@ -37,10 +38,16 @@ class PhotoRetriever:
         with photo_path.open("wb") as photo_file:
             photo_file.write(response.content)
 
+    @pysnooper.snoop()
     def adjust_extension(self, photo_path):
         """Examine the image type at a photo path and adjust its filename
-        extension accordingly. Return the corrected path."""
+        extension accordingly. Return the corrected path. As of 11/22/2020,
+        Python's imghdr library fails to recognize some jpeg images, returning
+        None. See issue 28591, https://bugs.python.org/issue28591, opened in
+        2016."""
         image_type = imghdr.what(photo_path)
+        if image_type is None:
+            return photo_path
         return photo_path.with_suffix(f".{image_type}")
 
     def assure_local_directory(self):
