@@ -26,13 +26,25 @@ class EventReport:
         """Add a photo name to the report."""
         self.photo_name = photo_name
 
+    def report_event_name(self, output):
+        """Report an event name to an output stream."""
+        output.write(f"{self.apricot_event.name}\n")
+
+    def report_event_dates(self, output):
+        """Report an event dates to an output stream."""
+        start_date = self.apricot_event.start_date
+        end_date = self.apricot_event.end_date
+        start_date_format = f"    {start_date:%Y-%m-%d %H:%M} to "
+        if start_date.date() == end_date.date():
+            end_date_format = f"{end_date:%H:%M}\n"
+        else:
+            end_date_format = f"{end_date:%Y-%m-%d %H:%M}\n"
+        output.write(start_date_format + end_date_format)
+
     def report_event(self, output):
         """Report an event to an output stream."""
-        output.write(
-            f"{self.apricot_event.name}\n"
-            f"    {self.apricot_event.start_date:%Y-%m-%d %H:%M} "
-            f"to {self.apricot_event.end_date:%Y-%m-%d %H:%M}\n"
-        )
+        self.report_event_name(output)
+        self.report_event_dates(output)
 
     def report_photo_name(self, output):
         """Report a photo name to an output stream."""

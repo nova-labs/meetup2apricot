@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Show end time without date when end data matches start date.
 
 1.3.2 (2020-11-23)
 ------------------
