@@ -120,6 +120,7 @@ def inject_meetup2apricot(application_scope, initial_data_scope):
         meetup_events=initial_data_scope.meetup_events,
         initial_event_mapping=initial_data_scope.meetup_to_apricot_event_mapping,
         photo_cache=inject_photo_cache(application_scope, initial_data_scope),
+        reporter=inject_reporter(application_scope),
         event_mapping_updater=inject_event_mapping_updater(
             application_scope, initial_data_scope
         ),

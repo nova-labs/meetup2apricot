@@ -75,13 +75,6 @@ def test_report_event_longer(event_report, longer_free_apricot_event, output):
     assert output.getvalue() == EXPECTED_LONGER_FREE_EVENT_REPORT
 
 
-def test_report_photo_name(event_report, output):
-    """Test reporting on an photo name."""
-    event_report.add_photo_name("sample.jpg")
-    event_report.report_photo_name(output)
-    assert output.getvalue() == "    Downloaded sample.jpg\n"
-
-
 def test_report_registration_type_rsvp(
     event_report, event_registration_type_maker, output
 ):
@@ -145,7 +138,6 @@ def test_report(reporter, free_apricot_event, event_registration_type_maker, out
     assert (
         output.getvalue()
         == EXPECTED_FREE_EVENT_REPORT
-        + "    Downloaded sample.jpg\n"
         + EXPECTED_MEETUP_RSVP_FREE
         + EXPECTED_MEMBERS_ONLY_FREE
         + "\n"
@@ -173,6 +165,14 @@ def test_report_no_photo(
         + EXPECTED_MEMBERS_ONLY_FREE
         + "\n"
     )
+
+
+def test_report_downloads(reporter, output):
+    """Test reporting downloaded photos in sorted order."""
+    reporter.report_photo_name("photo2.jpg")
+    reporter.report_photo_name("photo1.png")
+    reporter.report_downloads()
+    assert output.getvalue() == "photo1.png\nphoto2.jpg\n"
 
 
 def test_null_reporter(free_apricot_event, event_registration_type_maker, output):

@@ -16,6 +16,7 @@ Next Release
 ------------------
 
 * Show end time without date when end data matches start date.
+* List downloaded photos at the end of a report.
 
 1.3.2 (2020-11-23)
 ------------------
