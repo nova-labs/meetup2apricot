@@ -12,6 +12,9 @@ EXPECTED_FREE_EVENT_REPORT = (
     "AC: Mending Monday (Test Event)\n" "    2020-11-09 19:00 to 2020-11-09 21:00\n"
 )
 
+EXPECTED_MEETUP_RSVP_FREE = "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
+EXPECTED_MEMBERS_ONLY_FREE = "    Members Only   $125.00   6 available\n"
+
 
 @pytest.fixture()
 def output():
@@ -49,10 +52,7 @@ def test_report_event(event_report, free_apricot_event, output):
     """Test reporting on an event."""
     event_report.add_event(free_apricot_event)
     event_report.report_event(output)
-    assert (
-        output.getvalue()
-        == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
-    )
+    assert output.getvalue() == EXPECTED_FREE_EVENT_REPORT
 
 
 def test_report_photo_name(event_report, output):
@@ -81,7 +81,7 @@ def test_report_registration_type_meetup(
         event_id=12345, maximum_registrants_count=0
     )
     event_report.report_registration_type(output, reg_type)
-    assert output.getvalue() == "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
+    assert output.getvalue() == EXPECTED_MEETUP_RSVP_FREE
 
 
 def test_report_registration_type_members_only(
@@ -92,7 +92,7 @@ def test_report_registration_type_members_only(
         event_id=12345, maximum_registrants_count=6, price=125.0
     )
     event_report.report_registration_type(output, reg_type)
-    assert output.getvalue() == "    Members Only   $125.00   6 available\n"
+    assert output.getvalue() == EXPECTED_MEMBERS_ONLY_FREE
 
 
 def test_report_registration_types(event_report, event_registration_type_maker, output):
@@ -106,10 +106,7 @@ def test_report_registration_types(event_report, event_registration_type_maker, 
     event_report.add_registration_type(reg_type_1)
     event_report.add_registration_type(reg_type_2)
     event_report.report_registration_types(output)
-    assert (
-        output.getvalue() == "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
-        "    Members Only   $125.00   6 available\n"
-    )
+    assert output.getvalue() == EXPECTED_MEETUP_RSVP_FREE + EXPECTED_MEMBERS_ONLY_FREE
 
 
 def test_report(reporter, free_apricot_event, event_registration_type_maker, output):
@@ -127,10 +124,11 @@ def test_report(reporter, free_apricot_event, event_registration_type_maker, out
     reporter.report()
     assert (
         output.getvalue()
-        == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
-        "    Downloaded sample.jpg\n"
-        "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
-        "    Members Only   $125.00   6 available\n\n"
+        == EXPECTED_FREE_EVENT_REPORT
+        + "    Downloaded sample.jpg\n"
+        + EXPECTED_MEETUP_RSVP_FREE
+        + EXPECTED_MEMBERS_ONLY_FREE
+        + "\n"
     )
 
 
@@ -150,9 +148,10 @@ def test_report_no_photo(
     reporter.report()
     assert (
         output.getvalue()
-        == "AC: Mending Monday (Test Event)\n    2020-11-09 19:00 to 2020-11-09 21:00\n"
-        "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
-        "    Members Only   $125.00   6 available\n\n"
+        == EXPECTED_FREE_EVENT_REPORT
+        + EXPECTED_MEETUP_RSVP_FREE
+        + EXPECTED_MEMBERS_ONLY_FREE
+        + "\n"
     )
 
 
