@@ -3,7 +3,12 @@ from .event_mapping_updater import EventMappingUpdater
 from .event_processor import EventProcessor, load_cached_event_mapping
 from .event_registration_type import EventRegistrationTypeMaker
 from .event_tagger import make_event_tagger
-from .exceptions import JsonConversionError, MissingEnvVarError
+from .exceptions import (
+    InvalidRestrictionPattern,
+    JsonConversionError,
+    MissingEnvVarError,
+    UnknownMemberLevelName,
+)
 from .http_response_error import HttpResponseError
 from .initial_data_loader import InitialDataLoader
 from .logging_application import LoggingApplication
@@ -55,9 +60,11 @@ def inject_no_trace_exceptions():
     """Return a tuple listing exception classes that need no traceback."""
     return (
         HttpResponseError,
+        InvalidRestrictionPattern,
         JsonConversionError,
         MissingEnvVarError,
         Oauth2SessionStarterError,
+        UnknownMemberLevelName,
     )
 
 
