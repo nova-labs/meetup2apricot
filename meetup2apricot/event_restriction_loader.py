@@ -41,7 +41,7 @@ class EventRestrictionLoader:
         configuration.  Return an EventRestriction object."""
         name = restriction["name"]
         pattern = self.compile_pattern(restriction["pattern"])
-        level_names = self.clean_level_names(restriction["levels"])
+        level_names = self.clean_level_names(restriction.get("levels", []))
         member_levels = self.lookup_member_levels(level_names)
         return EventRestriction(name, pattern, member_levels)
 

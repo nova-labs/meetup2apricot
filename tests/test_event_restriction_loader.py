@@ -1,8 +1,12 @@
 """Tests event restriction loaders."""
 
-from meetup2apricot.event_restriction_loader import EventRestrictionLoader
+from meetup2apricot.event_restriction_loader import (
+    EventRestrictionLoader,
+    EventRestriction,
+)
 from meetup2apricot.exceptions import InvalidRestrictionPattern
 from meetup2apricot.member_level_manager import MemberLevel, MemberLevelManager
+import re
 import pytest
 
 
@@ -11,6 +15,29 @@ MEMBER_LEVEL_2 = MemberLevel(Id=222, Url="http://example.com/222")
 MEMBER_LEVEL_3 = MemberLevel(Id=333, Url="http://example.com/333")
 
 ALL_LEVELS = [MEMBER_LEVEL_1, MEMBER_LEVEL_2, MEMBER_LEVEL_3]
+
+SAMPLE_ALL_LEVELS_RESTRICTION_JSON = {
+    "name": "Members Only",
+    "pattern": "members[ -]*only",
+}
+
+SAMPLE_NAMED_LEVELS_RESTRICTION_JSON = {
+    "name": "Key Members Only",
+    "pattern": "key +members +only",
+    "levels": ["Key", "Family"],
+}
+
+SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
+    name="Members Only",
+    pattern=re.compile("members[ -]*only", re.IGNORECASE),
+    member_levels=ALL_LEVELS,
+)
+
+SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
+    name="Key Members Only",
+    pattern=re.compile("key +members +only", re.IGNORECASE),
+    member_levels=[MEMBER_LEVEL_1, MEMBER_LEVEL_3],
+)
 
 
 @pytest.fixture()
@@ -71,6 +98,33 @@ def test_lookup_member_levels_list(event_restriction_loader):
     level_names = ["Family", "Key"]
     expected_levels = [MEMBER_LEVEL_3, MEMBER_LEVEL_1]
     assert event_restriction_loader.lookup_member_levels(level_names) == expected_levels
+
+
+def test_load_restriction_all(event_restriction_loader):
+    """Test loading a restriction that allows all member levels."""
+    restriction = event_restriction_loader.load_restriction(
+        SAMPLE_ALL_LEVELS_RESTRICTION_JSON
+    )
+    assert restriction == SAMPLE_ALL_LEVELS_RESTRICTION
+
+
+def test_load_restriction_named(event_restriction_loader):
+    """Test loading a restriction that namedows named member levels."""
+    restriction = event_restriction_loader.load_restriction(
+        SAMPLE_NAMED_LEVELS_RESTRICTION_JSON
+    )
+    assert restriction == SAMPLE_NAMED_LEVELS_RESTRICTION
+
+
+def test_load(event_restriction_loader):
+    """Test loading a list of restrictions."""
+    restrictions = event_restriction_loader.load(
+        [SAMPLE_NAMED_LEVELS_RESTRICTION_JSON, SAMPLE_ALL_LEVELS_RESTRICTION_JSON]
+    )
+    assert restrictions == [
+        SAMPLE_NAMED_LEVELS_RESTRICTION,
+        SAMPLE_ALL_LEVELS_RESTRICTION,
+    ]
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
