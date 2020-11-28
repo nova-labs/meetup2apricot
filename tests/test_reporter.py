@@ -79,8 +79,10 @@ def test_report_registration_type_rsvp(
     event_report, event_registration_type_maker, output
 ):
     """Test reporting on an RSVP event registration type."""
-    reg_type = event_registration_type_maker.make_apricot_registration_type(
-        event_id=12345, maximum_registrants_count=None, price=25.0
+    reg_type = (
+        event_registration_type_maker.make_unrestricted_apricot_registration_type(
+            event_id=12345, maximum_registrants_count=None, price=25.0
+        )
     )
     event_report.report_registration_type(output, reg_type)
     assert output.getvalue() == "    RSVP           $ 25.00   unlimited\n"

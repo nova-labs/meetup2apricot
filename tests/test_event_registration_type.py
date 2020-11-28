@@ -65,11 +65,15 @@ def event_registration_type_maker():
     return EventRegistrationTypeMaker(SAMPLE_MEMBER_LEVELS)
 
 
-def test_make_apricot_registration_type_for_json(event_registration_type_maker):
-    """Test converting a Wild Apricot RSVP event registration type into
-    dictionaries and lists suitable for conversion to JSON."""
-    reg_type = event_registration_type_maker.make_apricot_registration_type(
-        12345, 6, 78.9
+def test_make_unrestricted_apricot_registration_type_for_json(
+    event_registration_type_maker,
+):
+    """Test converting an unrestricted Wild Apricot RSVP event registration
+    type into dictionaries and lists suitable for conversion to JSON."""
+    reg_type = (
+        event_registration_type_maker.make_unrestricted_apricot_registration_type(
+            12345, 6, 78.9
+        )
     )
     assert reg_type.for_json() == EXPECTED_APRICOT_JSON
 
@@ -81,7 +85,7 @@ def test_make_meetup_registration_type_for_json(event_registration_type_maker):
     assert reg_type.for_json() == EXPECTED_MEETUP_JSON
 
 
-def test_make_apricot_registration_type_for_json(event_registration_type_maker):
+def test_make_members_only_registration_type_for_json(event_registration_type_maker):
     """Test converting a members only RSVP event registration type into
     dictionaries and lists suitable for conversion to JSON."""
     reg_type = event_registration_type_maker.make_members_only_registration_type(

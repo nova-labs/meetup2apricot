@@ -60,9 +60,11 @@ class EventRegistrationTypeMaker:
 
     """Makes various event registration types."""
 
-    def __init__(self, membership_levels):
-        """Initialize with a list of all membership levels."""
+    def __init__(self, membership_levels, event_restrictions=None):
+        """Initialize with a list of all membership levels and a list of event
+        restrictions."""
         self.membership_levels = membership_levels
+        self.event_restrictions = event_restrictions
 
     def make_meetup_registration_type(self, event_id, maximum_registrants_count):
         """Make an event registration type for existing Meetup RSVPs."""
@@ -76,10 +78,10 @@ class EventRegistrationTypeMaker:
             max_reg_count_desc="registered on Meetup",
         )
 
-    def make_apricot_registration_type(
+    def make_unrestricted_apricot_registration_type(
         self, event_id, maximum_registrants_count, price
     ):
-        """Make an event registration type for Wild Apricot RSVPs."""
+        """Make an unrestricted event registration type for Wild Apricot RSVPs."""
         return EventRegistrationType(
             event_id=event_id,
             name="RSVP",

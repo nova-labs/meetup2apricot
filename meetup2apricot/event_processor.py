@@ -130,7 +130,7 @@ class EventProcessor:
     def make_rsvp_type(self, apricot_event_id, count, fee):
         """Make an RSVP event registration type given a Wild Apricot event ID,
         a count of registrations allowed on Wild Apricot, and a fee."""
-        return self.event_registration_type_maker.make_apricot_registration_type(
+        return self.event_registration_type_maker.make_unrestricted_apricot_registration_type(
             apricot_event_id, count, fee
         )
 
