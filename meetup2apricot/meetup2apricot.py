@@ -10,6 +10,7 @@ class Meetup2Apricot:
         meetup_events,
         initial_event_mapping,
         photo_cache,
+        reporter,
         event_mapping_updater,
         event_processor_provider,
     ):
@@ -18,6 +19,7 @@ class Meetup2Apricot:
         self.meetup_events = meetup_events
         self.initial_event_mapping = initial_event_mapping
         self.photo_cache = photo_cache
+        self.reporter = reporter
         self.event_mapping_updater = event_mapping_updater
         self.event_processor_provider = event_processor_provider
 
@@ -25,6 +27,7 @@ class Meetup2Apricot:
         """Run the Meetup to Wild Apricot conversion."""
         event_processor = self.setup_event_processor()
         self.add_apricot_events(event_processor)
+        self.reporter.report_downloads()
         event_processor.persist()
         self.photo_cache.persist()
 

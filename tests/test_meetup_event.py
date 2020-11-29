@@ -123,31 +123,6 @@ def test_status(free_meetup_event):
     assert free_meetup_event.status == "upcoming"
 
 
-def test_members_only_free_no(free_meetup_event):
-    """Test checking for members only with an unrestricted event."""
-    assert not free_meetup_event.members_only
-
-
-def test_members_only_paid_yes(paid_meetup_event):
-    """Test checking for members only with a members only event."""
-    assert paid_meetup_event.members_only
-
-
-@pytest.mark.parametrize(
-    "event_name",
-    [
-        "AC: Mending Monday (Members Only)",
-        "AC: Mending Monday (members only)",
-        "AC: Mending Monday members-only",
-    ],
-)
-def test_members_only_yes(event_name):
-    """Test checking for members only with a restricted event name."""
-    event_json = {"name": event_name}
-    meetup_event = MeetupEvent(event_json)
-    assert meetup_event.members_only
-
-
 def test_featured_missing(free_meetup_event):
     """Test getting a missing featured flag."""
     assert not free_meetup_event.featured

@@ -15,6 +15,13 @@ Recent History
 .. Next Release
 .. ------------------
 
+1.4.0 (2020-11-29)
+------------------
+
+* Make event registration type member level restrictions configurable.
+* Show end time without date when end data matches start date.
+* List downloaded photos at the end of a report.
+
 1.3.2 (2020-11-23)
 ------------------
 

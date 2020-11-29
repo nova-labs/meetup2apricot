@@ -65,10 +65,8 @@ class InitialDataLoader:
         return [MeetupEvent(event) for event in json_events]
 
     def retrieve_membership_levels(self):
-        """Return a list of Wild Apricot membership levels in a format suitable
-        for selecting all membership levels."""
-        membership_levels = self.apricot_api.get_membership_levels()
-        return [{"Id": level["Id"], "Url": level["Url"]} for level in membership_levels]
+        """Return a list of Wild Apricot membership levels."""
+        return self.apricot_api.get_membership_levels()
 
     def convert_events(
         self, meetup_events, membership_levels, photo_urls_to_paths, event_mapping

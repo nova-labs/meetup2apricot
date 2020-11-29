@@ -139,11 +139,6 @@ class MeetupEvent:
         return self.event_json[STATUS_KEY]
 
     @property
-    def members_only(self):
-        """Return true if the title includes "members only"; false otherwise."""
-        return bool(MEMBER_ONLY_PATTERN.search(self.name))
-
-    @property
     def featured(self):
         """Return the featured flag."""
         return self.event_json.get(FEATURED_KEY, False)
