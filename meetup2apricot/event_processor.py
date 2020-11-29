@@ -106,41 +106,13 @@ class EventProcessor:
             apricot_count = meetup_event.rsvp_limit - meetup_count
         else:
             apricot_count = None
-        meetup_type = self.make_meetup_type(
+        meetup_type = self.event_registration_type_maker.make_meetup_type(
             apricot_event_id, meetup_event.yes_rsvp_count
         )
-        if meetup_event.members_only:
-            apricot_type = self.make_members_only_type(
-                apricot_event_id, apricot_count, meetup_event.fee_amount
-            )
-
-        else:
-            apricot_type = self.make_rsvp_type(
-                apricot_event_id, apricot_count, meetup_event.fee_amount
-            )
+        apricot_type = self.event_registration_type_maker.make_apricot_type(
+            apricot_event_id, apricot_count, meetup_event.fee_amount, meetup_event.name
+        )
         return [meetup_type, apricot_type]
-
-    def make_meetup_type(self, apricot_event_id, count):
-        """Make a Meetup event registration type given a Wild Apricot event ID
-        and count of Meetup registrants."""
-        return self.event_registration_type_maker.make_meetup_registration_type(
-            apricot_event_id, count
-        )
-
-    def make_rsvp_type(self, apricot_event_id, count, fee):
-        """Make an RSVP event registration type given a Wild Apricot event ID,
-        a count of registrations allowed on Wild Apricot, and a fee."""
-        return self.event_registration_type_maker.make_apricot_registration_type(
-            apricot_event_id, count, fee
-        )
-
-    def make_members_only_type(self, apricot_event_id, count, fee):
-        """Make an members only event registration type given a Wild Apricot
-        event ID, a count of registrations allowed on Wild Apricot, and a
-        fee."""
-        return self.event_registration_type_maker.make_members_only_registration_type(
-            apricot_event_id, count, fee
-        )
 
     def log_add_event_registration_type(self, apricot_event_id, reg_type):
         """Log adding an event registration type for a Wild Apricot event."""

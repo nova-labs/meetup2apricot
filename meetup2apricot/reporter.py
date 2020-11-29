@@ -8,10 +8,8 @@ class EventReport:
     """Details about one event for reporting."""
 
     def __init__(self):
-        """Initialize with no Wild Apricot event, photo name, or registration
-        types."""
+        """Initialize with no Wild Apricot event or registration types."""
         self.apricot_event = None
-        self.photo_name = None
         self.registration_types = []
 
     def add_event(self, apricot_event):
@@ -22,22 +20,25 @@ class EventReport:
         """Add an event registration type to the report."""
         self.registration_types.append(registration_type)
 
-    def add_photo_name(self, photo_name):
-        """Add a photo name to the report."""
-        self.photo_name = photo_name
+    def report_event_name(self, output):
+        """Report an event name to an output stream."""
+        output.write(f"{self.apricot_event.name}\n")
+
+    def report_event_dates(self, output):
+        """Report an event dates to an output stream."""
+        start_date = self.apricot_event.start_date
+        end_date = self.apricot_event.end_date
+        start_date_format = f"    {start_date:%Y-%m-%d %H:%M} to "
+        if start_date.date() == end_date.date():
+            end_date_format = f"{end_date:%H:%M}\n"
+        else:
+            end_date_format = f"{end_date:%Y-%m-%d %H:%M}\n"
+        output.write(start_date_format + end_date_format)
 
     def report_event(self, output):
         """Report an event to an output stream."""
-        output.write(
-            f"{self.apricot_event.name}\n"
-            f"    {self.apricot_event.start_date:%Y-%m-%d %H:%M} "
-            f"to {self.apricot_event.end_date:%Y-%m-%d %H:%M}\n"
-        )
-
-    def report_photo_name(self, output):
-        """Report a photo name to an output stream."""
-        if self.photo_name:
-            output.write(f"    Downloaded {self.photo_name}\n")
+        self.report_event_name(output)
+        self.report_event_dates(output)
 
     def report_registration_type(self, output, reg_type):
         """Report an event registration type to an output stream."""
@@ -54,7 +55,6 @@ class EventReport:
     def report(self, output):
         """Report an event and associated data to an output stream."""
         self.report_event(output)
-        self.report_photo_name(output)
         self.report_registration_types(output)
 
 
@@ -67,6 +67,7 @@ class Reporter:
         """Initialize with an output stream (an open file, stdout, etc.)."""
         self.output = output
         self.event_report = EventReport()
+        self.photo_names = []
 
     def report_event(self, apricot_event):
         """Add an event to the report."""
@@ -77,14 +78,20 @@ class Reporter:
         self.event_report.add_registration_type(registration_type)
 
     def report_photo_name(self, photo_name):
-        """Add a photo name to the report."""
-        self.event_report.add_photo_name(photo_name)
+        """Add a photo name to the list."""
+        self.photo_names.append(photo_name)
 
     def report(self):
         """Report an event and associated data to an output stream."""
         self.event_report.report(self.output)
         self.output.write("\n")
         self.event_report = EventReport()
+
+    def report_downloads(self):
+        """Report the list of photos downloaded."""
+        self.photo_names.sort()
+        for photo_name in self.photo_names:
+            self.output.write(f"{photo_name}\n")
 
 
 class NullReporter:

@@ -1,6 +1,8 @@
 """Test the event processor."""
 
+from meetup2apricot.member_level_manager import MemberLevel
 from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
+from meetup2apricot.event_restriction_loader import EventRestriction
 from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
 from meetup2apricot.reporter import Reporter, NullReporter
 from datetime import datetime
@@ -11,6 +13,7 @@ from .sample_apricot_json import (
     EXPECTED_FREE_TAGS,
 )
 import io
+import re
 import pickle
 import pytest
 
@@ -30,6 +33,16 @@ EXPECTED_APRICOT_EVENT_ID = 43210987
 EXPECTED_REGISTRATION_TYPE_ID = 76543
 
 CACHE_FILE_NAME = "event_processor.pickle"
+
+MEMBER_LEVEL_2 = MemberLevel(Id=222, Url="http://example.com/222")
+MEMBER_LEVEL_3 = MemberLevel(Id=333, Url="http://example.com/333")
+MEMBER_LEVEL_4 = MemberLevel(Id=444, Url="http://example.com/444")
+
+SAMPLE_RESTRICTION = EventRestriction(
+    name="Members Only",
+    pattern=re.compile("members[ -]*only", re.IGNORECASE),
+    member_levels=[MEMBER_LEVEL_2, MEMBER_LEVEL_3, MEMBER_LEVEL_4],
+)
 
 SAMPLE_MEMBER_LEVELS = [
     {"Id": 222, "Url": "http://example.com/222"},
@@ -103,7 +116,7 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
 }
 
 EXPECTED_REPORT = """AC: Mending Monday (Test Event)
-    2020-11-16 19:00 to 2020-11-16 21:00
+    2020-11-16 19:00 to 21:00
     Meetup RSVP    $  0.00   3 registered on Meetup
     RSVP           $  0.00   unlimited
 
@@ -132,7 +145,7 @@ def mock_apricot_api(mocker):
 @pytest.fixture()
 def event_registration_type_maker():
     """Return an event registration type maker."""
-    return EventRegistrationTypeMaker(SAMPLE_MEMBER_LEVELS)
+    return EventRegistrationTypeMaker([SAMPLE_RESTRICTION])
 
 
 @pytest.fixture()
