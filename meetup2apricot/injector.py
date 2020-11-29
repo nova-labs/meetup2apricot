@@ -1,6 +1,7 @@
 from .apricot_api import ApricotApi
 from .event_mapping_updater import EventMappingUpdater
 from .event_processor import EventProcessor, load_cached_event_mapping
+from .event_restriction_loader import EventRestrictionLoader
 from .event_registration_type import EventRegistrationTypeMaker
 from .event_tagger import make_event_tagger
 from .exceptions import (
@@ -17,6 +18,7 @@ from .logging_setup_manager import LoggingSetupManager
 from .meetup2apricot import Meetup2Apricot
 from .meetup_api import MeetupApi
 from .meetup_event_retriever import MeetupEventRetriever
+from .member_level_manager import make_member_level_manager
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import PhotoCache, load_cached_photo_urls
 from .photo_retriever import make_photo_retriever, make_session
@@ -185,7 +187,7 @@ def inject_event_processor_provider(application_scope, initial_data_scope):
             known_events=event_mapping,
             photo_cache=inject_photo_cache(application_scope, initial_data_scope),
             event_registration_type_maker=inject_event_registration_type_maker(
-                initial_data_scope
+                application_scope, initial_data_scope
             ),
             apricot_api=inject_apricot_api(application_scope),
             cache_path=application_scope.event_cache_file,
@@ -250,9 +252,30 @@ def inject_meetup_event_retriever(application_scope, initial_data_scope):
     )
 
 
-def inject_event_registration_type_maker(initial_data_scope):
-    """Return an event registration type maker configured by an initial data scope."""
-    return EventRegistrationTypeMaker(initial_data_scope.membership_levels)
+def inject_event_registration_type_maker(application_scope, initial_data_scope):
+    """Return an event registration type maker configured by application and
+    initial data scopes."""
+    return EventRegistrationTypeMaker(
+        inject_event_restrictions(application_scope, initial_data_scope)
+    )
+
+
+def inject_event_restrictions(application_scope, initial_data_scope):
+    """Return event restrictions configured by application and initial data
+    scopes."""
+    return inject_event_restriction_loader(initial_data_scope).load(
+        application_scope.event_restrictions
+    )
+
+
+def inject_event_restriction_loader(initial_data_scope):
+    """Return an event restriction loader configured by an initial data scope."""
+    return EventRestrictionLoader(inject_member_level_manager(initial_data_scope))
+
+
+def inject_member_level_manager(initial_data_scope):
+    """Return a member level manager configured by an initial data scope."""
+    return make_member_level_manager(initial_data_scope.membership_levels)
 
 
 def inject_http_session(application_scope):

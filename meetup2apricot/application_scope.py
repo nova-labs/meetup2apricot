@@ -69,6 +69,10 @@ class ApplicationScope:
         return Path(self._env_vars["EVENT_CACHE_FILE"])
 
     @property
+    def event_restrictions(self):
+        return self._env_vars.json("EVENT_RESTRICTIONS")
+
+    @property
     def latest_event_start_time(self):
         return datetime.fromisoformat(self._env_vars["LATEST_EVENT_START_TIME"])
 

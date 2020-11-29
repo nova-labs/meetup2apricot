@@ -60,13 +60,11 @@ class EventRegistrationTypeMaker:
 
     """Makes various event registration types."""
 
-    def __init__(self, membership_levels, event_restrictions=None):
-        """Initialize with a list of all membership levels and a list of event
-        restrictions."""
-        self.membership_levels = membership_levels
+    def __init__(self, event_restrictions):
+        """Initialize with a list of event restrictions."""
         self.event_restrictions = event_restrictions
 
-    def make_meetup_registration_type(self, event_id, maximum_registrants_count):
+    def make_meetup_type(self, event_id, maximum_registrants_count):
         """Make an event registration type for existing Meetup RSVPs."""
         return EventRegistrationType(
             event_id=event_id,
@@ -78,7 +76,22 @@ class EventRegistrationTypeMaker:
             max_reg_count_desc="registered on Meetup",
         )
 
-    def make_unrestricted_apricot_registration_type(
+    def make_apricot_type(
+        self, event_id, maximum_registrants_count, price, event_title
+    ):
+        """Make a Wild Apricot event regirstation type appropriate for an event
+        title."""
+        restriction = self.choose_event_restriction(event_title)
+        if restriction:
+            return self.make_restricted_apricot_type(
+                event_id, maximum_registrants_count, price, restriction
+            )
+        else:
+            return self.make_unrestricted_apricot_type(
+                event_id, maximum_registrants_count, price
+            )
+
+    def make_unrestricted_apricot_type(
         self, event_id, maximum_registrants_count, price
     ):
         """Make an unrestricted event registration type for Wild Apricot RSVPs."""
@@ -89,18 +102,30 @@ class EventRegistrationTypeMaker:
             maximum_registrants_count=maximum_registrants_count,
         )
 
-    def make_members_only_registration_type(
-        self, event_id, maximum_registrants_count, price
+    def make_restricted_apricot_type(
+        self, event_id, maximum_registrants_count, price, restriction
     ):
-        """Make an event registration type for members only RSVPs."""
+        """Make a restricted event registration type for Wild Apricot
+        registrations."""
+        member_levels_for_json = [
+            level._asdict() for level in restriction.member_levels
+        ]
         return EventRegistrationType(
             event_id=event_id,
-            name="Members Only",
+            name=restriction.name,
             price=price,
             availability="MembersOnly",
             maximum_registrants_count=maximum_registrants_count,
-            AvailableForMembershipLevels=self.membership_levels,
+            AvailableForMembershipLevels=member_levels_for_json,
         )
+
+    def choose_event_restriction(self, event_title):
+        """Choose and return the first event restriction with a pattern that
+        matches the event title. Return None if no patterns match."""
+        for restriction in self.event_restrictions:
+            if restriction.pattern.search(event_title):
+                return restriction
+        return None
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
