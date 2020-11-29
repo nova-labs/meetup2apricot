@@ -154,6 +154,47 @@ variables and their purpose.
    | :envvar:`PHOTO_CACHE_FILE`  | Path to cache file containing photo information |
    +-----------------------------+-------------------------------------------------+
 
+Event Registration Restrictions
+-------------------------------
+
+Wild Apricot can restrict event registration to members with selected
+membership levels.
+For example, the Nova Labs Green Orientation is restricted to "associate
+(onboarding)" members.
+
+Environment variable :envvar:`EVENT_RESTRICTIONS` specifies a JSON formatted
+list of restrictions.
+For example::
+
+    export EVENT_RESTRICTIONS='[
+         {
+                 "name": "Green Orientation",
+                 "pattern": "go:.*orientation",
+                 "levels": "Associate (onboarding)"
+         },
+         {
+                 "name": "Key Members Only",
+                 "pattern": "key +members[ -]*only",
+                 "levels": ["Key", "Key (family)", "Key (legacy-billing)"]
+         },
+         {
+                 "name": "Members Only",
+                 "pattern": "members[ -]*only"
+         }]'
+
+Meetup2apricot scans the title of each event, searching for the regular
+expression patterns in the order listed.
+Letter case is ignored, so *Members Only, members only,* and *MEMBERS ONLY* all
+match the third example pattern.
+
+If a restriction pattern is found within an event title, meetup2apricot creates
+an event registration type with the name provided.
+The registration type is restricted to the member level or list of member levels provided.
+If no member levels are provided, the registration type will accept all member levels.
+
+If no restriction pattern is found within an event title, meetup2apricot creates
+an event registration type named *RSVP* that is open to all registrants.
+
 Event Tags
 ----------
 

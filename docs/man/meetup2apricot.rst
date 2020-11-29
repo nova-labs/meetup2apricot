@@ -121,6 +121,26 @@ Environment
    The path to a Python pickle formatted cache file of event conversion
    details.
 
+.. envvar:: EVENT_RESTRICTIONS
+
+   Event restrictions formatted as a list of JSON objects.
+   Each object specifies an event restriction name, a case-insensitive Python
+   regular expression to find in event titles, and an optional member level (or
+   list of levels).
+   If no member level is provided, all member levels will be used.
+   For example::
+
+       export EVENT_RESTRICTIONS='[
+            {
+                    "name": "Green Orientation",
+                    "pattern": "go:.*orientation",
+                    "levels": "Associate (onboarding)"
+            },
+            {
+                    "name": "Members Only",
+                    "pattern": "members[ -]*only"
+            }]'
+
 .. envvar:: LATEST_EVENT_START_TIME
 
    The start time of the latest event to convert from Meetup to Wild Apricot.
