@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.4.0 (2020-11-29)
 ------------------
 
 * Make event registration type member level restrictions configurable.
