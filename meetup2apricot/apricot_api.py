@@ -74,6 +74,14 @@ class ApricotApi:
         url = f"{self.api_base_url}/accounts/{self.account_id}/events"
         return int(self.post(url, json=event).content)
 
+    @dryrun.method(value=2468)
+    def clone_event(self, event_id, title_prefix):
+        """Clone a Wild Apricot event, setting a title prefix. Return the new
+        event number."""
+        url = f"{self.api_base_url}/rpc/{self.account_id}/CloneEvent"
+        request = {"EventId": event_id, "TitlePrefix": title_prefix}
+        return int(self.post(url, json=request).content)
+
     @dryrun.method(value=98765)
     def add_registration_type(self, registration_type):
         """Insert an event registration type into Wild Apricot."""
