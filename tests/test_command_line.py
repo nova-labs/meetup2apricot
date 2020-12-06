@@ -103,4 +103,22 @@ def test_report_flag_long():
     assert args.report
 
 
+def test_show_meetup_ids_flag_off():
+    """Test the default "show Meetup IDs" flag value."""
+    args = parse_without_args()
+    assert not args.show_meetup_ids
+
+
+def test_show_meetup_ids_flag_short():
+    """Test setting the "show Meetup IDs" flag with the short argument."""
+    args = parse_command_line("-m")
+    assert args.show_meetup_ids
+
+
+def test_show_meetup_ids_flag_long():
+    """Test setting the "show Meetup IDs" flag with the long argument."""
+    args = parse_command_line("--meetup-ids")
+    assert args.show_meetup_ids
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
