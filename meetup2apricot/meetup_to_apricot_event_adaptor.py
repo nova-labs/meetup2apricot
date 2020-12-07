@@ -13,6 +13,11 @@ class MeetupToApricotEventAdaptor:
         self.apricot_event_tags = apricot_event_tags
 
     @property
+    def meetup_id(self):
+        """Return the meetup event id."""
+        return self._meetup_event.meetup_id
+
+    @property
     def name(self):
         """Return the event title."""
         return self._meetup_event.name

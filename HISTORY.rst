@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Add -m flag to show Meetup event IDs in reports.
 
 1.4.0 (2020-11-29)
 ------------------

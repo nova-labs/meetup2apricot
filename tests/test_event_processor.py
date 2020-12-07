@@ -4,7 +4,7 @@ from meetup2apricot.member_level_manager import MemberLevel
 from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
 from meetup2apricot.event_restriction_loader import EventRestriction
 from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
-from meetup2apricot.reporter import Reporter, NullReporter
+from meetup2apricot.reporter import Reporter, NullReporter, EventReport
 from datetime import datetime
 from .sample_apricot_json import (
     EXPECTED_FREE_PHOTO_PATH,
@@ -254,7 +254,8 @@ def test_process_skip(event_processor, free_meetup_event):
 def test_process(event_processor, later_free_meetup_event, mock_apricot_api, mocker):
     """Test processing an event."""
     output = io.StringIO()
-    event_processor.reporter = Reporter(output)
+    event_report_provider = lambda: EventReport(show_meetup_id=False)
+    event_processor.reporter = Reporter(output, event_report_provider)
     expected_calls = [
         mocker.call(EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE),
         mocker.call(EXPECTED_RSVP_TYPE_FOR_FREE),
