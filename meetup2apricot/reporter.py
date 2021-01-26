@@ -45,7 +45,7 @@ class EventReport:
     def report_registration_type(self, output, reg_type):
         """Report an event registration type to an output stream."""
         output.write(
-            f"    {reg_type.name:<12}   ${reg_type.price:6,.2f}"
+            f"    {reg_type.name:<15}   ${reg_type.price:6,.2f}"
             f"   {reg_type.display_count}\n"
         )
 

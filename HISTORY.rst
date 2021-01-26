@@ -15,6 +15,7 @@ Recent History
 Next Release
 ------------------
 
+* Rename "Meetup RSVP" registration type to "Instructor/Host".
 * Disable guest registration due to COVID-19.
 * Add -m flag to show Meetup event IDs in reports.
 

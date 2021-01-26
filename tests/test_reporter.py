@@ -19,8 +19,8 @@ EXPECTED_LONGER_FREE_EVENT_REPORT = (
     EXPECTED_FREE_EVENT_NAME + EXPECTED_LONGER_FREE_EVENT_DATES
 )
 
-EXPECTED_MEETUP_RSVP_FREE = "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
-EXPECTED_MEMBERS_ONLY_FREE = "    Members Only   $125.00   6 available\n"
+EXPECTED_MEETUP_RSVP_FREE = "    Instructor/Host   $  0.00   0 registered on Meetup\n"
+EXPECTED_MEMBERS_ONLY_FREE = "    Members Only      $125.00   6 available\n"
 
 
 SAMPLE_RESTRICTION = EventRestriction(
@@ -112,7 +112,7 @@ def test_report_registration_type_rsvp(
         event_id=12345, maximum_registrants_count=None, price=25.0
     )
     event_report.report_registration_type(output, reg_type)
-    assert output.getvalue() == "    RSVP           $ 25.00   unlimited\n"
+    assert output.getvalue() == "    RSVP              $ 25.00   unlimited\n"
 
 
 def test_report_registration_type_meetup(

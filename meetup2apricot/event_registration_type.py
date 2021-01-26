@@ -68,7 +68,7 @@ class EventRegistrationTypeMaker:
         """Make an event registration type for existing Meetup RSVPs."""
         return EventRegistrationType(
             event_id=event_id,
-            name="Meetup RSVP",
+            name="Instructor/Host",
             is_enabled=False,
             description="RSVPs on Meetup",
             price=0.0,

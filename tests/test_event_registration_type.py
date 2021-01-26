@@ -56,7 +56,7 @@ EXPECTED_MEETUP_JSON = {
     "IsEnabled": False,
     "IsWaitlistEnabled": True,
     "MaximumRegistrantsCount": 6,
-    "Name": "Meetup RSVP",
+    "Name": "Instructor/Host",
     "UnavailabilityPolicy": "ShowDisabled",
 }
 

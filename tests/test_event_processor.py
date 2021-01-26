@@ -52,7 +52,7 @@ SAMPLE_MEMBER_LEVELS = [
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     "EventId": EXPECTED_APRICOT_EVENT_ID,
-    "Name": "Meetup RSVP",
+    "Name": "Instructor/Host",
     "IsEnabled": False,
     "Description": "RSVPs on Meetup",
     "BasePrice": 0.0,
@@ -84,7 +84,7 @@ EXPECTED_RSVP_TYPE_FOR_FREE = {
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     "EventId": 7890,
-    "Name": "Meetup RSVP",
+    "Name": "Instructor/Host",
     "IsEnabled": False,
     "Description": "RSVPs on Meetup",
     "BasePrice": 0.0,
@@ -117,8 +117,8 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
 
 EXPECTED_REPORT = """AC: Mending Monday (Test Event)
     2020-11-16 19:00 to 21:00
-    Meetup RSVP    $  0.00   3 registered on Meetup
-    RSVP           $  0.00   unlimited
+    Instructor/Host   $  0.00   3 registered on Meetup
+    RSVP              $  0.00   unlimited
 
 """
 
