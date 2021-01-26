@@ -15,6 +15,7 @@ Recent History
 Next Release
 ------------------
 
+* Disable guest registration due to COVID-19.
 * Add -m flag to show Meetup event IDs in reports.
 
 1.4.0 (2020-11-29)
