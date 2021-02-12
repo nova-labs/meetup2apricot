@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.4.1 (2021-02-11)
 ------------------
 
 * Add accounting code from title to list of event tags.
