@@ -1,14 +1,14 @@
 """Reports added events, registration types, and photos."""
 
-import sys
-
 
 class EventReport:
 
     """Details about one event for reporting."""
 
-    def __init__(self):
-        """Initialize with no Wild Apricot event or registration types."""
+    def __init__(self, show_meetup_id):
+        """Initialize with a "show Meetup event ID" flag and no Wild Apricot
+        event or registration types."""
+        self.show_meetup_id = show_meetup_id
         self.apricot_event = None
         self.registration_types = []
 
@@ -22,6 +22,8 @@ class EventReport:
 
     def report_event_name(self, output):
         """Report an event name to an output stream."""
+        if self.show_meetup_id:
+            output.write(f"{self.apricot_event.meetup_id}: ")
         output.write(f"{self.apricot_event.name}\n")
 
     def report_event_dates(self, output):
@@ -43,7 +45,7 @@ class EventReport:
     def report_registration_type(self, output, reg_type):
         """Report an event registration type to an output stream."""
         output.write(
-            f"    {reg_type.name:<12}   ${reg_type.price:6,.2f}"
+            f"    {reg_type.name:<15}   ${reg_type.price:6,.2f}"
             f"   {reg_type.display_count}\n"
         )
 
@@ -63,10 +65,12 @@ class Reporter:
     """Reports added events, registration types, and photos to an output
     stream."""
 
-    def __init__(self, output):
-        """Initialize with an output stream (an open file, stdout, etc.)."""
+    def __init__(self, output, event_report_provider):
+        """Initialize with an output stream (an open file, stdout, etc.) and an
+        event report provider."""
         self.output = output
-        self.event_report = EventReport()
+        self.event_report_provider = event_report_provider
+        self.event_report = event_report_provider()
         self.photo_names = []
 
     def report_event(self, apricot_event):
@@ -85,7 +89,7 @@ class Reporter:
         """Report an event and associated data to an output stream."""
         self.event_report.report(self.output)
         self.output.write("\n")
-        self.event_report = EventReport()
+        self.event_report = self.event_report_provider()
 
     def report_downloads(self):
         """Report the list of photos downloaded."""
@@ -115,10 +119,10 @@ class NullReporter:
         pass
 
 
-def make_reporter(report_flag):
-    """Make a real or null reporter depending on the report flag."""
+def make_reporter(report_flag, reporter_provider):
+    """Make a real or null reporter depending on the report flag. """
     if report_flag:
-        return Reporter(sys.stdout)
+        return reporter_provider()
     else:
         return NullReporter()
 

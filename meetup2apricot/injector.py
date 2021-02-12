@@ -22,9 +22,10 @@ from .member_level_manager import make_member_level_manager
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import PhotoCache, load_cached_photo_urls
 from .photo_retriever import make_photo_retriever, make_session
-from .reporter import make_reporter
+from .reporter import make_reporter, EventReport, Reporter
 from .throttle import Throttle, OpenThrottle
 from requests_toolbelt import user_agent
+from sys import stdout
 
 
 APRICOT_TOKEN_URL = "https://oauth.wildapricot.org/auth/token"
@@ -342,17 +343,29 @@ def inject_event_tagger(application_scope):
 
 def inject_reporter(application_scope):
     """Return a reporter configured by an application scope."""
-    return application_scope.reporter(inject_reporter_provider(application_scope))
+
+    def provide_reporter():
+        return make_reporter(
+            report_flag=application_scope.report,
+            reporter_provider=inject_reporter_provider(application_scope),
+        )
+
+    return application_scope.reporter(provide_reporter)
 
 
 def inject_reporter_provider(application_scope):
     """Return function that provides a reporter configured by an application
     scope."""
+    return lambda: Reporter(
+        output=stdout,
+        event_report_provider=inject_event_report_provider(application_scope),
+    )
 
-    def get():
-        return make_reporter(application_scope.report)
 
-    return get
+def inject_event_report_provider(application_scope):
+    """Return function that provides an event report configured by an
+    application scope."""
+    return lambda: EventReport(application_scope.show_meetup_ids)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

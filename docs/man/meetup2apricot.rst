@@ -6,7 +6,7 @@ meetup2apricot
 Synopsis
 --------
 
-**meetup2apricot** [-h] [-d] [-l LOGFILE] [-n] [-r] [-v] [-w]
+**meetup2apricot** [-h] [-d] [-l LOGFILE] [-m] [-n] [-r] [-v] [-w]
 
 Description
 -----------
@@ -41,6 +41,10 @@ Options
 .. option:: -l <LOGFILE>, --logfile <LOGFILE>
 
    Path to logfile (default: meetup2apricot.log).
+
+.. option:: -m, --meetup-ids
+
+   Show Meetup event IDs in reports.
 
 .. option:: -n, --dryrun
 

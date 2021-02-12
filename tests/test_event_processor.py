@@ -4,7 +4,7 @@ from meetup2apricot.member_level_manager import MemberLevel
 from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
 from meetup2apricot.event_restriction_loader import EventRestriction
 from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
-from meetup2apricot.reporter import Reporter, NullReporter
+from meetup2apricot.reporter import Reporter, NullReporter, EventReport
 from datetime import datetime
 from .sample_apricot_json import (
     EXPECTED_FREE_PHOTO_PATH,
@@ -52,14 +52,14 @@ SAMPLE_MEMBER_LEVELS = [
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     "EventId": EXPECTED_APRICOT_EVENT_ID,
-    "Name": "Meetup RSVP",
+    "Name": "Instructor/Host",
     "IsEnabled": False,
     "Description": "RSVPs on Meetup",
     "BasePrice": 0.0,
     "GuestPrice": 0.0,
     "Availability": "Everyone",
     "MaximumRegistrantsCount": 3,
-    "GuestRegistrationPolicy": "NumberOfGuests",
+    "GuestRegistrationPolicy": "Disabled",
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
@@ -75,7 +75,7 @@ EXPECTED_RSVP_TYPE_FOR_FREE = {
     "GuestPrice": 0.0,
     "Availability": "Everyone",
     "MaximumRegistrantsCount": None,
-    "GuestRegistrationPolicy": "NumberOfGuests",
+    "GuestRegistrationPolicy": "Disabled",
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
@@ -84,14 +84,14 @@ EXPECTED_RSVP_TYPE_FOR_FREE = {
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     "EventId": 7890,
-    "Name": "Meetup RSVP",
+    "Name": "Instructor/Host",
     "IsEnabled": False,
     "Description": "RSVPs on Meetup",
     "BasePrice": 0.0,
     "GuestPrice": 0.0,
     "Availability": "Everyone",
     "MaximumRegistrantsCount": 2,
-    "GuestRegistrationPolicy": "NumberOfGuests",
+    "GuestRegistrationPolicy": "Disabled",
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
@@ -108,7 +108,7 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
     "Availability": "MembersOnly",
     "AvailableForMembershipLevels": SAMPLE_MEMBER_LEVELS,
     "MaximumRegistrantsCount": 4,
-    "GuestRegistrationPolicy": "NumberOfGuests",
+    "GuestRegistrationPolicy": "Disabled",
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
@@ -117,8 +117,8 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
 
 EXPECTED_REPORT = """AC: Mending Monday (Test Event)
     2020-11-16 19:00 to 21:00
-    Meetup RSVP    $  0.00   3 registered on Meetup
-    RSVP           $  0.00   unlimited
+    Instructor/Host   $  0.00   3 registered on Meetup
+    RSVP              $  0.00   unlimited
 
 """
 
@@ -254,7 +254,8 @@ def test_process_skip(event_processor, free_meetup_event):
 def test_process(event_processor, later_free_meetup_event, mock_apricot_api, mocker):
     """Test processing an event."""
     output = io.StringIO()
-    event_processor.reporter = Reporter(output)
+    event_report_provider = lambda: EventReport(show_meetup_id=False)
+    event_processor.reporter = Reporter(output, event_report_provider)
     expected_calls = [
         mocker.call(EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE),
         mocker.call(EXPECTED_RSVP_TYPE_FOR_FREE),
