@@ -113,6 +113,10 @@ class ApplicationScope:
         return self._reporter_cache.get(reporter_provider)
 
     @property
+    def show_meetup_ids(self):
+        return self._args.show_meetup_ids
+
+    @property
     def verbose(self):
         return self._args.verbose
 

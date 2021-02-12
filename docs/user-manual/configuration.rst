@@ -209,9 +209,18 @@ indicate events from meetup; and *review,* to indicate events requiring review
 by an administrator.
 Environment variable :envvar:`ALL_EVENT_TAGS` specifies a JSON formatted list
 of tags to apply to all events.
+For example::
+
+    export ALL_EVENT_TAGS='["new", "meetup", "review"]'
+
+Provide an empty list when no tags apply to all events::
+
+    export ALL_EVENT_TAGS='[]'
 
 Meetup2apricot can translate accounting codes from event titles into Wild
 Apricot event tags.
+|Nova Labs Accounting Codes|_ contains the authoritative list of accounting
+codes and their event tags.
 Environment variable :envvar:`CODES_TO_TAGS` specifies a JSON formatted object
 with accounting codes as keys and tags as values.
 Tag values may be individual strings or a list of strings.
@@ -225,9 +234,15 @@ For example::
           "SL": "3d-printing",
           }'
 
+.. |Nova Labs Accounting Codes| replace:: The Nova Labs wiki
+
 Meetup2apricot would extract accounting code *RO* from event title "RO: Robot
 Group Meetup" and use the ``CODES_TO_TAGS`` mapping to apply tags *electronics*
 and *3d-printing* to the event.
+
+Meetup2apricot applies the accounting code as an event tag to support
+integration with the Nova Labs accounting system.
+
 
 Event Time Limits
 -----------------
@@ -252,4 +267,7 @@ latest time years in the future.
 
 .. _`Authorizing External Applications`: https://gethelp.wildapricot.com/en/articles/180
 .. _`ISO 8601`: https://www.iso.org/iso-8601-date-and-time-format.html
+.. _`Nova Labs Accounting Codes`: https://nova-labs.org/wiki/education
 .. _`The Twelve-Factor App`: https://12factor.net/config
+
+

@@ -49,7 +49,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Meetup2apricot"
-copyright = "2020 Joel Shprentz"
+copyright = "2021 Joel Shprentz"
 author = "Joel Shprentz"
 
 # The version info for the project you're documenting, acts as replacement

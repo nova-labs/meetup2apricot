@@ -19,8 +19,8 @@ EXPECTED_LONGER_FREE_EVENT_REPORT = (
     EXPECTED_FREE_EVENT_NAME + EXPECTED_LONGER_FREE_EVENT_DATES
 )
 
-EXPECTED_MEETUP_RSVP_FREE = "    Meetup RSVP    $  0.00   0 registered on Meetup\n"
-EXPECTED_MEMBERS_ONLY_FREE = "    Members Only   $125.00   6 available\n"
+EXPECTED_MEETUP_RSVP_FREE = "    Instructor/Host   $  0.00   0 registered on Meetup\n"
+EXPECTED_MEMBERS_ONLY_FREE = "    Members Only      $125.00   6 available\n"
 
 
 SAMPLE_RESTRICTION = EventRestriction(
@@ -54,14 +54,26 @@ def longer_free_apricot_event(longer_free_meetup_event):
 
 @pytest.fixture()
 def event_report():
-    """Return an empty event report."""
-    return EventReport()
+    """Return an empty event report that hides Meetup event IDs."""
+    return EventReport(show_meetup_id=False)
 
 
 @pytest.fixture()
-def reporter(output):
+def event_report_provider(event_report):
+    """Return an event report provider that returns the usual event report."""
+    return lambda: event_report
+
+
+@pytest.fixture()
+def reporter(output, event_report_provider):
     """Return a reporter that writes to a string."""
-    return Reporter(output)
+    return Reporter(output, event_report_provider)
+
+
+@pytest.fixture()
+def reporter_provider(reporter):
+    """Return a reporter provider that returns the usual reporter."""
+    return lambda: reporter
 
 
 @pytest.fixture()
@@ -75,6 +87,14 @@ def test_report_event(event_report, free_apricot_event, output):
     event_report.add_event(free_apricot_event)
     event_report.report_event(output)
     assert output.getvalue() == EXPECTED_FREE_EVENT_REPORT
+
+
+def test_report_event_name_with_id(free_apricot_event, output):
+    """Test reporting on an event."""
+    event_report = EventReport(show_meetup_id=True)
+    event_report.add_event(free_apricot_event)
+    event_report.report_event_name(output)
+    assert output.getvalue() == "pfsbvrybcpbmb: " + EXPECTED_FREE_EVENT_NAME
 
 
 def test_report_event_longer(event_report, longer_free_apricot_event, output):
@@ -92,7 +112,7 @@ def test_report_registration_type_rsvp(
         event_id=12345, maximum_registrants_count=None, price=25.0
     )
     event_report.report_registration_type(output, reg_type)
-    assert output.getvalue() == "    RSVP           $ 25.00   unlimited\n"
+    assert output.getvalue() == "    RSVP              $ 25.00   unlimited\n"
 
 
 def test_report_registration_type_meetup(
@@ -215,15 +235,15 @@ def test_null_reporter(free_apricot_event, event_registration_type_maker, output
     reporter.report()
 
 
-def test_make_reporter():
+def test_make_reporter(reporter_provider):
     """Test making a reporter with a true report flag."""
-    reporter = make_reporter(True)
+    reporter = make_reporter(True, reporter_provider)
     assert type(reporter) == Reporter
 
 
-def test_make_reporter_null():
+def test_make_reporter_null(reporter_provider):
     """Test making a reporter with a false report flag."""
-    reporter = make_reporter(False)
+    reporter = make_reporter(False, reporter_provider)
     assert type(reporter) == NullReporter
 
 

@@ -71,6 +71,16 @@ def test_get_event_response(module_file_path, apricot_api):
     save_json(apricot_json, module_file_path)
 
 
+def test_clone_event_response(module_file_path, apricot_api):
+    """Save response from a clone event request to Wild Apricot."""
+    event_id = os.getenv("APRICOT_CLONE_EVENT_ID")
+    if not event_id:
+        pytest.skip("Define environment variable APRICOT_CLONE_EVENT_ID")
+    response = apricot_api.clone_event(event_id, "Transfer: ")
+    with module_file_path.open("wt") as response_file:
+        response_file.write(f"{response:d}\n")
+
+
 def test_get_membership_levels_response(module_file_path, apricot_api):
     """Save response from a "membership levels" request to Wild Apricot."""
     apricot_json = apricot_api.get_membership_levels()

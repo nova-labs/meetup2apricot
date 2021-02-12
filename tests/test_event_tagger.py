@@ -14,6 +14,12 @@ RAW_CODES_TO_TAGS = {
     "ZZ": None,
 }
 
+EXPECTED_CODES_TO_TAGS = {
+    "AC": ["arts-and-crafts", "the-studio"],
+    "WW": ["woodworking"],
+    "ZZ": [],
+}
+
 
 def test_tag_code_none(event_tagger):
     """Test tagging a missing accounting code."""
@@ -37,24 +43,20 @@ def test_tag_code_unknown(event_tagger):
 
 def test_tag_codes_none(event_tagger):
     """Test tagging an empty list of accounting codes."""
-    assert event_tagger.tag_codes([], []) == EXPECTED_TAGS
-
-
-def test_tag_codes_none_featured(event_tagger):
-    """Test tagging an empty list of accounting codes."""
-    assert event_tagger.tag_codes([], ["featured"]) == ["featured"] + EXPECTED_TAGS
+    assert event_tagger.tag_codes([]) == []
 
 
 def test_tag_codes_one(event_tagger):
     """Test tagging a list of accounting codes with one code, which has one
     tag."""
-    assert event_tagger.tag_codes(["AV"], []) == EXPECTED_TAGS + ["audio-visual"]
+    assert event_tagger.tag_codes(["AV"]) == ["AV", "audio-visual"]
 
 
 def test_tag_codes_multiple(event_tagger):
     """Test tagging a list of accounting codes with one code, which has
     multiple tags."""
-    assert event_tagger.tag_codes(["AC"], []) == EXPECTED_TAGS + [
+    assert event_tagger.tag_codes(["AC"]) == [
+        "AC",
         "arts-and-crafts",
         "the-studio",
     ]
@@ -63,10 +65,12 @@ def test_tag_codes_multiple(event_tagger):
 def test_tag_codes_multiple_multiple(event_tagger):
     """Test tagging a list of accounting codes, which have multiple tags, some
     in common."""
-    assert event_tagger.tag_codes(["AC", "BIO"], []) == EXPECTED_TAGS + [
+    assert event_tagger.tag_codes(["AC", "BIO"]) == [
+        "AC_BIO",
         "arts-and-crafts",
         "the-studio",
         "biology",
+        "the-studio",
     ]
 
 
@@ -77,7 +81,7 @@ def test_tag_event(event_tagger, free_meetup_event):
 
 def test_tag_event_featured(event_tagger, paid_meetup_event):
     """Test tagging an event."""
-    expected_tags = ["featured"] + EXPECTED_TAGS + ["audio-visual"]
+    expected_tags = ["featured"] + EXPECTED_TAGS + ["AV_P", "audio-visual"]
     assert event_tagger.tag_event(paid_meetup_event) == expected_tags
 
 
@@ -106,32 +110,11 @@ def test_codes_to_tags(code, expected_tags):
     assert codes_to_tags[code] == expected_tags
 
 
-@pytest.mark.parametrize(
-    "code, expected_tags",
-    [
-        ("WW", EXPECTED_TAGS + ["woodworking"]),
-        ("AC", EXPECTED_TAGS + ["arts-and-crafts", "the-studio"]),
-        ("ZZ", EXPECTED_TAGS),
-    ],
-)
-def test_make_event_tagger(code, expected_tags):
+def test_make_event_tagger():
     """Test making an event tagger."""
     event_tagger = make_event_tagger(RAW_CODES_TO_TAGS, EXPECTED_TAGS)
-    assert event_tagger.tag_codes([code], []) == expected_tags
-
-
-@pytest.mark.parametrize(
-    "code, expected_tags",
-    [
-        ("WW", ["foo", "woodworking"]),
-        ("AC", ["foo", "arts-and-crafts", "the-studio"]),
-        ("ZZ", ["foo"]),
-    ],
-)
-def test_make_event_tagger_short_list(code, expected_tags):
-    """Test making an event tagger with a single tag for all events."""
-    event_tagger = make_event_tagger(RAW_CODES_TO_TAGS, "foo")
-    assert event_tagger.tag_codes([code], []) == expected_tags
+    assert event_tagger.codes_to_tags == EXPECTED_CODES_TO_TAGS
+    assert event_tagger.all_event_tags == EXPECTED_TAGS
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

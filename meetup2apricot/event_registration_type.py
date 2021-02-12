@@ -48,7 +48,7 @@ class EventRegistrationType:
             "GuestPrice": self.price,
             "Availability": self.availability,
             "MaximumRegistrantsCount": self.maximum_registrants_count,
-            "GuestRegistrationPolicy": "NumberOfGuests",
+            "GuestRegistrationPolicy": "Disabled",
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
@@ -68,7 +68,7 @@ class EventRegistrationTypeMaker:
         """Make an event registration type for existing Meetup RSVPs."""
         return EventRegistrationType(
             event_id=event_id,
-            name="Meetup RSVP",
+            name="Instructor/Host",
             is_enabled=False,
             description="RSVPs on Meetup",
             price=0.0,

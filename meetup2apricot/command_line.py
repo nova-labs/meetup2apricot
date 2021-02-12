@@ -19,6 +19,14 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-m",
+    "--meetup-ids",
+    dest="show_meetup_ids",
+    action="store_true",
+    help="Show Meetup event IDs in reports.",
+)
+
+parser.add_argument(
     "-n",
     "--dryrun",
     action="store_true",
