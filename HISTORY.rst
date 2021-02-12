@@ -15,8 +15,10 @@ Recent History
 Next Release
 ------------------
 
+* Add accounting code from title to list of event tags.
 * Rename "Meetup RSVP" registration type to "Instructor/Host".
 * Disable guest registration due to COVID-19.
+* Report and limit oversubscribed Meetup events.
 * Add -m flag to show Meetup event IDs in reports.
 
 1.4.0 (2020-11-29)

@@ -8,7 +8,7 @@ EXPECTED_FREE_PHOTO_PATH = (
 
 EXPECTED_TAGS = ["meetup", "test"]
 
-EXPECTED_FREE_TAGS = ["meetup", "test", "arts-and-crafts", "the-studio"]
+EXPECTED_FREE_TAGS = ["meetup", "test", "AC", "arts-and-crafts", "the-studio"]
 
 EXPECTED_FREE_DESCRIPTION_HTML = (
     f'<p><img src="{EXPECTED_FREE_PHOTO_PATH}" '
