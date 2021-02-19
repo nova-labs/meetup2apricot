@@ -10,13 +10,13 @@ class InitialDataScope:
 
     def __init__(
         self,
-        meetup_events,
+        upcoming_meetup_events,
         membership_levels,
         photo_urls_to_paths,
         meetup_to_apricot_event_mapping,
     ):
         """Initialize with data loaded from Meetup and caches."""
-        self.meetup_events = meetup_events
+        self.upcoming_meetup_events = upcoming_meetup_events
         self.membership_levels = membership_levels
         self.photo_urls_to_paths = photo_urls_to_paths
         self.meetup_to_apricot_event_mapping = meetup_to_apricot_event_mapping
@@ -51,16 +51,19 @@ class InitialDataLoader:
 
     def run(self):
         """Run the Meetup to Wild Apricot conversion."""
-        meetup_events = self.retreive_meetup_events()
+        upcoming_meetup_events = self.retreive_upcoming_meetup_events()
         membership_levels = self.retrieve_membership_levels()
         event_mapping = self.event_mapping_provider()
         photo_urls_to_paths = self.photo_urls_provider()
         self.convert_events(
-            meetup_events, membership_levels, photo_urls_to_paths, event_mapping
+            upcoming_meetup_events,
+            membership_levels,
+            photo_urls_to_paths,
+            event_mapping,
         )
 
-    def retreive_meetup_events(self):
-        """Return a list of Meetup events to convert."""
+    def retreive_upcoming_meetup_events(self):
+        """Return a list of upcoming Meetup events to convert."""
         json_events = self.meetup_api.retrieve_events_json()
         return [MeetupEvent(event) for event in json_events]
 
@@ -69,11 +72,18 @@ class InitialDataLoader:
         return self.apricot_api.get_membership_levels()
 
     def convert_events(
-        self, meetup_events, membership_levels, photo_urls_to_paths, event_mapping
+        self,
+        upcoming_meetup_events,
+        membership_levels,
+        photo_urls_to_paths,
+        event_mapping,
     ):
         """Convert Meetup events to Wild Apricot events using some initial data."""
         initial_data_scope = InitialDataScope(
-            meetup_events, membership_levels, photo_urls_to_paths, event_mapping
+            upcoming_meetup_events,
+            membership_levels,
+            photo_urls_to_paths,
+            event_mapping,
         )
         processor = self.enter_initial_data_scope(initial_data_scope)
         processor.run()
