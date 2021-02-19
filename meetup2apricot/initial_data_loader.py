@@ -11,12 +11,14 @@ class InitialDataScope:
     def __init__(
         self,
         upcoming_meetup_events,
+        transfer_meetup_events,
         membership_levels,
         photo_urls_to_paths,
         meetup_to_apricot_event_mapping,
     ):
         """Initialize with data loaded from Meetup and caches."""
         self.upcoming_meetup_events = upcoming_meetup_events
+        self.transfer_meetup_events = transfer_meetup_events
         self.membership_levels = membership_levels
         self.photo_urls_to_paths = photo_urls_to_paths
         self.meetup_to_apricot_event_mapping = meetup_to_apricot_event_mapping
@@ -80,6 +82,7 @@ class InitialDataLoader:
     ):
         """Convert Meetup events to Wild Apricot events using some initial data."""
         initial_data_scope = InitialDataScope(
+            upcoming_meetup_events,
             upcoming_meetup_events,
             membership_levels,
             photo_urls_to_paths,
