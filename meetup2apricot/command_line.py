@@ -48,6 +48,13 @@ parser.add_argument(
     "-w", "--warnings", action="store_true", help="Log warnings to standard error"
 )
 
+parser.add_argument(
+    "meetup_ids",
+    nargs="*",
+    metavar="MEETUP_ID",
+    help="Meetup ID of an event to download",
+)
+
 
 def parse_args(args=None):
     return parser.parse_args(args)

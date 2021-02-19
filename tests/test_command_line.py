@@ -121,4 +121,22 @@ def test_show_meetup_ids_flag_long():
     assert args.show_meetup_ids
 
 
+def test_no_meetup_ids():
+    """Test a command line with no Meetup IDs."""
+    args = parse_without_args()
+    assert args.meetup_ids == []
+
+
+def test_meetup_ids_one():
+    """Test a command line with one Meetup ID."""
+    args = parse_command_line("abcd")
+    assert args.meetup_ids == ["abcd"]
+
+
+def test_meetup_ids_two():
+    """Test a command line with two Meetup IDs."""
+    args = parse_command_line("abcd 1234")
+    assert args.meetup_ids == ["abcd", "1234"]
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
