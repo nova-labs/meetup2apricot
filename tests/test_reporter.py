@@ -233,6 +233,7 @@ def test_null_reporter(free_apricot_event, event_registration_type_maker, output
     reporter.report_registration_type(reg_type_1)
     reporter.report_registration_type(reg_type_2)
     reporter.report()
+    reporter.report_downloads()
 
 
 def test_make_reporter(reporter_provider):

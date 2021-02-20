@@ -14,8 +14,10 @@ class Meetup2Apricot:
         event_mapping_updater,
         event_processor_provider,
     ):
-        """Initialize with upcoming Meetup events, a photo cache, and an event
-        mapping updater, and an event processor provider."""
+        """Initialize with a list of Meetup events to add to Wild Apricot,
+        an initial mapping of Meetup IDs to Wild Apricot IDs, a photo cache,
+        a progress reporter, an event mapping updater, and an event processor
+        provider."""
         self.meetup_events = meetup_events
         self.initial_event_mapping = initial_event_mapping
         self.photo_cache = photo_cache

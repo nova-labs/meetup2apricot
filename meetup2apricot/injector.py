@@ -87,6 +87,7 @@ def inject_initial_data_loader(application_scope):
     return InitialDataLoader(
         meetup_api=inject_meetup_api(application_scope),
         apricot_api=inject_apricot_api(application_scope),
+        transfer_meetup_ids=application_scope.meetup_ids,
         event_mapping_provider=inject_event_mapping_provider(application_scope),
         photo_urls_provider=inject_photo_urls_provider(application_scope),
         enter_initial_data_scope=inject_enter_initial_data_scope(application_scope),
@@ -127,7 +128,7 @@ def inject_meetup2apricot(application_scope, initial_data_scope):
     """Return a Meetup to Wild Apricot processor configured by application and
     initial data scopes."""
     return Meetup2Apricot(
-        meetup_events=initial_data_scope.meetup_events,
+        meetup_events=initial_data_scope.transfer_meetup_events,
         initial_event_mapping=initial_data_scope.meetup_to_apricot_event_mapping,
         photo_cache=inject_photo_cache(application_scope, initial_data_scope),
         reporter=inject_reporter(application_scope),
@@ -249,7 +250,7 @@ def inject_meetup_event_retriever(application_scope, initial_data_scope):
     data scopes."""
     return MeetupEventRetriever(
         meetup_api=inject_meetup_api(application_scope),
-        meetup_events=initial_data_scope.meetup_events,
+        meetup_events=initial_data_scope.upcoming_meetup_events,
     )
 
 

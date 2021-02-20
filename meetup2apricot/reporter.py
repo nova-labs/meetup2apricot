@@ -118,6 +118,10 @@ class NullReporter:
         """Ignore reporting an event and associated data."""
         pass
 
+    def report_downloads(self):
+        """Ignore reporting the list of photos downloaded."""
+        pass
+
 
 def make_reporter(report_flag, reporter_provider):
     """Make a real or null reporter depending on the report flag. """

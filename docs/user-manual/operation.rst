@@ -60,7 +60,7 @@ added events, registration types, and photos::
         Downloaded GO_New_Member_Orientation_2020-11-10.jpeg
         Meetup RSVP    $  0.00   2 registered on Meetup
         RSVP           $  0.00   unlimited 
-    
+
     BL_G: Blacksmithing Open Office Hours and Practice Session (Members ONLY)
         2020-12-02 18:30 to 2020-12-02 20:30
         Meetup RSVP    $  0.00   1 registered on Meetup
@@ -77,6 +77,55 @@ Use the dry run option (:option:`-n <meetup2apricot -n>`) with the report
 option (:option:`-r <meetup2apricot -r>`) to see the proposed changes::
 
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -n -r )
+
+
+Selecting Events
+----------------
+
+Meetup2apricot can download selected events from Meetup and add them to Wild
+Apricot.
+This need can arise occasionally when some other upcoming Meetup events need
+correction or when a future event must open to registration early.
+
+Use the Meetup IDs option (:option:`-m <meetup2apricot -m>`) 
+in conjunction with the dry run option (:option:`-n <meetup2apricot -n>`)
+and the report option (:option:`-r <meetup2apricot -r>`)
+to see Meetup event IDs along with the proposed changes::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -m -n -r )
+
+    276466635: AC_P: Digitizing for CNC Machine Embroidery
+        2021-03-04 19:00 to 21:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $120.00   unlimited
+
+    276381033: MW_S: CNC Mill Sign Off Class
+        2021-03-06 12:00 to 17:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $300.00   4 available
+
+    276412113: AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
+        2021-03-09 18:30 to 21:00
+        Instructor/Host   $  0.00   2 registered on Meetup
+        Members Only      $ 65.00   4 available
+
+List the selected event IDs on the command line to download only those events
+from Meetup and add them to Wild Apricot
+(see :option:`MEETUP_ID <meetup2apricot MEETUP_ID>`).
+For example, to select only the Arts and Crafts (AC) events::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r 276466635 276412113 )
+
+    AC_P: Digitizing for CNC Machine Embroidery
+        2021-03-04 19:00 to 21:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $120.00   unlimited
+
+    AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
+        2021-03-09 18:30 to 21:00
+        Instructor/Host   $  0.00   2 registered on Meetup
+        Members Only      $ 65.00   4 available
+
 
 Run on a Schedule
 -----------------
