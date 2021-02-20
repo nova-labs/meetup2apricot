@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Select Meetup events to download by listing their IDs on the command line.
 
 1.4.1 (2021-02-11)
 ------------------
