@@ -63,7 +63,7 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
-    "IsWaitlistEnabled": True,
+    "IsWaitlistEnabled": False,
 }
 
 EXPECTED_RSVP_TYPE_FOR_FREE = {
@@ -79,7 +79,7 @@ EXPECTED_RSVP_TYPE_FOR_FREE = {
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
-    "IsWaitlistEnabled": True,
+    "IsWaitlistEnabled": False,
 }
 
 EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
@@ -95,7 +95,7 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
-    "IsWaitlistEnabled": True,
+    "IsWaitlistEnabled": False,
 }
 
 EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
@@ -112,7 +112,7 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
     "CancellationDaysBeforeEvent": 2,
-    "IsWaitlistEnabled": True,
+    "IsWaitlistEnabled": False,
 }
 
 EXPECTED_REPORT = """AC: Mending Monday (Test Event)

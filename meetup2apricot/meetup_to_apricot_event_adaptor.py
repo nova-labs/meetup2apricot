@@ -139,10 +139,10 @@ class MeetupToApricotEventAdaptor:
                 },
                 "PaymentMethod": "OnlineOnly",
                 "RegistrationConfirmationExtraInfo": self.extra_info,
-                "IsWaitlistEnabled": True,
+                "IsWaitlistEnabled": False,
                 "WaitlistSettings": {
-                    "WaitlistType": "Manual",
-                    "InformationToCollect": "ContactInformation",
+                    "WaitlistType": "None",
+                    "InformationToCollect": "None",
                 },
                 "AttendeesDisplaySettings": {
                     "VisibleTo": "Members",
