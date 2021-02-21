@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.5.1 (2021-02-21)
 ------------------
 
 * Turn off event waitlist.
