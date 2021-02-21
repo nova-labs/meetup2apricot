@@ -40,10 +40,10 @@ EXPECTED_FREE_EVENT_JSON = {
         "PaymentMethod": "OnlineOnly",
         "RegistrationConfirmationExtraInfo": "How to find us: "
         "https://zoom.us/j/92758362882?pwd=a2VJOGxyOTBqelNhdjY1dGpqZStjZz09",
-        "IsWaitlistEnabled": True,
+        "IsWaitlistEnabled": False,
         "WaitlistSettings": {
-            "WaitlistType": "Manual",
-            "InformationToCollect": "ContactInformation",
+            "WaitlistType": "None",
+            "InformationToCollect": "None",
         },
         "AttendeesDisplaySettings": {
             "VisibleTo": "Members",
@@ -76,12 +76,12 @@ EXPECTED_PAID_EVENT_JSON = {
             "VisibleTo": "Members",
         },
         "DescriptionHtml": EXPECTED_PAID_DESCRIPTION_HTML,
-        "IsWaitlistEnabled": True,
+        "IsWaitlistEnabled": False,
         "PaymentMethod": "OnlineOnly",
         "RegistrationConfirmationExtraInfo": "",
         "WaitlistSettings": {
-            "InformationToCollect": "ContactInformation",
-            "WaitlistType": "Manual",
+            "InformationToCollect": "None",
+            "WaitlistType": "None",
         },
     },
     "EndDate": "2020-11-13 21:00-05:00",

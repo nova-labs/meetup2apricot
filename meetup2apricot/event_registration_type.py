@@ -52,7 +52,7 @@ class EventRegistrationType:
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
-            "IsWaitlistEnabled": True,
+            "IsWaitlistEnabled": False,
         } | self.more_attributes
 
 
