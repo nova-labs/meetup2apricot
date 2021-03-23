@@ -11,7 +11,6 @@ class EventMappingUpdater:
         for event retention."""
         self.meetup_event_retriever = meetup_event_retriever
         self.earliest_start_time = earliest_start_time
-        self.meetup_events = {}
 
     def update_event_mapping(self, event_mapping):
         """Uptime a mapping of Meetup IDs to Wild Apricot event IDs and start
