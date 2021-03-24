@@ -124,25 +124,25 @@ def test_show_meetup_ids_flag_long():
 def test_skip_missing():
     """Test the default skip list."""
     args = parse_without_args()
-    assert args.skip == []
+    assert args.skip_meetup_ids == []
 
 
 def test_skip_short():
     """Test setting a skipped Meetup ID with the short argument."""
     args = parse_command_line("-s abcd123")
-    assert args.skip == ["abcd123"]
+    assert args.skip_meetup_ids == ["abcd123"]
 
 
 def test_skip_long():
     """Test setting a skipped Meetup ID with the long argument."""
     args = parse_command_line("--skip abcd123")
-    assert args.skip == ["abcd123"]
+    assert args.skip_meetup_ids == ["abcd123"]
 
 
 def test_skip_multiple():
     """Test setting multiple skipped Meetup IDs."""
     args = parse_command_line("-s abcd123 -s xyz789")
-    assert args.skip == ["abcd123", "xyz789"]
+    assert args.skip_meetup_ids == ["abcd123", "xyz789"]
 
 
 def test_no_meetup_ids():

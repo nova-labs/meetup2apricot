@@ -45,6 +45,7 @@ parser.add_argument(
     "--skip",
     action="append",
     default=[],
+    dest="skip_meetup_ids",
     metavar="MEETUP_ID",
     help="Skip the Meetup ID",
 )

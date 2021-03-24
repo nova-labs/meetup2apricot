@@ -121,6 +121,10 @@ class ApplicationScope:
         return self._args.show_meetup_ids
 
     @property
+    def skip_meetup_ids(self):
+        return self._args.skip_meetup_ids
+
+    @property
     def verbose(self):
         return self._args.verbose
 
