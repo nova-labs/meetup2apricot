@@ -4,27 +4,39 @@ from meetup2apricot.event_mapping_updater import EventMappingUpdater
 from datetime import datetime
 import pytest
 
-SAMPLE_EARLIEST_START_TIME = datetime.fromisoformat("2020-11-06 00:00 -05:00")
+
+def local_datetime_from_iso(iso_format_datetime):
+    """Given a date/time in ISO format, return a datetime object with the local
+    timezone."""
+    return datetime.fromisoformat(iso_format_datetime).astimezone()
+
+
+SAMPLE_EARLIEST_START_TIME = local_datetime_from_iso("2020-11-06 00:00 -05:00")
 
 MEETUP_ID_1 = "1234"
 MEETUP_ID_2 = "3456"
+MEETUP_ID_3 = "7890"
 FREE_MEETUP_ID = "pfsbvrybcpbmb"
 PAID_MEETUP_ID = "274139316"
 PREV_FREE_MEETUP_ID = "abcde"
 
 APRICOT_DATA_1 = {
     "wild_apricot_event": 4321,
-    "start_time": datetime.fromisoformat("2020-11-01 19:30 -05:00"),
+    "start_time": local_datetime_from_iso("2020-11-01 19:30 -05:00"),
 }
 
 APRICOT_DATA_2 = {
     "wild_apricot_event": 6543,
-    "start_time": datetime.fromisoformat("2020-11-07 18:00 -05:00"),
+    "start_time": local_datetime_from_iso("2020-11-07 18:00 -05:00"),
 }
 
 FREE_EVENT_APRICOT_DATA = {
     "wild_apricot_event": 8765,
-    "start_time": datetime.fromisoformat("2020-11-09 21:00 -05:00"),
+    "start_time": local_datetime_from_iso("2020-11-09 21:00 -05:00"),
+}
+
+SKIP_PAID_EVENT_APRICOT_DATA = {
+    "start_time": local_datetime_from_iso("2020-11-13 19:00 -05:00")
 }
 
 SAMPLE_EVENT_MAPPING = {
@@ -32,6 +44,8 @@ SAMPLE_EVENT_MAPPING = {
     MEETUP_ID_2: APRICOT_DATA_2,
     FREE_MEETUP_ID: FREE_EVENT_APRICOT_DATA,
 }
+
+SAMPLE_SKIP_EVENT_IDS = [MEETUP_ID_3, PAID_MEETUP_ID]
 
 
 class MeetupEventRetrieverFake:
@@ -61,9 +75,7 @@ def fake_meetup_event_retriever(free_meetup_event, paid_meetup_event):
 def event_mapping_updater(fake_meetup_event_retriever):
     """Return an event mapping updater for testing."""
     return EventMappingUpdater(
-        fake_meetup_event_retriever,
-        SAMPLE_EARLIEST_START_TIME,
-        [],  # TODO provide skip Meetup event IDs
+        fake_meetup_event_retriever, SAMPLE_EARLIEST_START_TIME, SAMPLE_SKIP_EVENT_IDS
     )
 
 
@@ -93,7 +105,10 @@ def test_update_meetup_id_none(event_mapping_updater):
 
 
 def test_update_event_mapping(event_mapping_updater):
-    expected_mapping = {FREE_MEETUP_ID: FREE_EVENT_APRICOT_DATA}
+    expected_mapping = {
+        FREE_MEETUP_ID: FREE_EVENT_APRICOT_DATA,
+        PAID_MEETUP_ID: SKIP_PAID_EVENT_APRICOT_DATA,
+    }
     assert (
         event_mapping_updater.update_event_mapping(SAMPLE_EVENT_MAPPING)
         == expected_mapping

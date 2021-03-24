@@ -15,9 +15,17 @@ class EventMappingUpdater:
         self.skip_meetup_ids = skip_meetup_ids
 
     def update_event_mapping(self, event_mapping):
-        """Uptime a mapping of Meetup IDs to Wild Apricot event IDs and start
+        """Update a mapping of Meetup IDs to Wild Apricot event IDs and start
         times. Remove outdated events. Verify and correct Meetup IDs. Return
         the updated mapping."""
+        cleansed_events = self.clean_event_mapping(event_mapping)
+        skipped_events = self.skipped_event_ids_and_times()
+        cleansed_events.update(skipped_events)
+        return cleansed_events
+
+    def clean_event_mapping(self, event_mapping):
+        """Clean a an event mapping.  Remove outdated events. Verify and
+        correct Meetup IDs. Return the cleansed mapping."""
         timely_events = (
             (meetup_id, apricot_event_data)
             for (meetup_id, apricot_event_data) in event_mapping.items()
@@ -32,6 +40,19 @@ class EventMappingUpdater:
             for (meetup_id, apricot_event_data) in updated_events
             if meetup_id
         }
+
+    def skipped_event_ids_and_times(self):
+        """Return a list of (possibly updated) valid Meetup event IDs to skip
+        and their start times."""
+        skip_meetup_events = (
+            self.meetup_event_retriever.get_event(meetup_id)
+            for meetup_id in self.skip_meetup_ids
+        )
+        return (
+            (event.meetup_id, {"start_time": event.start_time})
+            for event in skip_meetup_events
+            if event
+        )
 
     def is_timely(self, apricot_event_data):
         """Given a dictionary of Wild Apricot event data including a start
