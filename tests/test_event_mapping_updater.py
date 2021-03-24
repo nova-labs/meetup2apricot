@@ -44,7 +44,11 @@ def mock_meetup_event_retriever(mocker, free_meetup_event):
 @pytest.fixture
 def event_mapping_updater(mock_meetup_event_retriever):
     """Return an event mapping updater for testing."""
-    return EventMappingUpdater(mock_meetup_event_retriever, SAMPLE_EARLIEST_START_TIME)
+    return EventMappingUpdater(
+        mock_meetup_event_retriever,
+        SAMPLE_EARLIEST_START_TIME,
+        [],  # TODO provide skip Meetup event IDs
+    )
 
 
 def test_is_timely_early(event_mapping_updater):

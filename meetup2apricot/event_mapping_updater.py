@@ -4,13 +4,15 @@
 class EventMappingUpdater:
 
     """Updates mappings of Meetup event IDs to Wild Apricot event IDs by
-    removing outdated events and correcting Meetup event IDs."""
+    removing outdated events, correcting Meetup event IDs, and adding skipped
+    Meetup event IDs."""
 
-    def __init__(self, meetup_event_retriever, earliest_start_time):
-        """Initialize with a Meetup event retriever and an earliest start time
-        for event retention."""
+    def __init__(self, meetup_event_retriever, earliest_start_time, skip_meetup_ids):
+        """Initialize with a Meetup event retriever, an earliest start time for
+        event retention, and a list of skipped Meetup event IDs."""
         self.meetup_event_retriever = meetup_event_retriever
         self.earliest_start_time = earliest_start_time
+        self.skip_meetup_ids = skip_meetup_ids
 
     def update_event_mapping(self, event_mapping):
         """Uptime a mapping of Meetup IDs to Wild Apricot event IDs and start
