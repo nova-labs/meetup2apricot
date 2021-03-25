@@ -176,9 +176,9 @@ Then skipped events, whether selected or not, will be permanently skipped.
 For example, an administrator may create a Meetup event to "hold the date" for
 a multi-event special day still in the planning stage.
 The "hold the date" event (Meetup ID 12345) should never be downloaded to Wild Apricot.
-This command selects and skips that event::
+This command limits the transfer to that event and permanently skips the event::
 
-    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -s 12345 12345 )
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -t 12345 -s 12345 )
 
 Run on a Schedule
 -----------------
