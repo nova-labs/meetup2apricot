@@ -145,6 +145,18 @@ def test_skip_multiple():
     assert args.skip_meetup_ids == ["abcd123", "xyz789"]
 
 
+def test_skip_multiple_one_flag():
+    """Test setting multiple skipped Meetup IDs with one flag."""
+    args = parse_command_line("-s abcd123 xyz789")
+    assert args.skip_meetup_ids == ["abcd123", "xyz789"]
+
+
+def test_skip_multiple_multiple():
+    """Test setting multiple skipped Meetup IDs with multiple flags."""
+    args = parse_command_line("-s abcd123 efg456 -s xyz789 qrs678")
+    assert args.skip_meetup_ids == ["abcd123", "efg456", "xyz789", "qrs678"]
+
+
 def test_no_meetup_ids():
     """Test a command line with no Meetup IDs."""
     args = parse_without_args()

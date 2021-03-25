@@ -173,8 +173,18 @@ Use the skip option
         Instructor/Host   $  0.00   2 registered on Meetup
         Members Only      $ 65.00   4 available
 
-Multiple events can be skipped by repeating the skip option.
+Multiple events can be skipped by listing multiple Meetup event IDs or by
+repeating the skip option.
 For example, to skip the two arts and crafts events instead of the metalworking event::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -s 276466635 276412113 )
+
+    MW_S: CNC Mill Sign Off Class
+        2021-03-06 12:00 to 17:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $300.00   4 available
+
+or::
 
     $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -s 276466635 -s 276412113 )
 
