@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.7.0 (2021-03-25)
 ------------------
 
 * Add --transfer command line option to transfer selected Meetup events.
