@@ -6,7 +6,7 @@ meetup2apricot
 Synopsis
 --------
 
-**meetup2apricot** [-h] [-d] [-l LOGFILE] [-m] [-n] [-r] [-s MEETUP_ID] [-v] [-w] [MEETUP_ID ...]
+**meetup2apricot** [-h] [-d] [-l LOGFILE] [-m] [-n] [-r] [-s MEETUP_ID [MEETUP_ID ...]] [-t MEETUP_ID [MEETUP_ID ...]] [-v] [-w]
 
 Description
 -----------
@@ -38,7 +38,7 @@ Options
    Also log debug messages. If this option is omitted,
    log only info and higher level messages.
 
-.. option:: -l <LOGFILE>, --logfile <LOGFILE>
+.. option:: -l LOGFILE, --logfile LOGFILE
 
    Path to logfile (default: meetup2apricot.log).
 
@@ -57,9 +57,15 @@ Options
 
    Report added events, registration types, and photos to standard output.
 
-.. option:: -s <MEETUP_ID>, --skip <MEETUP_ID>
+.. option:: -s MEETUP_ID [MEETUP_ID ...], --skip MEETUP_ID [MEETUP_ID ...]
 
-   Skip the event matching the Meetup event ID during this and subsequent runs.
+   Skip events matching the Meetup event IDs during this and subsequent runs.
+   This option may be repeated.
+
+.. option:: -t MEETUP_ID [MEETUP_ID ...], --transfer MEETUP_ID [MEETUP_ID ...]
+
+   Transfer from Meetup to Wild Apricot only those events matching Meetup event IDs.
+   When no Meetup IDs are specified, transfer all upcoming Meetup events.
    This option may be repeated.
 
 .. option:: -v, --verbose
@@ -72,12 +78,6 @@ Options
    Log warnings and higher level messages to standard error.
    This is useful when running in cron job because cron
    will mail any standard error output.
-
-.. option:: MEETUP_ID
-
-   Download from Meetup to Wild Apricot only those events matching the optional
-   one or more Meetup event IDs.
-   When no Meetup IDs are specified, download all upcoming Meetup events.
 
 .. _meetup2apricot-environment:
 
