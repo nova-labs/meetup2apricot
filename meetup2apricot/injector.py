@@ -242,7 +242,7 @@ def inject_event_mapping_updater(application_scope, initial_data_scope):
             application_scope, initial_data_scope
         ),
         earliest_start_time=application_scope.earliest_event_start_time,
-        skip_meetup_ids=[],  # TODO Inject actual skip Meetup event IDs
+        skip_meetup_ids=application_scope.skip_meetup_ids,
     )
 
 
