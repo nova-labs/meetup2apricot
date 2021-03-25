@@ -6,7 +6,7 @@ meetup2apricot
 Synopsis
 --------
 
-**meetup2apricot** [-h] [-d] [-l LOGFILE] [-m] [-n] [-r] [-v] [-w] [MEETUP_ID ...]
+**meetup2apricot** [-h] [-d] [-l LOGFILE] [-m] [-n] [-r] [-s MEETUP_ID] [-v] [-w] [MEETUP_ID ...]
 
 Description
 -----------
@@ -56,6 +56,11 @@ Options
 .. option:: -r, --report
 
    Report added events, registration types, and photos to standard output.
+
+.. option:: -s <MEETUP_ID>, --skip <MEETUP_ID>
+
+   Skip the event matching the Meetup event ID during this and subsequent runs.
+   This option may be repeated.
 
 .. option:: -v, --verbose
 

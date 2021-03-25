@@ -126,6 +126,75 @@ For example, to select only the Arts and Crafts (AC) events::
         Instructor/Host   $  0.00   2 registered on Meetup
         Members Only      $ 65.00   4 available
 
+Skipping Events
+---------------
+
+Meetup2apricot can permanently skip downloading selected events from Meetup.
+This need can arise when an administrator creates a Wild Apricot version of an
+event before meetup2apricot has downloaded the event.
+
+As in the previous example, use the Meetup IDs option
+(:option:`-m <meetup2apricot -m>`) in conjunction with the dry run option
+(:option:`-n <meetup2apricot -n>`) and the report option
+(:option:`-r <meetup2apricot -r>`) to see Meetup event IDs along with the
+proposed changes::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -m -n -r )
+
+    276466635: AC_P: Digitizing for CNC Machine Embroidery
+        2021-03-04 19:00 to 21:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $120.00   unlimited
+
+    276381033: MW_S: CNC Mill Sign Off Class
+        2021-03-06 12:00 to 17:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $300.00   4 available
+
+    276412113: AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
+        2021-03-09 18:30 to 21:00
+        Instructor/Host   $  0.00   2 registered on Meetup
+        Members Only      $ 65.00   4 available
+
+Suppose that the metal shop steward created a Wild Apricot event for the CNC
+mill sign off class.
+Use the skip option
+(:option:`-s <meetup2apricot -s>`) to skip that event, Meetup ID 276381033::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -s 276381033 )
+
+    AC_P: Digitizing for CNC Machine Embroidery
+        2021-03-04 19:00 to 21:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $120.00   unlimited
+
+    AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
+        2021-03-09 18:30 to 21:00
+        Instructor/Host   $  0.00   2 registered on Meetup
+        Members Only      $ 65.00   4 available
+
+Multiple events can be skipped by repeating the skip option.
+For example, to skip the two arts and crafts events instead of the metalworking event::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -s 276466635 -s 276412113 )
+
+    MW_S: CNC Mill Sign Off Class
+        2021-03-06 12:00 to 17:00
+        Instructor/Host   $  0.00   1 registered on Meetup
+        RSVP              $300.00   4 available
+
+When the meetup2apricot command specifies both selected and skipped events, the
+two options interact.
+First the Meetup download is limited to the selected events; other events will
+be available for later downloads.
+Then skipped events, whether selected or not, will be permanently skipped.
+
+For example, an administrator may create a Meetup event to "hold the date" for
+a multi-event special day still in the planning stage.
+The "hold the date" event (Meetup ID 12345) should never be downloaded to Wild Apricot.
+This command selects and skips that event::
+
+    $ ( . meetup2apricot.env && $(MEETUP2APRICOT) -r -s 12345 12345 )
 
 Run on a Schedule
 -----------------
