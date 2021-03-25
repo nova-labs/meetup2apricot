@@ -52,18 +52,22 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-t",
+    "--transfer",
+    action="extend",
+    nargs="+",
+    default=[],
+    dest="transfer_meetup_ids",
+    metavar="MEETUP_ID",
+    help="Transfer only events with these Meetup IDs",
+)
+
+parser.add_argument(
     "-v", "--verbose", action="store_true", help="Log to standard error"
 )
 
 parser.add_argument(
     "-w", "--warnings", action="store_true", help="Log warnings to standard error"
-)
-
-parser.add_argument(
-    "meetup_ids",
-    nargs="*",
-    metavar="MEETUP_ID",
-    help="Meetup ID of an event to download",
 )
 
 

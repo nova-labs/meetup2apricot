@@ -157,22 +157,40 @@ def test_skip_multiple_multiple():
     assert args.skip_meetup_ids == ["abcd123", "efg456", "xyz789", "qrs678"]
 
 
-def test_no_meetup_ids():
-    """Test a command line with no Meetup IDs."""
+def test_transfer_missing():
+    """Test the default transfer list."""
     args = parse_without_args()
-    assert args.meetup_ids == []
+    assert args.transfer_meetup_ids == []
 
 
-def test_meetup_ids_one():
-    """Test a command line with one Meetup ID."""
-    args = parse_command_line("abcd")
-    assert args.meetup_ids == ["abcd"]
+def test_transfer_short():
+    """Test setting a transferred Meetup ID with the short argument."""
+    args = parse_command_line("-t abcd123")
+    assert args.transfer_meetup_ids == ["abcd123"]
 
 
-def test_meetup_ids_two():
-    """Test a command line with two Meetup IDs."""
-    args = parse_command_line("abcd 1234")
-    assert args.meetup_ids == ["abcd", "1234"]
+def test_transfer_long():
+    """Test setting a transferred Meetup ID with the long argument."""
+    args = parse_command_line("--transfer abcd123")
+    assert args.transfer_meetup_ids == ["abcd123"]
+
+
+def test_transfer_multiple():
+    """Test setting multiple transferred Meetup IDs."""
+    args = parse_command_line("-t abcd123 -t xyz789")
+    assert args.transfer_meetup_ids == ["abcd123", "xyz789"]
+
+
+def test_transfer_multiple_one_flag():
+    """Test setting multiple transferred Meetup IDs with one flag."""
+    args = parse_command_line("-t abcd123 xyz789")
+    assert args.transfer_meetup_ids == ["abcd123", "xyz789"]
+
+
+def test_transfer_multiple_multiple():
+    """Test setting multiple transferred Meetup IDs with multiple flags."""
+    args = parse_command_line("-t abcd123 efg456 -t xyz789 qrs678")
+    assert args.transfer_meetup_ids == ["abcd123", "efg456", "xyz789", "qrs678"]
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent
