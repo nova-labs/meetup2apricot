@@ -12,8 +12,11 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Add --transfer command line option to transfer selected Meetup events.
+* Allow multiple Meetup event IDs with a --skip command line option.
 
 1.6.0 (2021-03-24)
 ------------------

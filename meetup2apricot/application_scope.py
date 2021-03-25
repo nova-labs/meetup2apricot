@@ -97,10 +97,6 @@ class ApplicationScope:
         return self._env_vars["MEETUP_GROUP_URL_NAME"]
 
     @property
-    def meetup_ids(self):
-        return self._args.meetup_ids
-
-    @property
     def photo_cache_file(self):
         return Path(self._env_vars["PHOTO_CACHE_FILE"])
 
@@ -123,6 +119,10 @@ class ApplicationScope:
     @property
     def skip_meetup_ids(self):
         return self._args.skip_meetup_ids
+
+    @property
+    def transfer_meetup_ids(self):
+        return self._args.transfer_meetup_ids
 
     @property
     def verbose(self):

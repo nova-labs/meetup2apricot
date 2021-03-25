@@ -23,7 +23,7 @@ parser.add_argument(
     "--meetup-ids",
     dest="show_meetup_ids",
     action="store_true",
-    help="Show Meetup event IDs in reports.",
+    help="Show Meetup event IDs in reports",
 )
 
 parser.add_argument(
@@ -43,11 +43,23 @@ parser.add_argument(
 parser.add_argument(
     "-s",
     "--skip",
-    action="append",
+    action="extend",
+    nargs="+",
     default=[],
     dest="skip_meetup_ids",
     metavar="MEETUP_ID",
-    help="Skip the Meetup ID",
+    help="Skip events with these Meetup IDs",
+)
+
+parser.add_argument(
+    "-t",
+    "--transfer",
+    action="extend",
+    nargs="+",
+    default=[],
+    dest="transfer_meetup_ids",
+    metavar="MEETUP_ID",
+    help="Transfer only events with these Meetup IDs",
 )
 
 parser.add_argument(
@@ -56,13 +68,6 @@ parser.add_argument(
 
 parser.add_argument(
     "-w", "--warnings", action="store_true", help="Log warnings to standard error"
-)
-
-parser.add_argument(
-    "meetup_ids",
-    nargs="*",
-    metavar="MEETUP_ID",
-    help="Meetup ID of an event to download",
 )
 
 
