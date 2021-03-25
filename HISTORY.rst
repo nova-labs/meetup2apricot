@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.6.0 (2021-03-24)
 ------------------
 
 * Add --skip command line option to skip Meetup events.
