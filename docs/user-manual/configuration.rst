@@ -13,6 +13,7 @@ The configuration includes:
 - Meetup :abbr:`API(application programming interface)` settings
 - Wild Apricot API credentials
 - Date/time limits for event conversion
+- Event Registration Restrictions
 - Event tagging
 - Paths to local and remote files and directories
 

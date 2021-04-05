@@ -58,13 +58,13 @@ added events, registration types, and photos::
     GO: New Member Orientation/Onboarding
         2020-11-29 16:00 to 2020-11-29 18:00
         Downloaded GO_New_Member_Orientation_2020-11-10.jpeg
-        Meetup RSVP    $  0.00   2 registered on Meetup
-        RSVP           $  0.00   unlimited 
+        Instructor/Host   $  0.00   2 available
+        RSVP              $  0.00   unlimited 
 
     BL_G: Blacksmithing Open Office Hours and Practice Session (Members ONLY)
         2020-12-02 18:30 to 2020-12-02 20:30
-        Meetup RSVP    $  0.00   1 registered on Meetup
-        Members Only   $ 15.00   7 available
+        Instructor/Host   $  0.00   2 available
+        Members Only      $ 15.00   7 available
 
 
 Dry Runs
@@ -96,17 +96,17 @@ to see Meetup event IDs along with the proposed changes::
 
     276466635: AC_P: Digitizing for CNC Machine Embroidery
         2021-03-04 19:00 to 21:00
-        Instructor/Host   $  0.00   1 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         RSVP              $120.00   unlimited
 
     276381033: MW_S: CNC Mill Sign Off Class
         2021-03-06 12:00 to 17:00
-        Instructor/Host   $  0.00   1 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         RSVP              $300.00   4 available
 
     276412113: AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
         2021-03-09 18:30 to 21:00
-        Instructor/Host   $  0.00   2 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         Members Only      $ 65.00   4 available
 
 Use the transfer option (:option:`-t <meetup2apricot -t>`) with the selected
@@ -117,12 +117,12 @@ For example, to select only the Arts and Crafts (AC) events::
 
     AC_P: Digitizing for CNC Machine Embroidery
         2021-03-04 19:00 to 21:00
-        Instructor/Host   $  0.00   1 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         RSVP              $120.00   unlimited
 
     AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
         2021-03-09 18:30 to 21:00
-        Instructor/Host   $  0.00   2 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         Members Only      $ 65.00   4 available
 
 Skipping Events
@@ -142,17 +142,17 @@ proposed changes::
 
     276466635: AC_P: Digitizing for CNC Machine Embroidery
         2021-03-04 19:00 to 21:00
-        Instructor/Host   $  0.00   1 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         RSVP              $120.00   unlimited
 
     276381033: MW_S: CNC Mill Sign Off Class
         2021-03-06 12:00 to 17:00
-        Instructor/Host   $  0.00   1 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         RSVP              $300.00   4 available
 
     276412113: AC_S: Industrial Sewing Machine Red Tool Sign Off (members only)
         2021-03-09 18:30 to 21:00
-        Instructor/Host   $  0.00   2 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         Members Only      $ 65.00   4 available
 
 Suppose that the arts and crafts steward created a Wild Apricot events for the
@@ -164,7 +164,7 @@ IDs to skip those events::
 
     MW_S: CNC Mill Sign Off Class
         2021-03-06 12:00 to 17:00
-        Instructor/Host   $  0.00   1 registered on Meetup
+        Instructor/Host   $  0.00   2 available
         RSVP              $300.00   4 available
 
 When the meetup2apricot command specifies both selected and skipped events, the
