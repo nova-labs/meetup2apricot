@@ -19,7 +19,7 @@ EXPECTED_LONGER_FREE_EVENT_REPORT = (
     EXPECTED_FREE_EVENT_NAME + EXPECTED_LONGER_FREE_EVENT_DATES
 )
 
-EXPECTED_MEETUP_RSVP_FREE = "    Instructor/Host   $  0.00   0 registered on Meetup\n"
+EXPECTED_MEETUP_RSVP_FREE = "    Instructor/Host   $  0.00   0 slots available for hosts\n"
 EXPECTED_MEMBERS_ONLY_FREE = "    Members Only      $125.00   6 available\n"
 
 
