@@ -73,7 +73,7 @@ class EventRegistrationTypeMaker:
             description="RSVPs on Meetup",
             price=0.0,
             maximum_registrants_count=maximum_registrants_count,
-            max_reg_count_desc="slots available for hosts",
+            max_reg_count_desc="available",
         )
 
     def make_apricot_type(

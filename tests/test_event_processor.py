@@ -117,7 +117,7 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
 
 EXPECTED_REPORT = """AC: Mending Monday (Test Event)
     2020-11-16 19:00 to 21:00
-    Instructor/Host   $  0.00   2 slots available for hosts
+    Instructor/Host   $  0.00   2 available
     RSVP              $  0.00   unlimited
 
 """
