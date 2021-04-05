@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Ignore Meetup registrations. Provide 2 instructor/host slots in Wild Apricot.
 
 1.7.0 (2021-03-25)
 ------------------
