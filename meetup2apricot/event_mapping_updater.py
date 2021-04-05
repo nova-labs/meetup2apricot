@@ -45,8 +45,7 @@ class EventMappingUpdater:
         """Return a list of (possibly updated) valid Meetup event IDs to skip
         and their start times."""
         skip_meetup_events = (
-            self.meetup_event_retriever.get_event(meetup_id)
-            for meetup_id in self.skip_meetup_ids
+            self.get_event(meetup_id) for meetup_id in self.skip_meetup_ids
         )
         return (
             (event.meetup_id, {"start_time": event.start_time})
@@ -63,11 +62,16 @@ class EventMappingUpdater:
     def update_meetup_id(self, meetup_id):
         """Return Meetup's current ID for the event with a given Meetup ID.
         Return None if the event is no longer planned."""
-        meetup_event = self.meetup_event_retriever.get_event(meetup_id)
+        meetup_event = self.get_event(meetup_id)
         if meetup_event:
             return meetup_event.meetup_id
         else:
             return None
+
+    def get_event(self, meetup_id):
+        """Return a Meetup event with the event ID or None if no current event
+        is available."""
+        return self.meetup_event_retriever.get_event(meetup_id)
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

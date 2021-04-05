@@ -100,14 +100,12 @@ class EventProcessor:
 
     def gather_registration_types(self, meetup_event, apricot_event_id):
         """Gather event registration types for a Wild Apricot event based on a
-        Meetup event."""
-        meetup_count = meetup_event.yes_rsvp_count
-        if meetup_event.rsvp_limit:
-            apricot_count = meetup_event.rsvp_limit - meetup_count
-        else:
-            apricot_count = None
+        Meetup event. As of Spring 2021, allow 2 slots for instructor/hosts and
+        the RSVP limit for Wild Apricot registrations."""
+        meetup_count = 2
+        apricot_count = meetup_event.rsvp_limit
         meetup_type = self.event_registration_type_maker.make_meetup_type(
-            apricot_event_id, meetup_event.yes_rsvp_count
+            apricot_event_id, meetup_count
         )
         apricot_type = self.event_registration_type_maker.make_apricot_type(
             apricot_event_id, apricot_count, meetup_event.fee_amount, meetup_event.name

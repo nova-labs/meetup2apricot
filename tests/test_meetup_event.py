@@ -91,11 +91,6 @@ def test_fee_amount_paid(paid_meetup_event):
     assert paid_meetup_event.fee_amount == 20.0
 
 
-def test_yes_rsvp_count(paid_meetup_event):
-    """Test getting the yes RSVP count."""
-    assert paid_meetup_event.yes_rsvp_count == 2
-
-
 def test_accounting_codes(free_meetup_event):
     """Test getting an accounting code."""
     assert free_meetup_event.accounting_codes == ["AC"]
