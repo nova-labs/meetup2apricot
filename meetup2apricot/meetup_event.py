@@ -25,7 +25,6 @@ VENUE_ADDRESS_KEY = "address_1"
 VENUE_CITY_KEY = "city"
 VENUE_STATE_KEY = "state"
 VENUE_ZIPCODE_KEY = "zip"
-YES_RSVP_COUNT = "yes_rsvp_count"
 
 # Default event length
 THREE_HOURS_MSEC = 3 * 60 * 60 * 1000
@@ -122,11 +121,6 @@ class MeetupEvent:
         """Return the fee for the event, if any."""
         fee = self.event_json.get(FEE_KEY, {})
         return fee.get(FEE_AMOUNT_KEY, 0.0)
-
-    @property
-    def yes_rsvp_count(self):
-        """Return the number of "yes" RSVPs."""
-        return self.event_json.get(YES_RSVP_COUNT, 0)
 
     @property
     def accounting_codes(self):
