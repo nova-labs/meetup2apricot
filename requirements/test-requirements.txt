@@ -44,7 +44,7 @@ pytest-mock==3.5.1
     # via -r test-requirements.in
 pytest-runner==5.3.0
     # via -r test-requirements.in
-pytest==6.2.2
+pytest==6.2.3
     # via
     #   -r test-requirements.in
     #   pytest-mock
