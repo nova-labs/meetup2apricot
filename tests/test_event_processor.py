@@ -58,7 +58,7 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_FREE = {
     "BasePrice": 0.0,
     "GuestPrice": 0.0,
     "Availability": "Everyone",
-    "MaximumRegistrantsCount": 2,
+    "MaximumRegistrantsCount": 1,
     "GuestRegistrationPolicy": "Disabled",
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
@@ -90,7 +90,7 @@ EXPECTED_MEETUP_RSVP_TYPE_FOR_PAID = {
     "BasePrice": 0.0,
     "GuestPrice": 0.0,
     "Availability": "Everyone",
-    "MaximumRegistrantsCount": 2,
+    "MaximumRegistrantsCount": 1,
     "GuestRegistrationPolicy": "Disabled",
     "UnavailabilityPolicy": "ShowDisabled",
     "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
@@ -117,7 +117,7 @@ EXPECTED_MEMBERS_ONLY_TYPE_FOR_PAID = {
 
 EXPECTED_REPORT = """AC: Mending Monday (Test Event)
     2020-11-16 19:00 to 21:00
-    Instructor/Host   $  0.00   2 available
+    Instructor/Host   $  0.00   1 available
     RSVP              $  0.00   unlimited
 
 """
