@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.8.1 (2021-04-09)
 ------------------
 
 * Provide only 1 instructor/host slot in Wild Apricot.
