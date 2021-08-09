@@ -158,8 +158,8 @@ variables and their purpose.
 Event Registration Restrictions
 -------------------------------
 
-Wild Apricot can restrict event registration to members with selected
-membership levels.
+Wild Apricot can restrict event registrations to selected membership levels
+based on an event's title and price.
 For example, the Nova Labs Green Orientation is restricted to "associate
 (onboarding)" members.
 
@@ -180,21 +180,25 @@ For example::
          },
          {
                  "name": "Members Only",
-                 "pattern": "members[ -]*only"
+                 "pattern": "members[ -]*only",
+                 "price": "paid"
          }]'
 
-Meetup2apricot scans the title of each event, searching for the regular
-expression patterns in the order listed.
-Letter case is ignored, so *Members Only, members only,* and *MEMBERS ONLY* all
-match the third example pattern.
+As it processes each event, Meetup2apricot scans the restriction list in order,
+trying to match event title patterns and price categories.
+When a regular expression pattern is found within an event title and the price
+category matches the event, meetup2apricot creates an event registration type
+with the name and membership levels provided.
 
-If a restriction pattern is found within an event title, meetup2apricot creates
-an event registration type with the name provided.
+Letter case is ignored in the regular expression title patterns, so *Members
+Only, members only,* and *MEMBERS ONLY* all match the third example pattern.
+
 The registration type is restricted to the member level or list of member levels provided.
 If no member levels are provided, the registration type will accept all member levels.
 
-If no restriction pattern is found within an event title, meetup2apricot creates
-an event registration type named *RSVP* that is open to all registrants.
+If no restriction pattern is found for an event, meetup2apricot creates
+an event registration type with the defaults shown in
+:numref:`Table %s <default_restriction_values>`.
 
 Event Tags
 ----------

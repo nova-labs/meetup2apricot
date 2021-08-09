@@ -1,6 +1,10 @@
 """Descriptive exceptions."""
 
 
+class InvalidPriceRestriction(Exception):
+    """Raised when an event price restriction is not "free", "paid", or omitted."""
+
+
 class InvalidRestrictionPattern(Exception):
     """Raised when an event restriction title pattern cannot be compiled."""
 

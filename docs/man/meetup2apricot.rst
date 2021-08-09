@@ -139,10 +139,9 @@ Environment
 .. envvar:: EVENT_RESTRICTIONS
 
    Event restrictions formatted as a list of JSON objects.
-   Each object specifies an event restriction name, a case-insensitive Python
-   regular expression to find in event titles, and an optional member level (or
-   list of levels).
-   If no member level is provided, all member levels will be used.
+   Each object optionally specifies an event restriction name, a
+   case-insensitive Python regular expression to find in event titles, a price
+   restriction (free or paid), and an optional member level (or list of levels).
    For example::
 
        export EVENT_RESTRICTIONS='[
@@ -153,8 +152,32 @@ Environment
             },
             {
                     "name": "Members Only",
-                    "pattern": "members[ -]*only"
+                    "pattern": "members[ -]*only",
+                    "price": "paid"
             }]'
+
+The following table lists the name-value pairs within an event restriction JSON
+object.
+All name-value pairs are optional.
+
+.. tabularcolumns:: |L|L|L|
+
+.. _default_restriction_values:
+
+.. table:: Event Restriction Name-Value Pairs
+   :align: center
+
+   +-------------+---------------------------------------------------------------------+-----------------------------+
+   | Name        | Value                                                               | Default Value               |
+   +=============+=====================================================================+=============================+
+   | ``name``    | Event registration type name                                        | ``RSVP``                    |
+   +-------------+---------------------------------------------------------------------+-----------------------------+
+   | ``pattern`` | Case-insensitive regular expression to match an event title         | Match all titles            |
+   +-------------+---------------------------------------------------------------------+-----------------------------+
+   | ``price``   | ``free`` or ``paid``                                                | Match all prices            |
+   +-------------+---------------------------------------------------------------------+-----------------------------+
+   | ``levels``  | A Wild Apricot membership level or a JSON list of membership levels | Allow all membership levels |
+   +-------------+---------------------------------------------------------------------+-----------------------------+
 
 .. envvar:: LATEST_EVENT_START_TIME
 

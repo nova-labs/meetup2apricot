@@ -4,7 +4,7 @@ from meetup2apricot.event_restriction_loader import (
     EventRestrictionLoader,
     EventRestriction,
 )
-from meetup2apricot.exceptions import InvalidRestrictionPattern
+from meetup2apricot.exceptions import InvalidPriceRestriction, InvalidRestrictionPattern
 from meetup2apricot.member_level_manager import MemberLevel, MemberLevelManager
 import re
 import pytest
@@ -19,29 +19,37 @@ ALL_LEVELS = [MEMBER_LEVEL_1, MEMBER_LEVEL_2, MEMBER_LEVEL_3]
 SAMPLE_ALL_LEVELS_RESTRICTION_JSON = {
     "name": "Members Only",
     "pattern": "members[ -]*only",
+    "price": "free",
 }
 
 SAMPLE_NAMED_LEVELS_RESTRICTION_JSON = {
     "name": "Key Members Only",
     "pattern": "key +members +only",
+    "price": "paid",
     "levels": ["Key", "Family"],
 }
 
 SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
     name="Members Only",
     pattern=re.compile("members[ -]*only", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=False,
     member_levels=ALL_LEVELS,
 )
 
 SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
     name="Key Members Only",
     pattern=re.compile("key +members +only", re.IGNORECASE),
+    match_free_events=False,
+    match_paid_events=True,
     member_levels=[MEMBER_LEVEL_1, MEMBER_LEVEL_3],
 )
 
 EXPECTED_DEFAULT_RESTRICTION = EventRestriction(
     name="Register",
     pattern=re.compile("^", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
     member_levels=ALL_LEVELS,
 )
 
@@ -75,6 +83,15 @@ def test_compile_pattern_invalid():
     expected_message_pattern = r"Event restriction pattern '\[' is invalid: unterminated character set at position 0"
     with pytest.raises(InvalidRestrictionPattern, match=expected_message_pattern):
         pattern = EventRestrictionLoader.compile_pattern("[")
+
+
+def test_parse_price_invalid():
+    """Test parsing an invalid price restriction."""
+    expected_message_pattern = (
+        r'Event price restriction "oops" must be "free", "paid", or omitted'
+    )
+    with pytest.raises(InvalidPriceRestriction, match=expected_message_pattern):
+        EventRestrictionLoader.parse_price("oops")
 
 
 @pytest.mark.parametrize(

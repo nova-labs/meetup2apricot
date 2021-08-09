@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Also restrict registrations based on price.
 
 1.8.1 (2021-04-09)
 ------------------

@@ -19,12 +19,16 @@ SAMPLE_MEMBER_LEVELS_JSON = [
 SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
     name="Members Only",
     pattern=re.compile("members[ -]*only", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
     member_levels=ALL_LEVELS,
 )
 
 SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
     name="Key Members Only",
     pattern=re.compile("key +members +only", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
     member_levels=[MEMBER_LEVEL_2],
 )
 

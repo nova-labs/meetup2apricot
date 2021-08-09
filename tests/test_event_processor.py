@@ -41,6 +41,8 @@ MEMBER_LEVEL_4 = MemberLevel(Id=444, Url="http://example.com/444")
 SAMPLE_RESTRICTION = EventRestriction(
     name="Members Only",
     pattern=re.compile("members[ -]*only", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
     member_levels=[MEMBER_LEVEL_2, MEMBER_LEVEL_3, MEMBER_LEVEL_4],
 )
 

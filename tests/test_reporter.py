@@ -26,6 +26,8 @@ EXPECTED_MEMBERS_ONLY_FREE = "    Members Only      $125.00   6 available\n"
 SAMPLE_RESTRICTION = EventRestriction(
     name="Members Only",
     pattern=re.compile("members[ -]*only", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
     member_levels=[],
 )
 

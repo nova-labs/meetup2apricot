@@ -2,15 +2,19 @@
 
 A configuration list contains JSON objects converted to Python dicts with these keys:
 
-    name: the event registration type name such as RSVP.
+    name: the event registration type name such as RSVP. (Default: Register)
 
-    pattern: a regex pattern to find within the event name.
+    pattern: a regex pattern to find within the event name. (Default: match all
+    event names)
 
-    levels: a member level name such as Associate or a list of such names. If
-    omitted, all member levels are selected.
+    price: "free" or "paid" to match only free or paid events. (Default: match
+    both free and paid events)
+
+    levels: a member level name such as Associate or a list of such names.
+    (Default: all member levels are selected)
 """
 
-from .exceptions import InvalidRestrictionPattern
+from .exceptions import InvalidPriceRestriction, InvalidRestrictionPattern
 from collections import namedtuple
 import re
 
@@ -18,7 +22,9 @@ import re
 # pattern to search for in an event name, and a list of names of member levels
 # allowed to register.
 
-EventRestriction = namedtuple("EventRestriction", "name pattern member_levels")
+EventRestriction = namedtuple(
+    "EventRestriction", "name pattern match_free_events match_paid_events member_levels"
+)
 
 
 class EventRestrictionLoader:
@@ -41,9 +47,14 @@ class EventRestrictionLoader:
         configuration.  Return an EventRestriction object."""
         name = restriction.get("name", "Register")
         pattern = self.compile_pattern(restriction.get("pattern", "^"))
+        match_free_events, match_paid_events = self.parse_price(
+            restriction.get("price", "")
+        )
         level_names = self.clean_level_names(restriction.get("levels", []))
         member_levels = self.lookup_member_levels(level_names)
-        return EventRestriction(name, pattern, member_levels)
+        return EventRestriction(
+            name, pattern, match_free_events, match_paid_events, member_levels
+        )
 
     def lookup_member_levels(self, level_names):
         """Given a list of member level names, return a corresponding list of
@@ -62,6 +73,21 @@ class EventRestrictionLoader:
         except re.error as err:
             message = f"Event restriction pattern {pattern!r} is invalid: {err}"
             raise InvalidRestrictionPattern(message) from err
+
+    @staticmethod
+    def parse_price(price_restriction):
+        """Parse the price restriction (free, paid, or blank) and return flags
+        to match free and paid events."""
+        match_free_events = True
+        match_paid_events = True
+        if price_restriction == "free":
+            match_paid_events = False
+        elif price_restriction == "paid":
+            match_free_events = False
+        elif price_restriction != "":
+            message = f'Event price restriction "{price_restriction}" must be "free", "paid", or omitted'
+            raise InvalidPriceRestriction(message)
+        return match_free_events, match_paid_events
 
     @staticmethod
     def clean_level_names(raw_level_names):
