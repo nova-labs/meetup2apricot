@@ -39,6 +39,12 @@ SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
     member_levels=[MEMBER_LEVEL_1, MEMBER_LEVEL_3],
 )
 
+EXPECTED_DEFAULT_RESTRICTION = EventRestriction(
+    name="Register",
+    pattern=re.compile("^", re.IGNORECASE),
+    member_levels=ALL_LEVELS,
+)
+
 
 @pytest.fixture()
 def member_level_manager():
@@ -109,11 +115,17 @@ def test_load_restriction_all(event_restriction_loader):
 
 
 def test_load_restriction_named(event_restriction_loader):
-    """Test loading a restriction that namedows named member levels."""
+    """Test loading a restriction with named member levels."""
     restriction = event_restriction_loader.load_restriction(
         SAMPLE_NAMED_LEVELS_RESTRICTION_JSON
     )
     assert restriction == SAMPLE_NAMED_LEVELS_RESTRICTION
+
+
+def test_load_restriction_default(event_restriction_loader):
+    """Test default values from loading a restriction with no details."""
+    restriction = event_restriction_loader.load_restriction({})
+    assert restriction == EXPECTED_DEFAULT_RESTRICTION
 
 
 def test_load(event_restriction_loader):

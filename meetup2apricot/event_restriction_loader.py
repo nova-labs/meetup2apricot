@@ -39,8 +39,8 @@ class EventRestrictionLoader:
     def load_restriction(self, restriction):
         """Load a restriction JSON object, typically from the environment
         configuration.  Return an EventRestriction object."""
-        name = restriction["name"]
-        pattern = self.compile_pattern(restriction["pattern"])
+        name = restriction.get("name", "Register")
+        pattern = self.compile_pattern(restriction.get("pattern", "^"))
         level_names = self.clean_level_names(restriction.get("levels", []))
         member_levels = self.lookup_member_levels(level_names)
         return EventRestriction(name, pattern, member_levels)
