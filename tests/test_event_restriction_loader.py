@@ -18,8 +18,6 @@ MEMBER_LEVEL_1 = MemberLevel(Id=111, Url="http://example.com/111")
 MEMBER_LEVEL_2 = MemberLevel(Id=222, Url="http://example.com/222")
 MEMBER_LEVEL_3 = MemberLevel(Id=333, Url="http://example.com/333")
 
-ALL_LEVELS = [MEMBER_LEVEL_1, MEMBER_LEVEL_2, MEMBER_LEVEL_3]
-
 SAMPLE_ALL_LEVELS_RESTRICTION_JSON = {
     "name": "Members Only",
     "pattern": "members[ -]*only",
@@ -39,7 +37,7 @@ SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
     pattern=re.compile("members[ -]*only", re.IGNORECASE),
     match_free_events=True,
     match_paid_events=False,
-    member_levels=ALL_LEVELS,
+    member_levels=[MEMBER_LEVEL_1, MEMBER_LEVEL_2, MEMBER_LEVEL_3],
     guest_policy="Disabled",
 )
 
@@ -70,7 +68,7 @@ def member_level_manager():
         "Associate": MEMBER_LEVEL_2,
         "Family": MEMBER_LEVEL_3,
     }
-    return MemberLevelManager(ALL_LEVELS, named_levels)
+    return MemberLevelManager(named_levels)
 
 
 @pytest.fixture()
