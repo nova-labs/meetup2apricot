@@ -158,44 +158,57 @@ variables and their purpose.
 Event Registration Restrictions
 -------------------------------
 
-Wild Apricot can restrict event registrations to selected membership levels
-based on an event's title and price.
-For example, the Nova Labs Green Orientation is restricted to "associate
-(onboarding)" members.
+Wild Apricot can restrict event registrations to selected membership levels.
+For example, the Nova Labs Green Orientation is restricted to "Membership
+Application" members.
+Wild Apricot also can restrict guest registrations and collect more or less
+guest information.
 
 Environment variable :envvar:`EVENT_RESTRICTIONS` specifies a JSON formatted
 list of restrictions.
 For example::
 
     export EVENT_RESTRICTIONS='[
-         {
-                 "name": "Green Orientation",
-                 "pattern": "go:.*orientation",
-                 "levels": "Associate (onboarding)",
-                 "guests": "count"
-         },
-         {
-                 "name": "Key Members Only",
-                 "pattern": "key +members[ -]*only",
-                 "levels": ["Key", "Key (family)", "Key (legacy-billing)"]
-         },
-         {
-                 "name": "Members Only",
-                 "pattern": "members[ -]*only",
-                 "price": "paid"
-         }]'
+        {
+                "name": "Register",
+                "pattern": "go:.*orientation",
+                "levels": "Membership Application"
+        },
+        {
+                "name": "Members Only",
+                "pattern": "members[ -]*only",
+                "levels": [
+                        "Associate",
+                        "Associate (legacy-billing)",
+                        "Innovation Center",
+                        "Key",
+                        "Key (family)",
+                        "Key (family-minor-16-17)",
+                        "Key (legacy-billing)",
+                        "Volunteer Staff"
+                ]
+        },
+        {
+                "price": "paid",
+                "guests": "contact"
+        }
+    ]'
 
-As it processes each event, Meetup2apricot scans the restriction list in order,
-trying to match event title patterns and price categories.
-When a regular expression pattern is found within an event title and the price
-category matches the event, meetup2apricot creates an event registration type
-with the name, membership levels, and guest policy provided.
+As it processes each event, meetup2apricot scans the restriction list in order,
+looking for the first restriction with a pattern found in the event name and a
+price category matching the event.
+When a restriction matches the event, meetup2apricot creates an event
+registration type with the name, membership levels, and guest policy provided.
+If no restriction matches an event, meetup2apricot creates an event
+registration type with the defaults shown in
+:numref:`Table %s <default_restriction_values>`.
 
-Letter case is ignored in the regular expression title patterns, so *Members
-Only, members only,* and *MEMBERS ONLY* all match the third example pattern.
+Letter case is ignored in the regular expression name patterns, so *Members
+Only, members only,* and *MEMBERS ONLY* all match the second example pattern.
+If no name pattern is provided, all events match.
 
-The registration type is restricted to the member level or list of member
-levels provided.
+The Wild Apricot registration type is restricted to the member level or list of
+member levels provided.
 If no member levels are provided, the registration type will accept nonmembers
 and all member levels.
 
@@ -207,10 +220,6 @@ The guest policy can be one of:
 * ``count``: Collect only the number of guests.
 * ``contact``: Collect contact information for each guest. 
 * ``full``: Collect full registration information for each guest.
-
-If no restriction matches an event, meetup2apricot creates an event
-registration type with the defaults shown in
-:numref:`Table %s <default_restriction_values>`.
 
 Event Tags
 ----------
@@ -234,7 +243,7 @@ Provide an empty list when no tags apply to all events::
 
     export ALL_EVENT_TAGS='[]'
 
-Meetup2apricot can translate accounting codes from event titles into Wild
+Meetup2apricot can translate accounting codes from event name into Wild
 Apricot event tags.
 |Nova Labs Accounting Codes|_ contains the authoritative list of accounting
 codes and their event tags.
@@ -253,7 +262,7 @@ For example::
 
 .. |Nova Labs Accounting Codes| replace:: The Nova Labs wiki
 
-Meetup2apricot would extract accounting code *RO* from event title "RO: Robot
+Meetup2apricot would extract accounting code *RO* from event name "RO: Robot
 Group Meetup" and use the ``CODES_TO_TAGS`` mapping to apply tags *electronics*
 and *3d-printing* to the event.
 

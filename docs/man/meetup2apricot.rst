@@ -140,7 +140,7 @@ Environment
 
    Event restrictions formatted as a list of JSON objects.
    Each object optionally specifies an event restriction name, a
-   case-insensitive Python regular expression to find in event titles, a price
+   case-insensitive Python regular expression to find in event names, a price
    restriction (free or paid), an member level (or list of levels), and a guest
    policy.
    For example::
@@ -174,7 +174,7 @@ All name-value pairs are optional.
    +=============+=====================================================================+==================+
    | ``name``    | Event registration type name                                        | ``RSVP``         |
    +-------------+---------------------------------------------------------------------+------------------+
-   | ``pattern`` | Case-insensitive regular expression to match an event title         | Match all titles |
+   | ``pattern`` | Case-insensitive regular expression to match an event name          | Match all names  |
    +-------------+---------------------------------------------------------------------+------------------+
    | ``price``   | ``free`` or ``paid``                                                | Match all prices |
    +-------------+---------------------------------------------------------------------+------------------+
