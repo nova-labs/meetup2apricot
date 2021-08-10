@@ -24,6 +24,7 @@ SAMPLE_ALL_LEVELS_RESTRICTION_JSON = {
     "name": "Members Only",
     "pattern": "members[ -]*only",
     "price": "free",
+    "levels": ["Key", "Associate", "Family"],
 }
 
 SAMPLE_NAMED_LEVELS_RESTRICTION_JSON = {
@@ -56,7 +57,7 @@ EXPECTED_DEFAULT_RESTRICTION = EventRestriction(
     pattern=re.compile("^", re.IGNORECASE),
     match_free_events=True,
     match_paid_events=True,
-    member_levels=ALL_LEVELS,
+    member_levels=[],
     guest_policy="Disabled",
 )
 
@@ -147,7 +148,7 @@ def test_clean_level_names(raw_level_list, expected_level_list):
 
 def test_lookup_member_levels_empty(event_restriction_loader):
     """Test looking up an empty list of member level names."""
-    assert event_restriction_loader.lookup_member_levels([]) == ALL_LEVELS
+    assert event_restriction_loader.lookup_member_levels([]) == []
 
 
 def test_lookup_member_levels_list(event_restriction_loader):

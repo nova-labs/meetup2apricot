@@ -90,12 +90,8 @@ class EventRestrictionLoader:
 
     def lookup_member_levels(self, level_names):
         """Given a list of member level names, return a corresponding list of
-        member levels. If the level name list is empty, return all member
-        levels."""
-        if level_names:
-            return self.member_level_manager.named_levels(level_names)
-        else:
-            return self.member_level_manager.all_levels()
+        member levels."""
+        return self.member_level_manager.named_levels(level_names)
 
     @staticmethod
     def compile_pattern(pattern):
