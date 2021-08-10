@@ -11,20 +11,14 @@ class MemberLevelManager:
 
     """Provides complete and partial lists of member levels."""
 
-    def __init__(self, all_levels=None, named_levels=None):
+    def __init__(self, named_levels=None):
         """Initialize, optionally with a list of all member levels and a mapping of level
         names to member levels for testing."""
-        self._all_levels = all_levels or []
         self._named_levels = named_levels or {}
 
     def add_level(self, name, level):
         """Add a named level."""
-        self._all_levels.append(level)
         self._named_levels[name] = level
-
-    def all_levels(self):
-        """Return a list of all member levels."""
-        return self._all_levels
 
     def named_level(self, name):
         """Return the named member level."""

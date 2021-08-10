@@ -1,6 +1,14 @@
 """Descriptive exceptions."""
 
 
+class InvalidGuestPolicyError(Exception):
+    """Raised when a guest policy is not "count", "contact", "full", or omitted."""
+
+
+class InvalidPriceRestriction(Exception):
+    """Raised when an event price restriction is not "free", "paid", or omitted."""
+
+
 class InvalidRestrictionPattern(Exception):
     """Raised when an event restriction title pattern cannot be compiled."""
 
@@ -12,6 +20,10 @@ class JsonConversionError(Exception):
 
 class MissingEnvVarError(Exception):
     """Raised when an expected environment variable is missing."""
+
+
+class NoRestrictionsMatchError(Exception):
+    """Raised when no event restrictions match event data."""
 
 
 class UnknownMemberLevelName(Exception):

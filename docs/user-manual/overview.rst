@@ -48,6 +48,7 @@ The configuration includes:
 - Wild Apricot API credentials
 - Date/time thresholds for event conversion
 - Event tagging
+- Registration restrictions
 - Paths to local and remote files and directories
 
 The :ref:`meetup2apricot man page <meetup2apricot-environment>` defines the

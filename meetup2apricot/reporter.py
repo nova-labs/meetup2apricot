@@ -124,7 +124,7 @@ class NullReporter:
 
 
 def make_reporter(report_flag, reporter_provider):
-    """Make a real or null reporter depending on the report flag. """
+    """Make a real or null reporter depending on the report flag."""
     if report_flag:
         return reporter_provider()
     else:

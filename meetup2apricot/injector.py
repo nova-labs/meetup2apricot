@@ -5,6 +5,7 @@ from .event_restriction_loader import EventRestrictionLoader
 from .event_registration_type import EventRegistrationTypeMaker
 from .event_tagger import make_event_tagger
 from .exceptions import (
+    InvalidPriceRestriction,
     InvalidRestrictionPattern,
     JsonConversionError,
     MissingEnvVarError,
@@ -63,6 +64,7 @@ def inject_no_trace_exceptions():
     """Return a tuple listing exception classes that need no traceback."""
     return (
         HttpResponseError,
+        InvalidPriceRestriction,
         InvalidRestrictionPattern,
         JsonConversionError,
         MissingEnvVarError,
