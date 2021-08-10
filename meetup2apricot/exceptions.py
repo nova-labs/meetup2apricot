@@ -1,6 +1,10 @@
 """Descriptive exceptions."""
 
 
+class InvalidGuestPolicyError(Exception):
+    """Raised when a guest policy is not "count", "contact", "full", or omitted."""
+
+
 class InvalidPriceRestriction(Exception):
     """Raised when an event price restriction is not "free", "paid", or omitted."""
 

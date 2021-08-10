@@ -15,7 +15,8 @@ Recent History
 Next Release
 ------------------
 
-* Also restrict registrations based on price.
+* Add registration restrictions based on price.
+* Make guest registration policy configurable.
 
 1.8.1 (2021-04-09)
 ------------------

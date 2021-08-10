@@ -141,14 +141,16 @@ Environment
    Event restrictions formatted as a list of JSON objects.
    Each object optionally specifies an event restriction name, a
    case-insensitive Python regular expression to find in event titles, a price
-   restriction (free or paid), and an optional member level (or list of levels).
+   restriction (free or paid), an member level (or list of levels), and a guest
+   policy.
    For example::
 
        export EVENT_RESTRICTIONS='[
             {
                     "name": "Green Orientation",
                     "pattern": "go:.*orientation",
-                    "levels": "Associate (onboarding)"
+                    "levels": "Associate (onboarding)",
+                    "guests": "count"
             },
             {
                     "name": "Members Only",
@@ -177,6 +179,8 @@ All name-value pairs are optional.
    | ``price``   | ``free`` or ``paid``                                                | Match all prices |
    +-------------+---------------------------------------------------------------------+------------------+
    | ``levels``  | A Wild Apricot membership level or a JSON list of membership levels | Allow everyone   |
+   +-------------+---------------------------------------------------------------------+------------------+
+   | ``guests``  | ``count``, ``contact``, or ``full``                                 | No guests        |
    +-------------+---------------------------------------------------------------------+------------------+
 
 .. envvar:: LATEST_EVENT_START_TIME

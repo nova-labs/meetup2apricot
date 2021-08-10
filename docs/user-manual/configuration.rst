@@ -171,7 +171,8 @@ For example::
          {
                  "name": "Green Orientation",
                  "pattern": "go:.*orientation",
-                 "levels": "Associate (onboarding)"
+                 "levels": "Associate (onboarding)",
+                 "guests": "count"
          },
          {
                  "name": "Key Members Only",
@@ -188,7 +189,7 @@ As it processes each event, Meetup2apricot scans the restriction list in order,
 trying to match event title patterns and price categories.
 When a regular expression pattern is found within an event title and the price
 category matches the event, meetup2apricot creates an event registration type
-with the name and membership levels provided.
+with the name, membership levels, and guest policy provided.
 
 Letter case is ignored in the regular expression title patterns, so *Members
 Only, members only,* and *MEMBERS ONLY* all match the third example pattern.
@@ -198,8 +199,17 @@ levels provided.
 If no member levels are provided, the registration type will accept nonmembers
 and all member levels.
 
-If no restriction pattern is found for an event, meetup2apricot creates
-an event registration type with the defaults shown in
+The guest policy controls whether guests are allowed and what guest information
+gets collected by the registration form.
+If no guest policy is provided, guests may not register.
+The guest policy can be one of:
+
+* ``count``: Collect only the number of guests.
+* ``contact``: Collect contact information for each guest. 
+* ``full``: Collect full registration information for each guest.
+
+If no restriction matches an event, meetup2apricot creates an event
+registration type with the defaults shown in
 :numref:`Table %s <default_restriction_values>`.
 
 Event Tags

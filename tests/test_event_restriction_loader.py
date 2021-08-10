@@ -4,7 +4,11 @@ from meetup2apricot.event_restriction_loader import (
     EventRestrictionLoader,
     EventRestriction,
 )
-from meetup2apricot.exceptions import InvalidPriceRestriction, InvalidRestrictionPattern
+from meetup2apricot.exceptions import (
+    InvalidGuestPolicyError,
+    InvalidPriceRestriction,
+    InvalidRestrictionPattern,
+)
 from meetup2apricot.member_level_manager import MemberLevel, MemberLevelManager
 import re
 import pytest
@@ -92,6 +96,33 @@ def test_parse_price_invalid():
     )
     with pytest.raises(InvalidPriceRestriction, match=expected_message_pattern):
         EventRestrictionLoader.parse_price("oops")
+
+
+def test_parse_guests_policy_invalid():
+    """Test parsing an invalid guest policy."""
+    expected_message_pattern = (
+        r'Guest policy "oops" must be "count", "contact", "full", or omitted'
+    )
+    with pytest.raises(InvalidGuestPolicyError, match=expected_message_pattern):
+        EventRestrictionLoader.parse_guest_policy("oops")
+
+
+def test_parse_guests_policy_count():
+    """Test parsing a "count" guest policy."""
+    guest_policy = EventRestrictionLoader.parse_guest_policy("count")
+    assert guest_policy == "NumberOfGuests"
+
+
+def test_parse_guests_policy_contact():
+    """Test parsing a "contact" guest policy."""
+    guest_policy = EventRestrictionLoader.parse_guest_policy("contact")
+    assert guest_policy == "CollectContactDetails"
+
+
+def test_parse_guests_policy_full():
+    """Test parsing a "full" guest policy."""
+    guest_policy = EventRestrictionLoader.parse_guest_policy("full")
+    assert guest_policy == "CollectFullInfo"
 
 
 @pytest.mark.parametrize(

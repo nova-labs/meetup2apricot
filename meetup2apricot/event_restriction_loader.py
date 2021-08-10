@@ -14,9 +14,20 @@ A configuration list contains JSON objects converted to Python dicts with these 
     (Default: all member levels are selected)
 """
 
-from .exceptions import InvalidPriceRestriction, InvalidRestrictionPattern
+from .exceptions import (
+    InvalidGuestPolicyError,
+    InvalidPriceRestriction,
+    InvalidRestrictionPattern,
+)
 from collections import namedtuple
 import re
+
+GUEST_POLICIES = {
+    "count": "NumberOfGuests",
+    "contact": "CollectContactDetails",
+    "full": "CollectFullInfo",
+    "no": "Disabled",
+}
 
 
 class EventRestriction(
@@ -66,6 +77,7 @@ class EventRestrictionLoader:
             restriction.get("price", "")
         )
         level_names = self.clean_level_names(restriction.get("levels", []))
+        guest_policy = self.parse_guest_policy(restriction.get("guests", "no"))
         member_levels = self.lookup_member_levels(level_names)
         return EventRestriction(
             name, pattern, match_free_events, match_paid_events, member_levels
@@ -106,6 +118,19 @@ class EventRestrictionLoader:
             )
             raise InvalidPriceRestriction(message)
         return match_free_events, match_paid_events
+
+    @staticmethod
+    def parse_guest_policy(policy):
+        """Parse the one-word guest policy and return the Wild Apricot API
+        guest registration policy."""
+        try:
+            return GUEST_POLICIES[policy]
+        except KeyError:
+            message = (
+                f'Guest policy "{policy}" '
+                'must be "count", "contact", "full", or omitted'
+            )
+            raise InvalidGuestPolicyError(message)
 
     @staticmethod
     def clean_level_names(raw_level_names):
