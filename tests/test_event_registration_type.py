@@ -22,6 +22,7 @@ SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=ALL_LEVELS,
+    guest_policy="Disabled",
 )
 
 SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
@@ -30,6 +31,7 @@ SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=[MEMBER_LEVEL_2],
+    guest_policy="Disabled",
 )
 
 SAMPLE_FREE_RESTRICTION = EventRestriction(
@@ -38,6 +40,7 @@ SAMPLE_FREE_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=False,
     member_levels=ALL_LEVELS,
+    guest_policy="Disabled",
 )
 
 SAMPLE_PAID_RESTRICTION = EventRestriction(
@@ -46,6 +49,7 @@ SAMPLE_PAID_RESTRICTION = EventRestriction(
     match_free_events=False,
     match_paid_events=True,
     member_levels=ALL_LEVELS,
+    guest_policy="Disabled",
 )
 
 DEFAULT_RESTRICTION = EventRestriction(
@@ -54,6 +58,7 @@ DEFAULT_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=[],
+    guest_policy="Disabled",
 )
 
 EXPECTED_APRICOT_JSON = {

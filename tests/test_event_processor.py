@@ -44,6 +44,7 @@ SAMPLE_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=[MEMBER_LEVEL_2, MEMBER_LEVEL_3, MEMBER_LEVEL_4],
+    guest_policy="Disabled",
 )
 
 DEFAULT_RESTRICTION = EventRestriction(
@@ -52,6 +53,7 @@ DEFAULT_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=[],
+    guest_policy="Disabled",
 )
 
 SAMPLE_MEMBER_LEVELS = [

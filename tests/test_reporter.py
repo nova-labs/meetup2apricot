@@ -29,6 +29,7 @@ SAMPLE_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=[],
+    guest_policy="Disabled",
 )
 
 DEFAULT_RESTRICTION = EventRestriction(
@@ -37,6 +38,7 @@ DEFAULT_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=[],
+    guest_policy="Disabled",
 )
 
 

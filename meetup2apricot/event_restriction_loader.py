@@ -33,7 +33,7 @@ GUEST_POLICIES = {
 class EventRestriction(
     namedtuple(
         "EventRestriction",
-        "name pattern match_free_events match_paid_events member_levels",
+        "name pattern match_free_events match_paid_events member_levels guest_policy",
     )
 ):
 
@@ -80,7 +80,12 @@ class EventRestrictionLoader:
         guest_policy = self.parse_guest_policy(restriction.get("guests", "no"))
         member_levels = self.lookup_member_levels(level_names)
         return EventRestriction(
-            name, pattern, match_free_events, match_paid_events, member_levels
+            name,
+            pattern,
+            match_free_events,
+            match_paid_events,
+            member_levels,
+            guest_policy,
         )
 
     def lookup_member_levels(self, level_names):
