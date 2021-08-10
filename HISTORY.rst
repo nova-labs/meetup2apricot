@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.9.0 (2021-08-10)
 ------------------
 
 * Add registration restrictions based on price.
