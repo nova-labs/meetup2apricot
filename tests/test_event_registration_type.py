@@ -22,7 +22,7 @@ SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
     match_free_events=True,
     match_paid_events=True,
     member_levels=ALL_LEVELS,
-    guest_policy="Disabled",
+    guest_policy="CollectContactDetails",
 )
 
 SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
@@ -102,7 +102,7 @@ EXPECTED_MEMBERS_ONLY_JSON = {
     "Description": "",
     "EventId": 12345,
     "GuestPrice": 78.9,
-    "GuestRegistrationPolicy": "Disabled",
+    "GuestRegistrationPolicy": "CollectContactDetails",
     "IsEnabled": True,
     "IsWaitlistEnabled": False,
     "MaximumRegistrantsCount": 6,

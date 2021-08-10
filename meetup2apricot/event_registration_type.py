@@ -17,6 +17,7 @@ class EventRegistrationType:
         is_enabled=True,
         description="",
         availability="Everyone",
+        guest_registration_policy="Disabled",
         **more_attributes,
     ):
         """Initialize with parameters for the Wild Apricot API."""
@@ -29,6 +30,7 @@ class EventRegistrationType:
         self.description = description
         self.availability = availability
         self.more_attributes = more_attributes
+        self.guest_registration_policy = guest_registration_policy
 
     @property
     def display_count(self):
@@ -50,7 +52,7 @@ class EventRegistrationType:
             "GuestPrice": self.price,
             "Availability": self.availability,
             "MaximumRegistrantsCount": self.maximum_registrants_count,
-            "GuestRegistrationPolicy": "Disabled",
+            "GuestRegistrationPolicy": self.guest_registration_policy,
             "UnavailabilityPolicy": "ShowDisabled",
             "CancellationBehaviour": "AllowUpToPeriodBeforeEvent",
             "CancellationDaysBeforeEvent": 2,
@@ -102,6 +104,7 @@ class EventRegistrationTypeMaker:
             name=restriction.name,
             price=price,
             maximum_registrants_count=maximum_registrants_count,
+            guest_registration_policy=restriction.guest_policy,
         )
 
     def make_restricted_apricot_type(
@@ -119,6 +122,7 @@ class EventRegistrationTypeMaker:
             availability="MembersOnly",
             maximum_registrants_count=maximum_registrants_count,
             AvailableForMembershipLevels=member_levels_for_json,
+            guest_registration_policy=restriction.guest_policy,
         )
 
     def choose_event_restriction(self, event_title, price):
