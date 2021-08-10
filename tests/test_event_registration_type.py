@@ -32,6 +32,22 @@ SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
     member_levels=[MEMBER_LEVEL_2],
 )
 
+SAMPLE_FREE_RESTRICTION = EventRestriction(
+    name="Free",
+    pattern=re.compile("sample", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=False,
+    member_levels=ALL_LEVELS,
+)
+
+SAMPLE_PAID_RESTRICTION = EventRestriction(
+    name="Paid",
+    pattern=re.compile("sample", re.IGNORECASE),
+    match_free_events=False,
+    match_paid_events=True,
+    member_levels=ALL_LEVELS,
+)
+
 EXPECTED_APRICOT_JSON = {
     "Availability": "Everyone",
     "BasePrice": 78.9,
@@ -85,7 +101,12 @@ EXPECTED_MEMBERS_ONLY_JSON = {
 @pytest.fixture()
 def event_registration_type_maker():
     """Return an event registration type maker."""
-    restrictions = [SAMPLE_NAMED_LEVELS_RESTRICTION, SAMPLE_ALL_LEVELS_RESTRICTION]
+    restrictions = [
+        SAMPLE_NAMED_LEVELS_RESTRICTION,
+        SAMPLE_ALL_LEVELS_RESTRICTION,
+        SAMPLE_FREE_RESTRICTION,
+        SAMPLE_PAID_RESTRICTION,
+    ]
     return EventRegistrationTypeMaker(restrictions)
 
 
@@ -119,15 +140,33 @@ def test_make_restricted_apricot_type_for_json(event_registration_type_maker):
 def test_choose_event_restriction_no_match(event_registration_type_maker):
     """Test choosing an event restriction when no pattern matches the event title."""
     event_title = "Mending Monday"
-    restriction = event_registration_type_maker.choose_event_restriction(event_title)
+    restriction = event_registration_type_maker.choose_event_restriction(event_title, 0)
     assert restriction is None
 
 
 def test_choose_event_restriction_first_match(event_registration_type_maker):
     """Test choosing an event restriction when no pattern matches the event title."""
     event_title = "Mending Monday (Members Only)"
-    restriction = event_registration_type_maker.choose_event_restriction(event_title)
+    restriction = event_registration_type_maker.choose_event_restriction(
+        event_title, 35.0
+    )
     assert restriction == SAMPLE_ALL_LEVELS_RESTRICTION
+
+
+def test_choose_event_restriction_free_match(event_registration_type_maker):
+    """Test choosing an event restriction when the title matches and the event is free."""
+    event_title = "Sample"
+    restriction = event_registration_type_maker.choose_event_restriction(event_title, 0)
+    assert restriction == SAMPLE_FREE_RESTRICTION
+
+
+def test_choose_event_restriction_paid_match(event_registration_type_maker):
+    """Test choosing an event restriction when the title matches and the event is paid."""
+    event_title = "Sample"
+    restriction = event_registration_type_maker.choose_event_restriction(
+        event_title, 35.0
+    )
+    assert restriction == SAMPLE_PAID_RESTRICTION
 
 
 def test_make_apricot_type_unrestricted(event_registration_type_maker):

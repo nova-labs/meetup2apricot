@@ -81,7 +81,7 @@ class EventRegistrationTypeMaker:
     ):
         """Make a Wild Apricot event regirstation type appropriate for an event
         title."""
-        restriction = self.choose_event_restriction(event_title)
+        restriction = self.choose_event_restriction(event_title, price)
         if restriction:
             return self.make_restricted_apricot_type(
                 event_id, maximum_registrants_count, price, restriction
@@ -119,11 +119,14 @@ class EventRegistrationTypeMaker:
             AvailableForMembershipLevels=member_levels_for_json,
         )
 
-    def choose_event_restriction(self, event_title):
+    def choose_event_restriction(self, event_title, price):
         """Choose and return the first event restriction with a pattern that
-        matches the event title. Return None if no patterns match."""
+        matches the event title and price category. Return None if no patterns
+        match."""
         for restriction in self.event_restrictions:
-            if restriction.pattern.search(event_title):
+            if restriction.pattern.search(event_title) and restriction.matches_price(
+                price
+            ):
                 return restriction
         return None
 

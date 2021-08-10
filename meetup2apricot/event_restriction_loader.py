@@ -18,13 +18,23 @@ from .exceptions import InvalidPriceRestriction, InvalidRestrictionPattern
 from collections import namedtuple
 import re
 
-# Each restriction object contains an event registration type name, a regex
-# pattern to search for in an event name, and a list of names of member levels
-# allowed to register.
 
-EventRestriction = namedtuple(
-    "EventRestriction", "name pattern match_free_events match_paid_events member_levels"
-)
+class EventRestriction(
+    namedtuple(
+        "EventRestriction",
+        "name pattern match_free_events match_paid_events member_levels",
+    )
+):
+
+    """Event restrictions can match an event based on the event title or price.
+    Event restrictions provide an event registration type name and a list of
+    names of member levels allowed to register."""
+
+    __slots__ = ()
+
+    def matches_price(self, price):
+        """Return true if the price matches the free/paid event flags."""
+        return self.match_free_events if price == 0 else self.match_paid_events
 
 
 class EventRestrictionLoader:
