@@ -32,6 +32,15 @@ SAMPLE_NAMED_LEVELS_RESTRICTION_JSON = {
     "levels": ["Key", "Family"],
 }
 
+SAMPLE_RESTRICTION_JSON_WITH_EXTRAS = {
+    "name": "Key Members Only",
+    "oops": "blat",
+    "pattern": "key +members +only",
+    "price": "paid",
+    "levels": ["Key", "Family"],
+    "foo": "bar",
+}
+
 SAMPLE_ALL_LEVELS_RESTRICTION = EventRestriction(
     name="Members Only",
     pattern=re.compile("members[ -]*only", re.IGNORECASE),
@@ -176,6 +185,17 @@ def test_load_restriction_default(event_restriction_loader):
     """Test default values from loading a restriction with no details."""
     restriction = event_restriction_loader.load_restriction({})
     assert restriction == EXPECTED_DEFAULT_RESTRICTION
+
+
+def test_load_restriction_warning(event_restriction_loader, caplog):
+    """Test loading a restriction with extra attributes, which should log warnings."""
+    event_restriction_loader.load_restriction(SAMPLE_RESTRICTION_JSON_WITH_EXTRAS)
+    expected_message = (
+        "Unknown names ['oops', 'foo'] in restriction "
+        "{'name': 'Key Members Only', 'oops': 'blat', 'pattern': 'key +members +only', "
+        "'price': 'paid', 'levels': ['Key', 'Family'], 'foo': 'bar'}"
+    )
+    assert caplog.messages == [expected_message]
 
 
 def test_load(event_restriction_loader):
