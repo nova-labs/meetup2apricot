@@ -2,7 +2,7 @@
 
 A configuration list contains JSON objects converted to Python dicts with these keys:
 
-    name: the event registration type name such as RSVP. (Default: Register)
+    name: the event registration type name such as RSVP. (Default: RSVP)
 
     pattern: a regex pattern to find within the event name. (Default: match all
     event names)
@@ -50,12 +50,17 @@ class EventRestrictionLoader:
         """Load restrictions from a list of restriction JSON objects, typically
         from the environment configuration.  Return a list of EventRestriction
         objects."""
-        return [self.load_restriction(restriction) for restriction in restriction_list]
+        event_restrictions = [
+            self.load_restriction(restriction) for restriction in restriction_list
+        ]
+        default_restriction = self.load_restriction({})
+        event_restrictions.append(default_restriction)
+        return event_restrictions
 
     def load_restriction(self, restriction):
         """Load a restriction JSON object, typically from the environment
         configuration.  Return an EventRestriction object."""
-        name = restriction.get("name", "Register")
+        name = restriction.get("name", "RSVP")
         pattern = self.compile_pattern(restriction.get("pattern", "^"))
         match_free_events, match_paid_events = self.parse_price(
             restriction.get("price", "")
@@ -95,7 +100,10 @@ class EventRestrictionLoader:
         elif price_restriction == "paid":
             match_free_events = False
         elif price_restriction != "":
-            message = f'Event price restriction "{price_restriction}" must be "free", "paid", or omitted'
+            message = (
+                f'Event price restriction "{price_restriction}" '
+                'must be "free", "paid", or omitted'
+            )
             raise InvalidPriceRestriction(message)
         return match_free_events, match_paid_events
 

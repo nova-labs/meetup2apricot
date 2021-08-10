@@ -193,8 +193,10 @@ with the name and membership levels provided.
 Letter case is ignored in the regular expression title patterns, so *Members
 Only, members only,* and *MEMBERS ONLY* all match the third example pattern.
 
-The registration type is restricted to the member level or list of member levels provided.
-If no member levels are provided, the registration type will accept all member levels.
+The registration type is restricted to the member level or list of member
+levels provided.
+If no member levels are provided, the registration type will accept nonmembers
+and all member levels.
 
 If no restriction pattern is found for an event, meetup2apricot creates
 an event registration type with the defaults shown in

@@ -18,6 +18,10 @@ class MissingEnvVarError(Exception):
     """Raised when an expected environment variable is missing."""
 
 
+class NoRestrictionsMatchError(Exception):
+    """Raised when no event restrictions match event data."""
+
+
 class UnknownMemberLevelName(Exception):
     """Raised when an unknown member level name is requested."""
 

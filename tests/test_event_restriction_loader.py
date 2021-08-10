@@ -46,7 +46,7 @@ SAMPLE_NAMED_LEVELS_RESTRICTION = EventRestriction(
 )
 
 EXPECTED_DEFAULT_RESTRICTION = EventRestriction(
-    name="Register",
+    name="RSVP",
     pattern=re.compile("^", re.IGNORECASE),
     match_free_events=True,
     match_paid_events=True,
@@ -153,6 +153,7 @@ def test_load(event_restriction_loader):
     assert restrictions == [
         SAMPLE_NAMED_LEVELS_RESTRICTION,
         SAMPLE_ALL_LEVELS_RESTRICTION,
+        EXPECTED_DEFAULT_RESTRICTION,
     ]
 
 

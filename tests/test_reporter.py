@@ -31,6 +31,14 @@ SAMPLE_RESTRICTION = EventRestriction(
     member_levels=[],
 )
 
+DEFAULT_RESTRICTION = EventRestriction(
+    name="RSVP",
+    pattern=re.compile("^", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
+    member_levels=[],
+)
+
 
 @pytest.fixture()
 def output():
@@ -81,7 +89,7 @@ def reporter_provider(reporter):
 @pytest.fixture()
 def event_registration_type_maker():
     """Return an event registration type maker."""
-    return EventRegistrationTypeMaker([SAMPLE_RESTRICTION])
+    return EventRegistrationTypeMaker([SAMPLE_RESTRICTION, DEFAULT_RESTRICTION])
 
 
 def test_report_event(event_report, free_apricot_event, output):
@@ -111,7 +119,10 @@ def test_report_registration_type_rsvp(
 ):
     """Test reporting on an RSVP event registration type."""
     reg_type = event_registration_type_maker.make_unrestricted_apricot_type(
-        event_id=12345, maximum_registrants_count=None, price=25.0
+        event_id=12345,
+        maximum_registrants_count=None,
+        price=25.0,
+        restriction=DEFAULT_RESTRICTION,
     )
     event_report.report_registration_type(output, reg_type)
     assert output.getvalue() == "    RSVP              $ 25.00   unlimited\n"

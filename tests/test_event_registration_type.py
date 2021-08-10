@@ -48,6 +48,14 @@ SAMPLE_PAID_RESTRICTION = EventRestriction(
     member_levels=ALL_LEVELS,
 )
 
+DEFAULT_RESTRICTION = EventRestriction(
+    name="RSVP",
+    pattern=re.compile("^", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
+    member_levels=[],
+)
+
 EXPECTED_APRICOT_JSON = {
     "Availability": "Everyone",
     "BasePrice": 78.9,
@@ -106,6 +114,7 @@ def event_registration_type_maker():
         SAMPLE_ALL_LEVELS_RESTRICTION,
         SAMPLE_FREE_RESTRICTION,
         SAMPLE_PAID_RESTRICTION,
+        DEFAULT_RESTRICTION,
     ]
     return EventRegistrationTypeMaker(restrictions)
 
@@ -116,7 +125,7 @@ def test_make_unrestricted_apricot_type_for_json(
     """Test converting an unrestricted Wild Apricot RSVP event registration
     type into dictionaries and lists suitable for conversion to JSON."""
     reg_type = event_registration_type_maker.make_unrestricted_apricot_type(
-        12345, 6, 78.9
+        12345, 6, 78.9, DEFAULT_RESTRICTION
     )
     assert reg_type.for_json() == EXPECTED_APRICOT_JSON
 
@@ -137,11 +146,11 @@ def test_make_restricted_apricot_type_for_json(event_registration_type_maker):
     assert reg_type.for_json() == EXPECTED_MEMBERS_ONLY_JSON
 
 
-def test_choose_event_restriction_no_match(event_registration_type_maker):
-    """Test choosing an event restriction when no pattern matches the event title."""
+def test_choose_event_restriction_default_match(event_registration_type_maker):
+    """Test choosing an event restriction when the default restriction matches."""
     event_title = "Mending Monday"
     restriction = event_registration_type_maker.choose_event_restriction(event_title, 0)
-    assert restriction is None
+    assert restriction is DEFAULT_RESTRICTION
 
 
 def test_choose_event_restriction_first_match(event_registration_type_maker):

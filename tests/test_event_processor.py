@@ -46,6 +46,14 @@ SAMPLE_RESTRICTION = EventRestriction(
     member_levels=[MEMBER_LEVEL_2, MEMBER_LEVEL_3, MEMBER_LEVEL_4],
 )
 
+DEFAULT_RESTRICTION = EventRestriction(
+    name="RSVP",
+    pattern=re.compile("^", re.IGNORECASE),
+    match_free_events=True,
+    match_paid_events=True,
+    member_levels=[],
+)
+
 SAMPLE_MEMBER_LEVELS = [
     {"Id": 222, "Url": "http://example.com/222"},
     {"Id": 333, "Url": "http://example.com/333"},
@@ -147,7 +155,7 @@ def mock_apricot_api(mocker):
 @pytest.fixture()
 def event_registration_type_maker():
     """Return an event registration type maker."""
-    return EventRegistrationTypeMaker([SAMPLE_RESTRICTION])
+    return EventRegistrationTypeMaker([SAMPLE_RESTRICTION, DEFAULT_RESTRICTION])
 
 
 @pytest.fixture()
