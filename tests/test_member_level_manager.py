@@ -15,8 +15,7 @@ MEMBER_LEVEL_2 = MemberLevel(Id=222, Url="http://example.com/222")
 MEMBER_LEVEL_3 = MemberLevel(Id=333, Url="http://example.com/333")
 MEMBER_LEVEL_4 = MemberLevel(Id=444, Url="http://example.com/444")
 
-MOST_LEVELS = [MEMBER_LEVEL_1, MEMBER_LEVEL_2, MEMBER_LEVEL_3]
-ALL_LEVELS = MOST_LEVELS + [MEMBER_LEVEL_4]
+ALL_LEVELS = [MEMBER_LEVEL_1, MEMBER_LEVEL_2, MEMBER_LEVEL_3, MEMBER_LEVEL_4]
 
 SAMPLE_KEY_MEMBER = MemberLevel(
     Id=1206426,
@@ -44,12 +43,7 @@ def member_level_manager():
         "Associate": MEMBER_LEVEL_2,
         "Family": MEMBER_LEVEL_3,
     }
-    return MemberLevelManager(MOST_LEVELS, named_levels)
-
-
-def test_all_levels(member_level_manager):
-    """Test getting all levels."""
-    assert member_level_manager.all_levels() == MOST_LEVELS
+    return MemberLevelManager(named_levels)
 
 
 def test_named_level(member_level_manager):
@@ -75,14 +69,12 @@ def test_named_levels(member_level_manager):
 def test_add_level(member_level_manager):
     """Test adding a level."""
     member_level_manager.add_level("Attendee", MEMBER_LEVEL_4)
-    assert member_level_manager.all_levels() == ALL_LEVELS
     assert member_level_manager.named_level("Attendee") == MEMBER_LEVEL_4
 
 
 def test_make_member_level_manager():
     """Test making a member level manager."""
     manager = make_member_level_manager(SAMPLE_MEMBERSHIP_LEVEL_JSON)
-    assert manager.all_levels() == EXPECTED_SAMPLE_LEVELS
     assert manager.named_level("Key") == SAMPLE_KEY_MEMBER
 
 
