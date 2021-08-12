@@ -191,7 +191,7 @@ def test_load_restriction_warning(event_restriction_loader, caplog):
     """Test loading a restriction with extra attributes, which should log warnings."""
     event_restriction_loader.load_restriction(SAMPLE_RESTRICTION_JSON_WITH_EXTRAS)
     expected_message = (
-        "Unknown names ['oops', 'foo'] in restriction "
+        "Unknown names ['foo', 'oops'] in restriction "
         "{'name': 'Key Members Only', 'oops': 'blat', 'pattern': 'key +members +only', "
         "'price': 'paid', 'levels': ['Key', 'Family'], 'foo': 'bar'}"
     )

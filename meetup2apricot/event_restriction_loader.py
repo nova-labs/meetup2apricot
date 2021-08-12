@@ -104,7 +104,9 @@ class EventRestrictionLoader:
         extra_names = restriction_names - expected_names
         if extra_names:
             self.logger.warning(
-                "Unknown names %s in restriction %r", list(extra_names), restriction
+                "Unknown names %s in restriction %r",
+                sorted(list(extra_names)),
+                restriction,
             )
 
     @staticmethod
