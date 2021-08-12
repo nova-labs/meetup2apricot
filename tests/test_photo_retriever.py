@@ -22,10 +22,9 @@ def testcase_dir_path():
 
 
 @pytest.fixture()
-def sample_photo_path():
+def sample_photo_path(testcase_dir_path):
     """Return the path to a sample image file."""
-    testcase_dir_path = Path(inspect.getsourcefile(test_assure_directory_exists))
-    return testcase_dir_path.parent / SAMPLE_PNG_FILENAME
+    return testcase_dir_path / SAMPLE_PNG_FILENAME
 
 
 def test_assure_directory_exists(tmp_path):
