@@ -40,7 +40,7 @@ class PhotoUploader:
         files = {"file": (photo_file_name, open(local_photo_path, "rb"))}
         response = self.session.put(url, files)
         PhotoUploadError.check_response_status(response)
-        return response
+        return apricot_photo_path
 
 
 def make_photo_uploader_session(username, password, user_agent):

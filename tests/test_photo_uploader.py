@@ -13,7 +13,8 @@ SAMPLE_PNG_FILENAME = "dot.png"
 SAMPLE_APRICOT_DIRECTORY = "/resource/photos"
 SAMPLE_APRICOT_DIRECTORY_PATH = PurePosixPath(SAMPLE_APRICOT_DIRECTORY)
 SAMPLE_BASE_URL = "https://apricot.com"
-EXPECTED_URL = "https://apricot.com" "/resource/photos" "/" "dot.png"
+EXPECTED_APRICOT_PHOTO_PATH = SAMPLE_APRICOT_DIRECTORY_PATH / SAMPLE_PNG_FILENAME
+EXPECTED_URL = SAMPLE_BASE_URL + str(EXPECTED_APRICOT_PHOTO_PATH)
 
 
 @pytest.fixture()
@@ -40,7 +41,8 @@ def test_upload_photo(testcase_dir_path, sample_photo_path, mocker):
         apricot_directory=SAMPLE_APRICOT_DIRECTORY_PATH,
         session=mock_session,
     )
-    photo_uploader.upload_photo(SAMPLE_PNG_FILENAME)
+    apricot_photo_path = photo_uploader.upload_photo(SAMPLE_PNG_FILENAME)
+    assert apricot_photo_path == EXPECTED_APRICOT_PHOTO_PATH
     mock_session.put.assert_called_once()
     url, files = mock_session.put.call_args.args
     assert url == EXPECTED_URL
