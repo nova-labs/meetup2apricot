@@ -3,6 +3,7 @@
 from . import dryrun
 from .http_response_error import PhotoUploadError
 import logging
+from pathlib import PurePosixPath
 from requests import Session
 from requests.auth import HTTPDigestAuth
 from urllib.parse import urljoin
@@ -31,6 +32,7 @@ class PhotoUploader:
         self.session = session
         self.dryrun = dryrun
 
+    @dryrun.method(value=PurePosixPath("/sample/path/to/photo.png"))
     def upload_photo(self, photo_file_name):
         """Upload a named photo file from a local directory to Wild Apricot.
         Return the path to the photo at Wild Apricot."""
