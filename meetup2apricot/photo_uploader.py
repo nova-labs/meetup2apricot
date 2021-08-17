@@ -42,6 +42,7 @@ class PhotoUploader:
         files = {"file": (photo_file_name, open(local_photo_path, "rb"))}
         response = self.session.put(url, files)
         PhotoUploadError.check_response_status(response)
+        self.logger.info("upload_photo: apricot_photo_path=%s", apricot_photo_path)
         return apricot_photo_path
 
 
