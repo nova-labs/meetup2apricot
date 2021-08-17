@@ -47,7 +47,7 @@ Features
 * Retrieves events from the Meetup API.
 * Translates accounting codes into event tags to categorize events on Wild Apricot.
 * Inserts events via the Wild Apricot API.
-* Downloads events' featured photos from Meetup into a local directory for manual upload to Wild Apricot.
+* Downloads events' featured photos from Meetup into a local directory and uploads them to Wild Apricot.
 * Caches processed events and photos to avoid duplication.
 
 Credits

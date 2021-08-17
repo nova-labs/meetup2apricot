@@ -8,13 +8,13 @@ Overview
    :name: meetup2apricot-event-data-flow
 
    Meetup2apricot retrieves event data and photos from Meetup, transforms the
-   data, and adds events and registration types to Wild Apricot.
-   Administrators later manually upload the photos to Wild Apricot.
+   data, uploads photos to Wild Apricot, and adds events and registration types to
+   Wild Apricot.
 
 :program:`Meetup2apricot` is a command line program that retrieves event
 descriptions from Meetup and adds them to Wild Apricot.
-Meetup2apricot also downloads featured event photos from Meetup for manual
-upload to Wild Apricot.
+Meetup2apricot also downloads featured event photos from Meetup and uploads
+them to Wild Apricot.
 :numref:`Figure %s <meetup2apricot-event-data-flow>` shows event data flow from
 Meetup to Wild Apricot.
 

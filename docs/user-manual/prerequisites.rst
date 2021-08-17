@@ -52,7 +52,7 @@ You should be familiar with the concepts of Python virtual environments.
 
 You must be able to use a text editor to edit configuration files.
 
-You must have administrative access to Wild Apricot to upload photos and to
+You must have administrative access to Wild Apricot to
 review and edit events.
 
 .. _`Installing packages using pip and virtual environments`: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
