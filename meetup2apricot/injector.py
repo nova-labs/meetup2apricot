@@ -242,8 +242,8 @@ def inject_photo_uploader(application_scope):
     """Return a photo uploader configured by an application scope."""
     return PhotoUploader(
         local_directory=application_scope.photo_directory,
-        apricot_base_url=application_scope.apricot_base_url,
-        apricot_directory=application_scope.apricot_directory,
+        apricot_base_url=application_scope.apricot_photo_base_url,
+        apricot_directory=application_scope.apricot_photo_directory,
         session=inject_photo_uploader_session(application_scope),
         dryrun=application_scope.dryrun,
     )
