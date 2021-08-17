@@ -23,6 +23,13 @@ def mock_photo_retriever(mocker):
     mock_photo_retriever.get = mocker.Mock()
     return mock_photo_retriever
 
+@pytest.fixture()
+def mock_photo_uploader(mocker):
+    """Mock a photo uploader, which implements an "upload_photo" method."""
+    mock_photo_uploader = mocker.Mock()
+    mock_photo_uploader.upload_photo = mocker.Mock()
+    return mock_photo_uploader
+
 
 @pytest.fixture()
 def photo_cache(mock_photo_retriever, tmp_path):
@@ -31,6 +38,7 @@ def photo_cache(mock_photo_retriever, tmp_path):
         apricot_directory=SAMPLE_APRICOT_DIRECTORY,
         urls_to_paths=INITIAL_CACHE.copy(),
         photo_retriever=mock_photo_retriever,
+        photo_uploader=mock_photo_uploader,
         cache_path=tmp_path / CACHE_FILE_NAME,
         reporter=NullReporter(),
     )
