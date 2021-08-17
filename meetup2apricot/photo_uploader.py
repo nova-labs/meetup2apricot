@@ -38,9 +38,12 @@ class PhotoUploader:
         Return the path to the photo at Wild Apricot."""
         local_photo_path = self.local_directory / photo_file_name
         apricot_photo_path = self.apricot_directory / photo_file_name
+        image_format = local_photo_path.suffix[1:]
+        headers = {"Content-type": f"image/{image_format}"}
         url = urljoin(self.apricot_base_url, str(apricot_photo_path))
-        files = {"file": (photo_file_name, open(local_photo_path, "rb"))}
-        response = self.session.put(url, files)
+        response = self.session.put(
+            url, data=open(local_photo_path, "rb"), headers=headers
+        )
         PhotoUploadError.check_response_status(response)
         self.logger.info("upload_photo: apricot_photo_path=%s", apricot_photo_path)
         return apricot_photo_path

@@ -44,11 +44,13 @@ def test_upload_photo(testcase_dir_path, sample_photo_path, mocker):
     apricot_photo_path = photo_uploader.upload_photo(SAMPLE_PNG_FILENAME)
     assert apricot_photo_path == EXPECTED_APRICOT_PHOTO_PATH
     mock_session.put.assert_called_once()
-    url, files = mock_session.put.call_args.args
+    (url,) = mock_session.put.call_args.args
     assert url == EXPECTED_URL
-    file_name, open_file = files["file"]
-    assert file_name == SAMPLE_PNG_FILENAME
+    kwargs = mock_session.put.call_args.kwargs
+    open_file = kwargs["data"]
     assert open_file.read() == open(sample_photo_path, "rb").read()
+    headers = kwargs["headers"]
+    assert headers == {"Content-type": "image/png"}
 
 
 def test_make_photo_uploader_session():
