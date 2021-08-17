@@ -1,6 +1,5 @@
 """Cache featured photos from Meetup events."""
 
-import pysnooper
 from . import dryrun
 import re
 import pickle
@@ -41,7 +40,6 @@ class PhotoCache:
             self.copy_meetup_photo_to_apricot(meetup_event)
         return self.urls_to_paths[meetup_event.photo_url]
 
-    @pysnooper.snoop()
     def copy_meetup_photo_to_apricot(self, meetup_event):
         """Copy a Meetup photo to Wild Apricot."""
         proposed_photo_name = self.apricot_photo_file_name(meetup_event)
