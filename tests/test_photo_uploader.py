@@ -1,5 +1,6 @@
 """Test the photo uploader."""
 from meetup2apricot.photo_uploader import PhotoUploader, make_photo_uploader_session
+from meetup2apricot.http_response_error import PhotoUploadError
 from pathlib import Path, PurePosixPath
 import inspect
 import logging
@@ -10,6 +11,7 @@ import shutil
 import pytest
 
 SAMPLE_PNG_FILENAME = "dot.png"
+SAMPLE_MISSING_PHOTO_FILENAME = "foo.ppng"
 SAMPLE_APRICOT_DIRECTORY = "/resource/photos"
 SAMPLE_APRICOT_DIRECTORY_PATH = PurePosixPath(SAMPLE_APRICOT_DIRECTORY)
 SAMPLE_BASE_URL = "https://apricot.com"
@@ -51,6 +53,22 @@ def test_upload_photo(testcase_dir_path, sample_photo_path, mocker):
     assert open_file.read() == open(sample_photo_path, "rb").read()
     headers = kwargs["headers"]
     assert headers == {"Content-type": "image/png"}
+
+
+def test_upload_photo_cannot_open(testcase_dir_path, sample_photo_path, mocker):
+    """Test uploading a photo that cannot be opened."""
+    mock_response = mocker.Mock()
+    mock_response.raise_for_status = mocker.Mock
+    mock_session = mocker.Mock()
+    mock_session.put = mocker.Mock(return_value=mock_response)
+    photo_uploader = PhotoUploader(
+        local_directory=testcase_dir_path,
+        apricot_base_url=SAMPLE_BASE_URL,
+        apricot_directory=SAMPLE_APRICOT_DIRECTORY_PATH,
+        session=mock_session,
+    )
+    with pytest.raises(PhotoUploadError):
+        apricot_photo_path = photo_uploader.upload_photo(SAMPLE_MISSING_PHOTO_FILENAME)
 
 
 def test_make_photo_uploader_session():

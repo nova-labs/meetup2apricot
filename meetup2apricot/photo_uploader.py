@@ -41,9 +41,11 @@ class PhotoUploader:
         image_format = local_photo_path.suffix[1:]
         headers = {"Content-type": f"image/{image_format}"}
         url = urljoin(self.apricot_base_url, str(apricot_photo_path))
-        response = self.session.put(
-            url, data=open(local_photo_path, "rb"), headers=headers
-        )
+        try:
+            photo_file = open(local_photo_path, "rb")
+        except OSError as err:
+            raise PhotoUploadError(f"Cannot open photo file: {err}")
+        response = self.session.put(url, data=photo_file, headers=headers)
         PhotoUploadError.check_response_status(response)
         self.logger.info("upload_photo: apricot_photo_path=%s", apricot_photo_path)
         return apricot_photo_path
