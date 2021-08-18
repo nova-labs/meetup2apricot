@@ -36,8 +36,11 @@ class PhotoRetriever:
         """Retrieve a photo from a URL and save it to a path."""
         response = self.session.get(photo_url)
         PhotoRetrieveError.check_response_status(response)
-        with photo_path.open("wb") as photo_file:
-            photo_file.write(response.content)
+        try:
+            with photo_path.open("wb") as photo_file:
+                photo_file.write(response.content)
+        except OSError as err:
+            raise PhotoRetrieveError(f"Cannot save photo: {err}")
 
     def adjust_extension(self, photo_path):
         """Examine the image type at a photo path and adjust its filename
