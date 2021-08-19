@@ -20,6 +20,7 @@ from .exceptions import (
     InvalidRestrictionPattern,
 )
 from collections import namedtuple
+import logging
 import re
 
 GUEST_POLICIES = {
@@ -53,6 +54,8 @@ class EventRestrictionLoader:
     """Loads event restrictions from a list, compiling title patterns, and
     validating member levels."""
 
+    logger = logging.getLogger("EventRestrictionLoader")
+
     def __init__(self, member_level_manager):
         """Initialize with a member level manager."""
         self.member_level_manager = member_level_manager
@@ -71,6 +74,7 @@ class EventRestrictionLoader:
     def load_restriction(self, restriction):
         """Load a restriction JSON object, typically from the environment
         configuration.  Return an EventRestriction object."""
+        self.log_extra_attributes(restriction)
         name = restriction.get("name", "RSVP")
         pattern = self.compile_pattern(restriction.get("pattern", "^"))
         match_free_events, match_paid_events = self.parse_price(
@@ -92,6 +96,16 @@ class EventRestrictionLoader:
         """Given a list of member level names, return a corresponding list of
         member levels."""
         return self.member_level_manager.named_levels(level_names)
+
+    def log_extra_attributes(self, restriction):
+        """Log unexpected restriction JSON attributes."""
+        expected_names = set(["name", "pattern", "price", "levels", "guests"])
+        restriction_names = set(restriction.keys())
+        extra_names = restriction_names - expected_names
+        if extra_names:
+            self.logger.warning(
+                "Unknown names %s in restriction %r", sorted(extra_names), restriction
+            )
 
     @staticmethod
     def compile_pattern(pattern):

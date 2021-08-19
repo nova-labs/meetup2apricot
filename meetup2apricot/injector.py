@@ -23,6 +23,7 @@ from .member_level_manager import make_member_level_manager
 from .oauth2_session_starter import Oauth2SessionStarter, Oauth2SessionStarterError
 from .photo_cache import PhotoCache, load_cached_photo_urls
 from .photo_retriever import make_photo_retriever, make_session
+from .photo_uploader import PhotoUploader, make_photo_uploader_session
 from .reporter import make_reporter, EventReport, Reporter
 from .throttle import Throttle, OpenThrottle
 from requests_toolbelt import user_agent
@@ -219,6 +220,7 @@ def inject_photo_cache_provider(application_scope, initial_data_scope):
             apricot_directory=application_scope.apricot_photo_directory,
             urls_to_paths=initial_data_scope.photo_urls_to_paths,
             photo_retriever=inject_photo_retriever(application_scope),
+            photo_uploader=inject_photo_uploader(application_scope),
             cache_path=application_scope.photo_cache_file,
             reporter=inject_reporter(application_scope),
             dryrun=application_scope.dryrun,
@@ -232,6 +234,17 @@ def inject_photo_retriever(application_scope):
     return make_photo_retriever(
         local_directory=application_scope.photo_directory,
         session=inject_http_session(application_scope),
+        dryrun=application_scope.dryrun,
+    )
+
+
+def inject_photo_uploader(application_scope):
+    """Return a photo uploader configured by an application scope."""
+    return PhotoUploader(
+        local_directory=application_scope.photo_directory,
+        apricot_base_url=application_scope.apricot_photo_base_url,
+        apricot_directory=application_scope.apricot_photo_directory,
+        session=inject_photo_uploader_session(application_scope),
         dryrun=application_scope.dryrun,
     )
 
@@ -286,6 +299,16 @@ def inject_member_level_manager(initial_data_scope):
 def inject_http_session(application_scope):
     """Return a Requests HTTP session configured by an application scope."""
     return make_session(inject_user_agent(application_scope))
+
+
+def inject_photo_uploader_session(application_scope):
+    """Return a Requests HTTP session for photo uploading configured by an
+    application scope."""
+    return make_photo_uploader_session(
+        username=application_scope.apricot_photo_username,
+        password=application_scope.apricot_photo_password,
+        user_agent=inject_user_agent(application_scope),
+    )
 
 
 def inject_apricot_api(application_scope):

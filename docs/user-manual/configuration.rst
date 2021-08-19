@@ -83,6 +83,31 @@ credential to meetup2apricot.
 :doc:`apricot-application-authorization` explains how to authorize the
 meetup2apricot application and obtain its API key.
 
+.. _`wild-apricot-photo-uploading`:
+
+Wild Apricot Photo Uploading
+----------------------------
+
+Wild Apricot authenticates event photo uploads with a username and password
+authorized to add files via the administration web interface.
+Environment variables :envvar:`APRICOT_PHOTO_USERNAME` and
+:envvar:`APRICOT_PHOTO_PASSWORD` provide the credentials.
+For example::
+
+   # Wild Apricot username with file uploading authorization
+   export APRICOT_PHOTO_USERNAME="someone@nova-labs.org"
+
+   # Wild Apricot password for the username
+   export APRICOT_PHOTO_PASSWORD="zvbxrpl"
+
+Meetup2Apricot uploads event photos to a resource folder under Nova Labs' base
+URL at Wild Apricot.
+The environment variable :envvar:`APRICOT_PHOTO_BASE_URL` provides the base URL.
+For example::
+
+   # Base URL for uploading photos to Wild Apricot
+   export APRICOT_PHOTO_BASE_URL="https://portal.nova-labs.org"
+
 .. _`wild-apricot-paths`:
 
 Wild Apricot Paths

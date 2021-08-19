@@ -3,6 +3,7 @@ downloading Meetup photos for manual uploading to Wild Apricot, and by tracking
 events and photos already seen."""
 
 from . import dryrun
+from .http_response_error import PhotoRetrieveError, PhotoUploadError
 from .meetup_to_apricot_event_adaptor import MeetupToApricotEventAdaptor
 import pickle
 import logging
@@ -47,7 +48,17 @@ class EventProcessor:
         """Process a meetup event."""
         if self.can_ignore_event(meetup_event):
             return
-        photo_path = self.get_photo(meetup_event)
+        try:
+            photo_path = self.copy_photo(meetup_event)
+        except (PhotoRetrieveError, PhotoUploadError) as err:
+            self.logger.warning(
+                "skipping %s: %s at %s",
+                meetup_event.meetup_id,
+                meetup_event.name,
+                f"{meetup_event.start_time:%Y-%m-%d %H:%M}",
+            )
+            self.logger.warning(err)
+            return
         event_tags = self.get_event_tags(meetup_event)
         apricot_event_id = self.add_apricot_event(meetup_event, photo_path, event_tags)
         self.add_event_registration_types(meetup_event, apricot_event_id)
@@ -62,10 +73,10 @@ class EventProcessor:
             or meetup_event.meetup_id in self.known_events
         )
 
-    def get_photo(self, meetup_event):
-        """Get an available photo for a meetup event, if it hasn't been
-        downloaded before.  Return the photo path if it was ever downloaded or
-        None."""
+    def copy_photo(self, meetup_event):
+        """Copy an available photo for a Meetup event to Wild Apricot, if it
+        hasn't been copied before.  Return the photo path if it was ever copied
+        or None."""
         return self.photo_cache.cache_photo(meetup_event)
 
     def get_event_tags(self, meetup_event):
