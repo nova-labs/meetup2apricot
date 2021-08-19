@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.10.0 (2021-08-18)
 ------------------
 
 * Upload event photos to Wild Apricot via WEBDAV.
