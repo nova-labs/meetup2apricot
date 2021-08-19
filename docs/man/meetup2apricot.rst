@@ -102,9 +102,21 @@ Environment
 
    The Wild Apricot API key.
 
+.. envvar:: APRICOT_PHOTO_BASE_URL
+
+   The base URL for uploading photos to Wild Apricot via WEBDAV.
+
 .. envvar:: APRICOT_PHOTO_DIRECTORY
 
    The Wild Apricot web directory for photos.
+
+.. envvar:: APRICOT_PHOTO_PASSWORD
+
+   The password for uploading photos to Wild Apricot via WEBDAV.
+
+.. envvar:: APRICOT_PHOTO_USERNAME
+
+   The username for uploading photos to Wild Apricot via WEBDAV.
 
 .. envvar:: CODES_TO_TAGS
 

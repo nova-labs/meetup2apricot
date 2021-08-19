@@ -1,6 +1,7 @@
 """Retrieves photos from Meetup into local storage."""
 
 from . import dryrun
+from .http_response_error import PhotoRetrieveError
 import requests
 import imghdr
 import logging
@@ -34,8 +35,12 @@ class PhotoRetriever:
     def retrieve_photo(self, photo_url, photo_path):
         """Retrieve a photo from a URL and save it to a path."""
         response = self.session.get(photo_url)
-        with photo_path.open("wb") as photo_file:
-            photo_file.write(response.content)
+        PhotoRetrieveError.check_response_status(response)
+        try:
+            with photo_path.open("wb") as photo_file:
+                photo_file.write(response.content)
+        except OSError as err:
+            raise PhotoRetrieveError(f"Cannot save photo: {err}")
 
     def adjust_extension(self, photo_path):
         """Examine the image type at a photo path and adjust its filename

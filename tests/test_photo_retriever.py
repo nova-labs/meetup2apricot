@@ -5,6 +5,7 @@ from meetup2apricot.photo_retriever import (
     make_photo_retriever,
     make_session,
 )
+from meetup2apricot.http_response_error import PhotoRetrieveError
 from pathlib import Path
 import inspect
 import requests
@@ -22,10 +23,9 @@ def testcase_dir_path():
 
 
 @pytest.fixture()
-def sample_photo_path():
+def sample_photo_path(testcase_dir_path):
     """Return the path to a sample image file."""
-    testcase_dir_path = Path(inspect.getsourcefile(test_assure_directory_exists))
-    return testcase_dir_path.parent / SAMPLE_PNG_FILENAME
+    return testcase_dir_path / SAMPLE_PNG_FILENAME
 
 
 def test_assure_directory_exists(tmp_path):
@@ -70,9 +70,9 @@ def test_get(
     assert (tmp_path / corrected_photo_name).open("rb").read() == sample_bytes
 
 
-def test_retrieve_photo(tmp_path, mocker):
+def test_retrieve_photo_ok(tmp_path, mocker):
     """Test retrieving and storing a file."""
-    file_path = tmp_path / "bar.txt"
+    file_path = tmp_path / "foo.txt"
     sample_url = "http://example.com/foo.txt"
     sample_bytes = bytes("Quick brown fox", "utf-8")
     mock_response = mocker.Mock()
@@ -82,6 +82,20 @@ def test_retrieve_photo(tmp_path, mocker):
     photo_retriever = PhotoRetriever(tmp_path, mock_session)
     photo_retriever.retrieve_photo(sample_url, file_path)
     assert file_path.open("rb").read() == sample_bytes
+
+
+def test_retrieve_photo_cannot_write(tmp_path, mocker):
+    """Test raising an error when a downloaded photo cannot be written to disk."""
+    file_path = tmp_path / "foo/bar.txt"
+    sample_url = "http://example.com/bar.txt"
+    sample_bytes = bytes("Quick brown fox", "utf-8")
+    mock_response = mocker.Mock()
+    mock_response.content = sample_bytes
+    mock_session = mocker.Mock()
+    mock_session.get = mocker.Mock(return_value=mock_response)
+    photo_retriever = PhotoRetriever(tmp_path, mock_session)
+    with pytest.raises(PhotoRetrieveError):
+        photo_retriever.retrieve_photo(sample_url, file_path)
 
 
 @pytest.mark.parametrize(

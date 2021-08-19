@@ -37,4 +37,18 @@ class ApricotApiError(HttpResponseError):
     logger = logging.getLogger("ApricotApiError")
 
 
+class PhotoRetrieveError(HttpResponseError):
+
+    """Raised when a photo cannot be downloaded from Meetup."""
+
+    logger = logging.getLogger("PhotoRetrieveError")
+
+
+class PhotoUploadError(HttpResponseError):
+
+    """Raised when a photo upload to Wild Apricot HTTP response status is not ok."""
+
+    logger = logging.getLogger("PhotoUploadError")
+
+
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 autoindent

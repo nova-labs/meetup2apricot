@@ -4,6 +4,7 @@ from meetup2apricot.member_level_manager import MemberLevel
 from meetup2apricot.event_processor import EventProcessor, load_cached_event_mapping
 from meetup2apricot.event_restriction_loader import EventRestriction
 from meetup2apricot.event_registration_type import EventRegistrationTypeMaker
+from meetup2apricot.http_response_error import PhotoUploadError
 from meetup2apricot.reporter import Reporter, NullReporter, EventReport
 from datetime import datetime
 from .sample_apricot_json import (
@@ -13,6 +14,7 @@ from .sample_apricot_json import (
     EXPECTED_FREE_TAGS,
 )
 import io
+import logging
 import re
 import pickle
 import pytest
@@ -202,9 +204,9 @@ def test_can_ignore_event_seen(event_processor, paid_meetup_event):
     assert event_processor.can_ignore_event(paid_meetup_event)
 
 
-def test_get_photo(event_processor, free_meetup_event, mock_photo_cache):
-    """Test getting a photo and it's Wild Apricot path."""
-    assert event_processor.get_photo(free_meetup_event) == "foo.jpg"
+def test_copy_photo(event_processor, free_meetup_event, mock_photo_cache):
+    """Test copying a photo and it's Wild Apricot path."""
+    assert event_processor.copy_photo(free_meetup_event) == "foo.jpg"
     mock_photo_cache.cache_photo.assert_called_once_with(free_meetup_event)
 
 
@@ -261,6 +263,16 @@ def test_process_skip(event_processor, free_meetup_event):
     """Test processing an event to skip."""
     event_processor.process(free_meetup_event)
     assert free_meetup_event.meetup_id not in event_processor.known_events
+
+
+def test_process_skip_photo_error(
+    event_processor, later_free_meetup_event, mocker, caplog
+):
+    """Test processing an event with a photo copying error."""
+    caplog.set_level(logging.WARNING)
+    event_processor.copy_photo = mocker.Mock(side_effect=PhotoUploadError("oops"))
+    event_processor.process(later_free_meetup_event)
+    assert "skipping" in caplog.text
 
 
 def test_process(event_processor, later_free_meetup_event, mock_apricot_api, mocker):

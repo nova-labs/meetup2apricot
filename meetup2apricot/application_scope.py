@@ -45,8 +45,20 @@ class ApplicationScope:
         return self._env_vars.json("ALL_EVENT_TAGS")
 
     @property
+    def apricot_photo_base_url(self):
+        return self._env_vars["APRICOT_PHOTO_BASE_URL"]
+
+    @property
     def apricot_photo_directory(self):
         return PurePosixPath(self._env_vars["APRICOT_PHOTO_DIRECTORY"])
+
+    @property
+    def apricot_photo_password(self):
+        return self._env_vars["APRICOT_PHOTO_PASSWORD"]
+
+    @property
+    def apricot_photo_username(self):
+        return self._env_vars["APRICOT_PHOTO_USERNAME"]
 
     @property
     def codes_to_tags(self):
