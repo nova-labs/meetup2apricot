@@ -12,7 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-Next Release
+.. Next Release
+.. ------------------
+
+1.11.0 (2021-09-13)
 ------------------
 
 * Make "Add new guests to contacts list only if email entered" the default for Wild Apricot events.
