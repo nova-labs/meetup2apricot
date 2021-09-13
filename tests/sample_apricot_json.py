@@ -37,6 +37,9 @@ EXPECTED_FREE_EVENT_JSON = {
             "AvailableForAnyLevel": True,
             "AvailableForAnyGroup": True,
         },
+        "GuestRegistrationSettings": {
+            "CreateContactMode": "CreateContactForGuestsWithEmail"
+        },
         "PaymentMethod": "OnlineOnly",
         "RegistrationConfirmationExtraInfo": "How to find us: "
         "https://zoom.us/j/92758362882?pwd=a2VJOGxyOTBqelNhdjY1dGpqZStjZz09",
@@ -76,6 +79,9 @@ EXPECTED_PAID_EVENT_JSON = {
             "VisibleTo": "Members",
         },
         "DescriptionHtml": EXPECTED_PAID_DESCRIPTION_HTML,
+        "GuestRegistrationSettings": {
+            "CreateContactMode": "CreateContactForGuestsWithEmail"
+        },
         "IsWaitlistEnabled": False,
         "PaymentMethod": "OnlineOnly",
         "RegistrationConfirmationExtraInfo": "",

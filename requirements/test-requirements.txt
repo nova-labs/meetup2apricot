@@ -26,9 +26,9 @@ packaging==21.0
     # via
     #   pytest
     #   tox
-platformdirs==2.2.0
+platformdirs==2.3.0
     # via virtualenv
-pluggy==0.13.1
+pluggy==1.0.0
     # via
     #   pytest
     #   tox
@@ -42,7 +42,7 @@ pyflakes==2.3.1
     # via flake8
 pyparsing==2.4.7
     # via packaging
-pytest==6.2.4
+pytest==6.2.5
     # via
     #   -r test-requirements.in
     #   pytest-mock
@@ -58,7 +58,7 @@ toml==0.10.2
     # via
     #   pytest
     #   tox
-tox==3.24.1
+tox==3.24.3
     # via -r test-requirements.in
 virtualenv==20.7.2
     # via tox
