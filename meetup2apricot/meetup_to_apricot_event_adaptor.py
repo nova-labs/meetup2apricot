@@ -137,6 +137,9 @@ class MeetupToApricotEventAdaptor:
                     "AvailableForAnyLevel": True,
                     "AvailableForAnyGroup": True,
                 },
+                "GuestRegistrationSettings": {
+                    "CreateContactMode": "CreateContactForGuestsWithEmail"
+                },
                 "PaymentMethod": "OnlineOnly",
                 "RegistrationConfirmationExtraInfo": self.extra_info,
                 "IsWaitlistEnabled": False,

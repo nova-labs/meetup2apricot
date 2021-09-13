@@ -52,12 +52,12 @@ class EventProcessor:
             photo_path = self.copy_photo(meetup_event)
         except (PhotoRetrieveError, PhotoUploadError) as err:
             self.logger.warning(
-                "skipping %s: %s at %s",
+                "skipping %s: %s at %s\n%s",
                 meetup_event.meetup_id,
                 meetup_event.name,
                 f"{meetup_event.start_time:%Y-%m-%d %H:%M}",
+                err,
             )
-            self.logger.warning(err)
             return
         event_tags = self.get_event_tags(meetup_event)
         apricot_event_id = self.add_apricot_event(meetup_event, photo_path, event_tags)
