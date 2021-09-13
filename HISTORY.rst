@@ -12,8 +12,10 @@ Future History
 Recent History
 ~~~~~~~~~~~~~~
 
-.. Next Release
-.. ------------------
+Next Release
+------------------
+
+* Revert to not adding guests to the contact list.
 
 1.11.0 (2021-09-13)
 ------------------
