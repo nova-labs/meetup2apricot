@@ -123,7 +123,7 @@ def test_featured_missing(free_meetup_event):
     assert not free_meetup_event.featured
 
 
-def test_featured_missing(paid_meetup_event):
+def test_featured_missing_two(paid_meetup_event):
     """Test getting the featured flag."""
     assert paid_meetup_event.featured
 
